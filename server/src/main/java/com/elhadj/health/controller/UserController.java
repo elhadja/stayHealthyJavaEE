@@ -6,9 +6,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elhadj.health.Exception.SHRuntimeException;
@@ -21,6 +24,7 @@ import com.elhadj.health.service.UserService;
 import com.elhadj.health.util.JwtToken;
 
 @RestController
+@RequestMapping(value = "/users")
 public class UserController {
 	@Autowired
 	UserService userService;
@@ -34,9 +38,8 @@ public class UserController {
 	@Autowired
 	JwtToken jwt;
 
-	@PostMapping("/users")
+	@PostMapping
 	public ResponseEntity<?> signup(@RequestBody SignupRequestDTO input) throws Exception {
-		System.out.println("================================>>>");
 		user.setAddress(input.getAddress());
 		user.setFirstName(input.getFirstName());
 		user.setLastName(input.getLastName());
@@ -59,7 +62,7 @@ public class UserController {
 				new CreateRessouceResponseDTO(201, addedUserId));
 	}
 	
-	@PostMapping("/users/login")
+	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginRequestDTO input) throws Exception {
 		try {
 			authManager.authenticate(
@@ -74,8 +77,16 @@ public class UserController {
 		return ResponseEntity.ok(token);
 	}
 	
-	@GetMapping("/test")
-	public String hello() {
-		return "hello world";
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteuser(@PathVariable String id) {
+		try {
+			long _id = Long.parseLong(id);
+			userService.deleteUser(_id);
+		} catch (Exception e) {
+				return ResponseEntity.status(500)
+								 .body(new RequestErrorDTO(500, e.getMessage(), e.getMessage()));
+		}
+		
+		return ResponseEntity.status(200).build();
 	}
 }

@@ -3,8 +3,8 @@ package com.elhadj.health.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -47,8 +47,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http
           .authorizeRequests()
-          .antMatchers("/users").permitAll()
-          .antMatchers("/users/login").permitAll()
           .anyRequest()
           .authenticated()
           .and()
@@ -58,13 +56,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
     }
     
-    
-    
-    //*
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/users/login");
-        web.ignoring().antMatchers("/users");
+    	final String baseUrl = "/users";
+        web.ignoring().antMatchers(HttpMethod.POST, baseUrl);
+        web.ignoring().antMatchers(HttpMethod.POST, baseUrl + "/login");
+        web.ignoring().antMatchers(HttpMethod.DELETE, baseUrl + "/*");
     }
-    //*/
 }

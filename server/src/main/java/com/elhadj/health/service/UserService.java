@@ -34,9 +34,12 @@ public class UserService implements UserDetailsService{
 		return addedUser.getId();
 	}
 	
+	public void deleteUser(long id) throws Exception {
+		userDAO.deleteById(id);
+	}
+	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		UserDetails user = null;
 		for (User u: userDAO.findAll()) {
 			if (u.getEmail().equals(email)) {
 				return new org.springframework.security.core.userdetails.User(u.getEmail(), u.getPassword(), (Collection<? extends GrantedAuthority>) new ArrayList<GrantedAuthority>());
