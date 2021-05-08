@@ -7,6 +7,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,7 +39,7 @@ public class UserController {
 	@Autowired
 	JwtToken jwt;
 
-	@PostMapping
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> signup(@RequestBody SignupRequestDTO input) throws Exception {
 		user.setAddress(input.getAddress());
 		user.setFirstName(input.getFirstName());
@@ -62,7 +63,7 @@ public class UserController {
 				new CreateRessouceResponseDTO(201, addedUserId));
 	}
 	
-	@PostMapping("/login")
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<?> login(@RequestBody LoginRequestDTO input) throws Exception {
 		try {
 			authManager.authenticate(
@@ -78,9 +79,9 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteuser(@PathVariable String id) {
+	public ResponseEntity<?> deleteuser() {
 		try {
-			long _id = Long.parseLong(id);
+			long _id = Long.parseLong("35");
 			userService.deleteUser(_id);
 		} catch (Exception e) {
 				return ResponseEntity.status(500)
@@ -88,5 +89,20 @@ public class UserController {
 		}
 		
 		return ResponseEntity.status(200).build();
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String test() {
+		return "hello world";
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public String test2() {
+		return "hello world";
+	}
+	
+	@RequestMapping() 
+	public ResponseEntity<?> notFound() {
+		return ResponseEntity.status(404).body("uri not found");
 	}
 }

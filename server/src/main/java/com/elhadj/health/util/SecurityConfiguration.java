@@ -28,7 +28,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(service);
+		auth.userDetailsService(service)
+			.passwordEncoder(passwordEncoder());
     }
 	
 	@Bean
@@ -46,6 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+          .csrf().disable()
           .authorizeRequests()
           .anyRequest()
           .authenticated()
@@ -61,6 +63,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     	final String baseUrl = "/users";
         web.ignoring().antMatchers(HttpMethod.POST, baseUrl);
         web.ignoring().antMatchers(HttpMethod.POST, baseUrl + "/login");
-        web.ignoring().antMatchers(HttpMethod.DELETE, baseUrl + "/*");
     }
 }
