@@ -47,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http
           .authorizeRequests()
-          .antMatchers("/users/signup").permitAll()
+          .antMatchers("/users").permitAll()
           .antMatchers("/users/login").permitAll()
           .anyRequest()
           .authenticated()
@@ -64,7 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/users/login");
-        web.ignoring().antMatchers("/users/signup");
+        web.ignoring().antMatchers("/users");
     }
     //*/
 }

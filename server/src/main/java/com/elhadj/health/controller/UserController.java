@@ -34,8 +34,9 @@ public class UserController {
 	@Autowired
 	JwtToken jwt;
 
-	@PostMapping("/users/signup")
+	@PostMapping("/users")
 	public ResponseEntity<?> signup(@RequestBody SignupRequestDTO input) throws Exception {
+		System.out.println("================================>>>");
 		user.setAddress(input.getAddress());
 		user.setFirstName(input.getFirstName());
 		user.setLastName(input.getLastName());
@@ -50,7 +51,7 @@ public class UserController {
 										 e.getMessage(),
 										 e.getMessageDescription()));
 		} catch (Exception e) {
-			return ResponseEntity.status(403)
+			return ResponseEntity.status(500)
 								 .body(new RequestErrorDTO());	
 		}
 		
