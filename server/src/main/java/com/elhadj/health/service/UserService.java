@@ -21,8 +21,6 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	private UserDAO userDAO;
 	
-	long loggedUserId = 0;
-	
 	@Autowired
 	private PasswordEncoder encoder;
 
@@ -43,12 +41,11 @@ public class UserService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		for (User u: userDAO.findAll()) {
-			if (u.getEmail().equals(email)) {
-				//return new org.springframework.security.core.userdetails.User(u.getEmail(), u.getPassword(), (Collection<? extends GrantedAuthority>) new ArrayList<GrantedAuthority>());
-				return new CustomUserDetailsImpl(u.getEmail(), u.getPassword(), u.getId(), (Collection<? extends GrantedAuthority>) new ArrayList<GrantedAuthority>());
-			}
+		try {
+			User u = userDAO.loadUserByEmail(email);
+			return new CustomUserDetailsImpl(u.getEmail(), u.getPassword(), u.getId(), (Collection<? extends GrantedAuthority>) new ArrayList<GrantedAuthority>());
+		} catch (Exception e) {
+			throw new UsernameNotFoundException("user not found");
 		}
-		throw new UsernameNotFoundException("user not found");
 	}	
 }
