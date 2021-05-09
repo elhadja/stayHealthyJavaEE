@@ -3,6 +3,7 @@ package com.elhadj.health.Exception;
 public class SHRuntimeException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	private String messageDescription;
+	private int statusCode;
 	
 	public SHRuntimeException(String message) {
 		super(message);
@@ -13,6 +14,13 @@ public class SHRuntimeException extends RuntimeException {
 		super(message);
 		this.messageDescription = messageDescription;
 	}
+	
+	public SHRuntimeException(int statusCode, String message, String messageDescription) {
+		super(message);
+		this.messageDescription = messageDescription;
+		this.statusCode = statusCode;
+	}
+
 
 	public String getMessageDescription() {
 		return messageDescription;
@@ -24,5 +32,9 @@ public class SHRuntimeException extends RuntimeException {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	public int getStatusCode() {
+		return statusCode;
 	}
 }

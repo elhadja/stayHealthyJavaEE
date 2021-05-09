@@ -35,7 +35,6 @@ public class Filter extends OncePerRequestFilter{
 		if (header != null && header.startsWith("Bearer")) {
 			jwt = header.substring(7);
 			email = jwtToken.extractUsername(jwt);
-			System.out.println("1 ====> " + jwt);
 		}
 		
 		if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {

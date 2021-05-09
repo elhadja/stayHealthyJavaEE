@@ -1,10 +1,13 @@
 package com.elhadj.health.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +23,7 @@ import com.elhadj.health.dto.CreateRessouceResponseDTO;
 import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.RequestErrorDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
+import com.elhadj.health.model.CustomUserDetails;
 import com.elhadj.health.model.User;
 import com.elhadj.health.service.UserService;
 import com.elhadj.health.util.JwtToken;
@@ -79,11 +83,16 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> deleteuser() {
+	public ResponseEntity<?> deleteuser(@PathVariable String id, Principal principal) {
 		try {
-			long _id = Long.parseLong("35");
+			long _id = Long.parseLong(id);
+			isCurrentUserRessource(principal, _id);
 			userService.deleteUser(_id);
-		} catch (Exception e) {
+		} catch (SHRuntimeException e) {
+			return ResponseEntity.status(e.getStatusCode())
+					.body(new RequestErrorDTO(e.getStatusCode(), e.getMessage(), e.getMessageDescription()));
+		}
+		catch (Exception e) {
 				return ResponseEntity.status(500)
 								 .body(new RequestErrorDTO(500, e.getMessage(), e.getMessage()));
 		}
@@ -104,5 +113,12 @@ public class UserController {
 	@RequestMapping() 
 	public ResponseEntity<?> notFound() {
 		return ResponseEntity.status(404).body("uri not found");
+	}
+	
+	private void isCurrentUserRessource(Principal principal, long id) throws SHRuntimeException {
+		CustomUserDetails user = (CustomUserDetails) userService.loadUserByUsername(principal.getName());
+		if (user.getUserId() != id) {
+			throw new SHRuntimeException(403, "You are not authorized to perform this action", "the id of the logged user do not match the path parameter id");
+		}
 	}
 }
