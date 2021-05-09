@@ -32,7 +32,7 @@ public class UserService implements UserDetailsService{
 		try {
 			addedUser = userDAO.save(user);
 		} catch (Exception e) {
-			throw new SHRuntimeException("User already exists", "email field must be unique");
+			throw new SHRuntimeException(403, "User already exists", "email field must be unique");
 		}
 		return addedUser.getId();
 	}

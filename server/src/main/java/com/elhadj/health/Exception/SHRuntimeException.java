@@ -8,11 +8,7 @@ public class SHRuntimeException extends RuntimeException {
 	public SHRuntimeException(String message) {
 		super(message);
 		this.messageDescription = message;
-	}
-	
-	public SHRuntimeException(String message, String messageDescription) {
-		super(message);
-		this.messageDescription = messageDescription;
+		this.statusCode  = 500;
 	}
 	
 	public SHRuntimeException(int statusCode, String message, String messageDescription) {

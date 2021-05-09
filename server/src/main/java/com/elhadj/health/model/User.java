@@ -10,7 +10,8 @@ import javax.persistence.OneToOne;
 
 import org.springframework.stereotype.Component;
 
-import com.sun.istack.NotNull;
+import com.elhadj.health.Exception.SHRuntimeException;
+import javax.validation.constraints.NotNull;
 
 @Component
 @Entity
@@ -23,7 +24,6 @@ public class User {
 	private String firstName;
 	
 	@Column(name="lastName", nullable = false)
-	@NotNull
 	private String lastName;
 	
 	@Column(name="tel")
@@ -62,6 +62,9 @@ public class User {
 	}
 
 	public void setFirstName(String firstName) {
+		if (firstName == null) {
+			throw new SHRuntimeException(400, "first name is required", "required");
+		}
 		this.firstName = firstName;
 	}
 
@@ -70,6 +73,9 @@ public class User {
 	}
 
 	public void setLastName(String lastName) {
+		if (lastName == null) {
+			throw new SHRuntimeException(400, "lastName is required", "required");
+		}
 		this.lastName = lastName;
 	}
 
@@ -86,6 +92,10 @@ public class User {
 	}
 
 	public void setEmail(String email) {
+		if (email == null) {
+			throw new SHRuntimeException(400, "email is required", "required");
+		}
+
 		this.email = email;
 	}
 
@@ -94,6 +104,10 @@ public class User {
 	}
 
 	public void setPassword(String password) {
+		if (email == null) {
+			throw new SHRuntimeException(400, "password is required", "required");
+		}
+
 		this.password = password;
 	}
 

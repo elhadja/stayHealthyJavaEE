@@ -7,12 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,17 +41,18 @@ public class UserController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<?> signup(@RequestBody SignupRequestDTO input) throws Exception {
-		user.setAddress(input.getAddress());
-		user.setFirstName(input.getFirstName());
-		user.setLastName(input.getLastName());
-		user.setEmail(input.getEmail());
-		user.setPassword(input.getPassword());
 		long addedUserId = 0;
 		try {
+			user.setAddress(input.getAddress());
+			user.setFirstName(input.getFirstName());
+			user.setLastName(input.getLastName());
+			user.setEmail(input.getEmail());
+			user.setPassword(input.getPassword());
+
 			addedUserId = userService.addUser(user);
 		} catch (SHRuntimeException e) {
-			return ResponseEntity.status(403)
-								 .body(new RequestErrorDTO(403, 
+			return ResponseEntity.status(e.getStatusCode())
+								 .body(new RequestErrorDTO(e.getStatusCode(), 
 										 e.getMessage(),
 										 e.getMessageDescription()));
 		} catch (Exception e) {
