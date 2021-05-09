@@ -57,4 +57,8 @@ public class UserService implements UserDetailsService{
 			throw new SHRuntimeException(400, "No user found", "user not found");
 		}
 	}
+	
+	public void updateCredentials(long userId, String newEmail, String newTel) throws Exception {
+		userDAO.updateUserCredentials(userId, newEmail, newTel);
+	}
 }

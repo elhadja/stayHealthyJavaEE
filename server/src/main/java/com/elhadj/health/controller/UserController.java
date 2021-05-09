@@ -19,6 +19,7 @@ import com.elhadj.health.dto.CreateRessouceResponseDTO;
 import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.RequestErrorDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
+import com.elhadj.health.dto.UpdateCredentialsRequestDTO;
 import com.elhadj.health.model.CustomUserDetails;
 import com.elhadj.health.model.User;
 import com.elhadj.health.service.UserService;
@@ -107,6 +108,22 @@ public class UserController {
 			long userId = Long.parseLong(id);
 			isCurrentUserRessource(principal, userId);
 			userService.updateUserPassword(userId, newPassword);
+		}catch (SHRuntimeException e) {
+			return ResponseEntity.status(e.getStatusCode())
+				.body(new RequestErrorDTO(e.getStatusCode(), e.getMessage(), e.getMessageDescription()));
+		}catch (Exception e) {
+			return ResponseEntity.status(500)
+						 .body(new RequestErrorDTO(500, e.getMessage(), e.getMessage()));
+		}
+		return ResponseEntity.status(200).build();
+	}
+	
+	@RequestMapping(value = "/{id}/credentials", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateCredentials(@RequestBody UpdateCredentialsRequestDTO input, @PathVariable String id, Principal principal) throws Exception {
+		try {
+			long userId = Long.parseLong(id);
+			isCurrentUserRessource(principal, userId);
+			userService.updateCredentials(userId, input.getEmail(), input.getTel());
 		}catch (SHRuntimeException e) {
 			return ResponseEntity.status(e.getStatusCode())
 				.body(new RequestErrorDTO(e.getStatusCode(), e.getMessage(), e.getMessageDescription()));
