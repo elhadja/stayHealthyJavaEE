@@ -1,4 +1,4 @@
-package com.elhadj.health;
+package com.elhadj.health.userController;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,7 +27,7 @@ import com.google.gson.Gson;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)	
-public class UserControllerTest {
+public class SignupTest {
 	@Autowired
 	private MockMvc mockMvc;
 	

@@ -71,8 +71,8 @@ public class UserController {
 				new UsernamePasswordAuthenticationToken(input.getEmail(), input.getPassword())
 			); 
 		} catch (BadCredentialsException e) {
-			return ResponseEntity.status(400)
-								 .body(new RequestErrorDTO(403, e.getMessage(),""));
+			return ResponseEntity.status(401)
+								 .body(new RequestErrorDTO(401, e.getMessage(),""));
 		} 
 		final UserDetails userDetails = userService.loadUserByUsername(input.getEmail());
 		final String token = jwt.generateToken(userDetails);
