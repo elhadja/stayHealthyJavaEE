@@ -73,7 +73,11 @@ public class UserController {
 		} catch (BadCredentialsException e) {
 			return ResponseEntity.status(401)
 								 .body(new RequestErrorDTO(401, e.getMessage(),""));
-		} 
+		} catch (Exception e) {
+			return ResponseEntity.status(500)
+								 .body(new RequestErrorDTO());	
+
+		}
 		final UserDetails userDetails = userService.loadUserByUsername(input.getEmail());
 		final String token = jwt.generateToken(userDetails);
 		return ResponseEntity.ok(token);
@@ -97,14 +101,20 @@ public class UserController {
 		return ResponseEntity.status(200).build();
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String test() {
-		return "hello world";
-	}
-	
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public String test2() {
-		return "hello world";
+	@RequestMapping(value = "/{id}/password", method = RequestMethod.PUT)
+	public ResponseEntity<?> updatePassword(@RequestBody String newPassword, @PathVariable String id, Principal principal) throws Exception {
+		try {
+			long userId = Long.parseLong(id);
+			isCurrentUserRessource(principal, userId);
+			userService.updateUserPassword(userId, newPassword);
+		}catch (SHRuntimeException e) {
+			return ResponseEntity.status(e.getStatusCode())
+				.body(new RequestErrorDTO(e.getStatusCode(), e.getMessage(), e.getMessageDescription()));
+		}catch (Exception e) {
+			return ResponseEntity.status(500)
+						 .body(new RequestErrorDTO(500, e.getMessage(), e.getMessage()));
+		}
+		return ResponseEntity.status(200).build();
 	}
 	
 	@RequestMapping() 

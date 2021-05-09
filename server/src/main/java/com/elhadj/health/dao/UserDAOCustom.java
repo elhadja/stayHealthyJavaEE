@@ -4,4 +4,5 @@ import com.elhadj.health.model.User;
 
 public interface UserDAOCustom {
 	public User loadUserByEmail(String email) throws Exception;
+	public int updateUserPassword(long userId, String password);
 }
