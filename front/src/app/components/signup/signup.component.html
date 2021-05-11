@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row  d-flex justify-content-center">
+        <div class="col-6">
+            <h2>Inscription</h2>
+            <form action="">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="firstName">Votre nom</label>
+                        <input type="text" name="firstName" id="firstName" class="form-control">
+                    </div>
+                    <div class="form-group col">
+                        <label for="lastName">Votre Prenom</label>
+                        <input type="text" name="lastName" id="lastName" class="form-control">
+                    </div>
+                </div>
+               <div class="form-group">
+                    <label for="email">Votre email</label>
+                    <input type="text" name="email" id="email" class="form-control">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="password">Votre mot de passe</label>
+                        <input type="text" name="password" id="password" class="form-control">
+                    </div>
+                    <div class="form-group col">
+                        <label for="newPassword">Confirmer votre mot de passe</label>
+                        <input type="text" name="newPassword" id="newPassword" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="tel">Numéro de Rue</label>
+                    <input type="tel" name="tel" id="tel" class="form-control">
+                </div>
+                <div class="row">
+                    <div class="form-group col">
+                        <label for="tel">Ville</label>
+                        <input type="tel" name="tel" id="tel" class="form-control">
+                    </div>
+                    <div class="form-group col">
+                        <label for="tel">code postal</label>
+                        <input type="tel" name="tel" id="tel" class="form-control">
+                    </div>
+                </div>
+                <input (click)="onSignup()" class="btn btn-primary" value="s'inscrire">
+            </form>
+        </div>
+    </div>
+</div>
