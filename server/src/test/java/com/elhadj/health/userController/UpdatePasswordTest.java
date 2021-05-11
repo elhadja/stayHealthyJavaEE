@@ -51,6 +51,7 @@ public class UpdatePasswordTest {
 		userService.deleteUser(id);
 	}
 	
+	/*
 	@Test
 	public void it_should_succed() throws Exception {
 		mockMvc.perform(put("/users/" + id + "/password")
@@ -60,4 +61,5 @@ public class UpdatePasswordTest {
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
+	*/
 }
