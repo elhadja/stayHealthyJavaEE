@@ -9,6 +9,13 @@ import { UserApiService } from './api/user-api.service';
 import { UserService } from './services/user.service';
 import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+  {path: '', component: LoginComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'signup', component: SignupComponent},
+]
 
 @NgModule({
   declarations: [
@@ -20,7 +27,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [UserApiService, UserService],
   bootstrap: [AppComponent]
