@@ -11,8 +11,6 @@ import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthValidatorService } from './services/auth-validator.service';
-import { RequireErrorComponent } from './components/require-error/require-error.component';
-import { InvalidEmailErrorComponent } from './components/invalid-email-error/invalid-email-error.component';
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 
 const routes: Routes = [
@@ -27,8 +25,6 @@ const routes: Routes = [
     AppComponent,
     SignupComponent,
     LoginComponent,
-    RequireErrorComponent,
-    InvalidEmailErrorComponent,
     GenericErrorComponent
   ],
   imports: [

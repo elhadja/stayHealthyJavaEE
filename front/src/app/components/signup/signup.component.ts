@@ -47,7 +47,6 @@ export class SignupComponent implements OnInit {
         city: this.signupForm.get("address")?.get("city")?.value,
       }
     }
-    console.log(this.input) // TODO to remove
 
     // TODO manage token
     this.userService.signup(this.input).subscribe(
