@@ -15,6 +15,7 @@ const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
+  {path: 'patient', loadChildren: () => import('./modules/patient/patient.module').then(m => m.PatientModule)},
 ]
 
 @NgModule({
