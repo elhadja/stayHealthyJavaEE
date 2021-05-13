@@ -2,46 +2,84 @@
     <div class="row  d-flex justify-content-center">
         <div class="col-6">
             <h2>Inscription</h2>
-            <form action="">
+            <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
                 <div class="form-row">
                     <div class="form-group col">
                         <label for="firstName">Votre nom</label>
-                        <input type="text" name="firstName" id="firstName" class="form-control">
+                        <input type="text" formControlName="firstName" name="firstName" id="firstName" class="form-control" required>
+                        <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="alert alert-danger">
+                            <div *ngIf="firstName?.errors?.required">
+                                obligatoire
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group col">
                         <label for="lastName">Votre Prenom</label>
-                        <input type="text" name="lastName" id="lastName" class="form-control">
+                        <input type="text" formControlName="lastName" name="lastName" id="lastName" class="form-control" required>
+                        <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="alert alert-danger">
+                            <div *ngIf="lastName?.errors?.required">
+                                obligatoire
+                            </div>
+                        </div>
                     </div>
                 </div>
                <div class="form-group">
                     <label for="email">Votre email</label>
-                    <input type="text" name="email" id="email" class="form-control">
+                    <input type="email" formControlName="email" name="email" id="email" class="form-control">
+                    <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="alert alert-danger">
+                       <div *ngIf="email?.errors?.required">
+                            email obligatoire
+                       </div> 
+                       <div *ngIf="email?.errors?.email">
+                            email invalid
+                       </div> 
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col">
                         <label for="password">Votre mot de passe</label>
-                        <input type="text" name="password" id="password" class="form-control">
+                        <input type="text" formControlName="password" name="password" id="password" class="form-control">
+                        <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="alert alert-danger">
+                            <div *ngIf="password?.errors?.required">
+                                obligatoire
+                            </div>
+                            <div *ngIf="password?.errors?.minlength">
+                                8 caractères minimum <!-- TODO (d) remove magic number from templates-->
+                            </div>
+                             <div *ngIf="password?.errors?.maxlength">
+                                16 caractères maximum
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group col">
-                        <label for="newPassword">Confirmer votre mot de passe</label>
-                        <input type="text" name="newPassword" id="newPassword" class="form-control">
+                        <label for="passwordAgain">Confirmer votre mot de passe</label>
+                        <input type="text" formControlName="passwordAgain" name="passwordAgain" id="passwordAgain" class="form-control">
+                        <div *ngIf="passwordAgain?.invalid && (passwordAgain?.dirty || passwordAgain?.touched)" class="alert alert-danger">
+                            <div *ngIf="passwordAgain?.errors?.spec">
+                                mot de passe differents
+                            </div>
+                       </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="tel">Numéro de Rue</label>
-                    <input type="tel" name="tel" id="tel" class="form-control">
-                </div>
-                <div class="row">
-                    <div class="form-group col">
-                        <label for="tel">Ville</label>
-                        <input type="tel" name="tel" id="tel" class="form-control">
+                <ng-template formGroupName="address">
+                    <div class="form-group">
+                        <label for="tel">Numéro de Rue</label>
+                        <input type="tel" formControlName="road" name="tel" id="tel" class="form-control">
                     </div>
-                    <div class="form-group col">
-                        <label for="tel">code postal</label>
-                        <input type="tel" name="tel" id="tel" class="form-control">
+                    <div class="row">
+                        <div class="form-group col">
+                            <label for="tel">Ville</label>
+                            <input type="tel" formControlName="city" name="tel" id="tel" class="form-control">
+                        </div>
+                        <div class="form-group col">
+                            <label for="tel">code postal</label>
+                            <input type="tel" formControlName="postalColde" name="tel" id="tel" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <input (click)="onSignup()" class="btn btn-primary" value="s'inscrire">
+                </ng-template>
+                <!-- TODO show arror after the backend fixed -->
+                <input type="submit" class="btn btn-primary" value="s'inscrire" [disabled]="!signupForm.valid">
+                <a routerLink="/login">se connecter</a>
             </form>
         </div>
     </div>

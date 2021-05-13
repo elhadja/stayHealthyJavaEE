@@ -1,9 +1,7 @@
-import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginDTO } from 'src/app/api/dto/loginDTO';
 import { UserApiService } from 'src/app/api/user-api.service';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +18,7 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(16)])
     });
     this.error = '';
-   }
+  }
 
   ngOnInit(): void {
     this.error = '';
@@ -34,7 +32,6 @@ export class LoginComponent implements OnInit {
     this.userApiService.login(input).subscribe(
       (res) => {
           this.error = '';
-          console.log("=> ",this.error)
       },
       (error) => {
         this.error = error.error.message;
