@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.elhadj.health.Exception.SHRuntimeException;
 import com.elhadj.health.dao.UserDAO;
+import com.elhadj.health.dto.UpdatePasswordRequestDTO;
 import com.elhadj.health.model.CustomUserDetailsImpl;
 import com.elhadj.health.model.User;
 
@@ -50,9 +51,14 @@ public class UserService implements UserDetailsService{
 		}
 	}	
 	
-	public void updateUserPassword(long userId, String newPassword) {
+	public void updateUserPassword(long userId, UpdatePasswordRequestDTO input) {
 		int n = 0;
-		n = userDAO.updateUserPassword(userId, encoder.encode(newPassword));
+		User user = loadUserById(userId);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		if (!encoder.matches(input.getPassword(), user.getPassword())) {
+			throw new SHRuntimeException(403, "mot de passe incorrect", "password not match current password");
+		}
+		n = userDAO.updateUserPassword(userId, encoder.encode(input.getNewPassword()));
 		if (n == 0) {
 			throw new SHRuntimeException(400, "No user found", "user not found");
 		}
@@ -60,5 +66,9 @@ public class UserService implements UserDetailsService{
 	
 	public void updateCredentials(long userId, String newEmail, String newTel) throws Exception {
 		userDAO.updateUserCredentials(userId, newEmail, newTel);
+	}
+	
+	public User loadUserById(long id) {
+		return userDAO.findById(id).get();
 	}
 }

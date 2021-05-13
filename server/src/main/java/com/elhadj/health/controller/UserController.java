@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.RequestErrorDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.dto.UpdateCredentialsRequestDTO;
+import com.elhadj.health.dto.UpdatePasswordRequestDTO;
 import com.elhadj.health.model.CustomUserDetails;
 import com.elhadj.health.model.User;
 import com.elhadj.health.service.UserService;
@@ -107,11 +109,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/{id}/password", method = RequestMethod.PUT)
-	public ResponseEntity<?> updatePassword(@RequestBody String newPassword, @PathVariable String id, Principal principal) throws Exception {
+	public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordRequestDTO input, @PathVariable String id, Principal principal) throws Exception {
 		try {
 			long userId = Long.parseLong(id);
 			isCurrentUserRessource(principal, userId);
-			userService.updateUserPassword(userId, newPassword);
+			userService.updateUserPassword(userId, input);
 		}catch (SHRuntimeException e) {
 			return ResponseEntity.status(e.getStatusCode())
 				.body(new RequestErrorDTO(e.getStatusCode(), e.getMessage(), e.getMessageDescription()));
