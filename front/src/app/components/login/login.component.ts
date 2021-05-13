@@ -22,11 +22,14 @@ export class LoginComponent implements OnInit {
 
   constructor(private readonly userApiService: UserApiService,
     private readonly router: Router,
-    private readonly userService: UserService) {
+    private readonly userService: UserService)
+  {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(16)])
+      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]),
+      userType: new FormControl('', [Validators.required])
     });
+
     this.error = '';
   }
 
@@ -53,4 +56,5 @@ export class LoginComponent implements OnInit {
 
   get email() {return this.loginForm.get(this.loginFormConstants.email)}
   get password() {return this.loginForm.get(this.loginFormConstants.password)}
+  get userType() {return this.loginForm.get('userType')}
 }

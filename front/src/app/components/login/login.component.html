@@ -21,8 +21,20 @@
                         [fieldName]="'password'"
                         [required]="true" [minLength]="pswMinLength" [maxLength]="pswMaxLength">
                     </app-generic-error>
-                  </div>
-                <div *ngIf="error && error.length > 0" class="alert alert-danger">
+                </div>
+                <div class="form-group">
+                    <label for="">Choisir un type de compte</label>
+                    <select class="custom-select" formControlName="userType">
+                        <option value="patient">patient</option>
+                        <option value="doctor">docteur</option>
+                    </select>
+                    <app-generic-error *ngIf="userType != null"
+                        [fc]="userType"
+                        [fieldName]="'userType'"
+                        [required]="true">
+                    </app-generic-error>
+                </div>
+               <div *ngIf="error && error.length > 0" class="alert alert-danger">
                     {{ error }}
                 </div>
                 <input type="submit" class="btn btn-primary" value="Se connecter" [disabled]="loginForm.invalid">
