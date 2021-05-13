@@ -1,0 +1,6 @@
+<!-- TODO Remove all unused files -->
+<ng-template [ngIf]="email?.invalid && (email?.dirty || email?.touched)">
+   <small *ngIf="email?.errors?.email" class="text-danger">
+        {{ fieldName }} est invalide
+   </small> 
+</ng-template>

@@ -7,49 +7,41 @@
                     <div class="form-group col">
                         <label for="firstName">Votre nom</label>
                         <input type="text" formControlName="firstName" name="firstName" id="firstName" class="form-control" required>
-                        <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="alert alert-danger">
-                            <div *ngIf="firstName?.errors?.required">
-                                obligatoire
-                            </div>
-                        </div>
+                        <app-generic-error *ngIf="firstName != null"
+                            [fc]="firstName"
+                            [fieldName]="'firstName'"
+                            [required]="true">
+                        </app-generic-error>
                     </div>
                     <div class="form-group col">
                         <label for="lastName">Votre Prenom</label>
                         <input type="text" formControlName="lastName" name="lastName" id="lastName" class="form-control" required>
-                        <div *ngIf="lastName?.invalid && (lastName?.dirty || lastName?.touched)" class="alert alert-danger">
-                            <div *ngIf="lastName?.errors?.required">
-                                obligatoire
-                            </div>
-                        </div>
+                        <app-generic-error *ngIf="lastName != null"
+                            [fc]="lastName"
+                            [fieldName]="'lastName'"
+                            [required]="true">
+                        </app-generic-error>
                     </div>
                 </div>
                <div class="form-group">
                     <label for="email">Votre email</label>
                     <input type="email" formControlName="email" name="email" id="email" class="form-control">
-                    <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="alert alert-danger">
-                       <div *ngIf="email?.errors?.required">
-                            email obligatoire
-                       </div> 
-                       <div *ngIf="email?.errors?.email">
-                            email invalid
-                       </div> 
-                    </div>
+                    <app-generic-error *ngIf="email != null"
+                        [fc]="email"
+                        [fieldName]="'email'"
+                        [required]="true"
+                        [email]="true">
+                    </app-generic-error>
                 </div>
                 <div class="form-row">
                     <div class="form-group col">
                         <label for="password">Votre mot de passe</label>
                         <input type="text" formControlName="password" name="password" id="password" class="form-control">
-                        <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="alert alert-danger">
-                            <div *ngIf="password?.errors?.required">
-                                obligatoire
-                            </div>
-                            <div *ngIf="password?.errors?.minlength">
-                                8 caractères minimum <!-- TODO (d) remove magic number from templates-->
-                            </div>
-                             <div *ngIf="password?.errors?.maxlength">
-                                16 caractères maximum
-                            </div>
-                        </div>
+                        <app-generic-error *ngIf="password != null"
+                            [fc]="password"
+                            [fieldName]="'password'"
+                            [required]="true" [minLength]="8" [maxLength]="16"> <!-- TODO Remove magic number -->
+                        </app-generic-error>
                     </div>
                     <div class="form-group col">
                         <label for="passwordAgain">Confirmer votre mot de passe</label>

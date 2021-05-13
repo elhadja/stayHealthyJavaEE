@@ -1,0 +1,6 @@
+<ng-template [ngIf]="email?.invalid && (email?.dirty || email?.touched)">
+   <small *ngIf="email?.errors?.required" class="text-danger">
+        {{ fieldName }} est obligatoire
+   </small> 
+</ng-template>
+

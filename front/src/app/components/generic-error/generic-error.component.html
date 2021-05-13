@@ -1,0 +1,15 @@
+<ng-template [ngIf]="fc?.invalid && (fc?.dirty || fc?.touched)">
+   <small *ngIf="required && fc?.errors?.required" class="text-danger">
+        {{ fieldName }} est obligatoire
+   </small> 
+   <small *ngIf="minLength && fc?.errors?.minlength" class="text-danger">
+        {{minLength}} caractères minimum
+   </small> 
+   <small *ngIf="maxLength && fc?.errors?.maxlength" class="text-danger">
+        {{maxLength}} caractères maximum
+   </small> 
+   <small *ngIf="email && fc?.errors?.email" class="text-danger">
+        email invalide
+   </small> 
+</ng-template>
+
