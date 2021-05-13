@@ -7,9 +7,20 @@ import { UserApiService } from '../api/user-api.service';
   providedIn: 'root'
 })
 export class UserService {
-  constructor(private readonly userApiService: UserApiService) { }
+  private token: string;
+  constructor(private readonly userApiService: UserApiService) { 
+    this.token = "";
+  }
 
   public signup(input: signupDTO): Observable<any> {
     return this.userApiService.signup(input);
+  }
+
+  public setToken(token: string): void {
+    this.token = token;
+  }
+  
+  public isLogged(): boolean {
+    return this.token.length > 0;
   }
 }

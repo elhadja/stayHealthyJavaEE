@@ -10,12 +10,13 @@ import { UserService } from './services/user.service';
 import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthValidatorService } from './services/auth-validator.service';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
-  {path: 'patient', loadChildren: () => import('./modules/patient/patient.module').then(m => m.PatientModule)},
+  {path: 'patient', canActivate: [AuthValidatorService], loadChildren: () => import('./modules/patient/patient.module').then(m => m.PatientModule)},
 ]
 
 @NgModule({
@@ -31,7 +32,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserApiService, UserService],
+  providers: [UserApiService, UserService, AuthValidatorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
