@@ -12,11 +12,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthValidatorService } from './services/auth-validator.service';
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
+import { AccountComponent } from './components/account/account.component';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
+  {path: 'account', component: AccountComponent},
   {path: 'patient', canActivate: [AuthValidatorService], loadChildren: () => import('./modules/patient/patient.module').then(m => m.PatientModule)},
   {path: 'doctor', canActivate: [AuthValidatorService], loadChildren: () => import('./modules/doctor/doctor.module').then(m => m.DoctorModule)},
 ]
@@ -26,7 +28,8 @@ const routes: Routes = [
     AppComponent,
     SignupComponent,
     LoginComponent,
-    GenericErrorComponent
+    GenericErrorComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,

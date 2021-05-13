@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-6">
+            <h2>Compte</h2>
+            <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="email">Votre address email</label>
+                    <input type="email" formControlName="email" class="form-control" name="email" id="email" required>
+                    <app-generic-error *ngIf="email != null"
+                        [fc]="email"
+                        [fieldName]="'email'"
+                        [required]="true"
+                        [email]="true">
+                    </app-generic-error>
+                </div>
+                <div class="form-group">
+                    <label for="tel">Votre numéro de téléphone</label>
+                    <input type="tel" formControlName="tel" class="form-control" name="tel" id="tel" required>
+                    <app-generic-error *ngIf="tel != null"
+                        [fc]="tel"
+                        [fieldName]="'tel'"
+                        [required]="true">
+                    </app-generic-error>
+                </div>
+                <div *ngIf="error && error.length > 0" class="alert alert-danger">
+                    {{ error }}
+                </div>
+                <input type="submit" class="btn btn-primary" value="Enregistrer" [disabled]="accountForm.invalid">
+            </form>
+        </div>
+    </div>
+</div>
+

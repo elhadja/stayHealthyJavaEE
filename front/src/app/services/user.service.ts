@@ -1,3 +1,4 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { signupDTO } from '../api/dto/signupDTO';
@@ -8,6 +9,7 @@ import { UserApiService } from '../api/user-api.service';
 })
 export class UserService {
   private token: string;
+
   constructor(private readonly userApiService: UserApiService) { 
     this.token = "";
   }
@@ -18,7 +20,8 @@ export class UserService {
 
   public setToken(token: string): void {
     this.token = token;
-  }
+    this.userApiService.setHttpOptions(token);
+ }
   
   public isLogged(): boolean {
     return this.token.length > 0;

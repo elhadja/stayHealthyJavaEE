@@ -25,8 +25,8 @@ export class LoginComponent implements OnInit {
     private readonly userService: UserService)
   {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]),
+      email: new FormControl('front@gmail.com', [Validators.required, Validators.email]),
+      password: new FormControl('aaaaaaaa', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]),
       userType: new FormControl('', [Validators.required])
     });
 
@@ -46,7 +46,12 @@ export class LoginComponent implements OnInit {
       (res) => {
         console.log(res);
           this.userService.setToken(res.token);
-          this.router.navigate(['/patient']);
+          // TODO get userType from back or find better solution
+          if (this.loginForm.get('userType')?.value === 'patient') {
+            this.router.navigate(['/account']);
+          } else {
+            this.router.navigate(['/doctor']);
+          }
       },
       (error) => {
         this.error = error.error.message;
