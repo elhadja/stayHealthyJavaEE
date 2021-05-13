@@ -13,6 +13,12 @@ import { UserService } from 'src/app/services/user.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   error: string;
+  readonly pswMinLength = 8;
+  readonly pswMaxLength = 16;
+  readonly loginFormConstants = {
+    email: "email",
+    password: "password"
+  };
 
   constructor(private readonly userApiService: UserApiService,
     private readonly router: Router,
@@ -30,8 +36,8 @@ export class LoginComponent implements OnInit {
 
   public onSubmit(): void {
     let input: LoginDTO = {
-      email: this.loginForm.get("email")?.value,
-      password: this.loginForm.get("password")?.value,
+      email: this.loginForm.get(this.loginFormConstants.email)?.value,
+      password: this.loginForm.get(this.loginFormConstants.password)?.value,
     }
     this.userApiService.login(input).subscribe(
       (res) => {
@@ -45,6 +51,6 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  get email() {return this.loginForm.get("email")}
-  get password() {return this.loginForm.get("password")}
+  get email() {return this.loginForm.get(this.loginFormConstants.email)}
+  get password() {return this.loginForm.get(this.loginFormConstants.password)}
 }

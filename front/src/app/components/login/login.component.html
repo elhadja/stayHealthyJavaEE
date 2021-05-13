@@ -19,7 +19,7 @@
                     <app-generic-error *ngIf="password != null"
                         [fc]="password"
                         [fieldName]="'password'"
-                        [required]="true" [minLength]="8" [maxLength]="16">
+                        [required]="true" [minLength]="pswMinLength" [maxLength]="pswMaxLength">
                     </app-generic-error>
                   </div>
                 <div *ngIf="error && error.length > 0" class="alert alert-danger">

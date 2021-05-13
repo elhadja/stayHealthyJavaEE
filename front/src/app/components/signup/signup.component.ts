@@ -11,6 +11,8 @@ import { UserService } from 'src/app/services/user.service';
 export class SignupComponent implements OnInit {
   input: signupDTO;
   signupForm: FormGroup;
+  readonly pswMinLength = 8;
+  readonly pswMaxLength = 16;
 
   public constructor(private readonly userService: UserService,
     private readonly fb: FormBuilder) {
