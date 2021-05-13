@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.elhadj.health.Exception.SHRuntimeException;
 import com.elhadj.health.dto.CreateRessouceResponseDTO;
 import com.elhadj.health.dto.LoginRequestDTO;
+import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.RequestErrorDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.dto.UpdateCredentialsRequestDTO;
@@ -79,9 +80,12 @@ public class UserController {
 								 .body(new RequestErrorDTO());	
 
 		}
+		
+		CustomUserDetails user = (CustomUserDetails) userService.loadUserByUsername(input.getEmail());
+		
 		final UserDetails userDetails = userService.loadUserByUsername(input.getEmail());
 		final String token = jwt.generateToken(userDetails);
-		return ResponseEntity.ok(token);
+		return ResponseEntity.ok(new LoginResponseDTO(token, user.getUserId()));
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
