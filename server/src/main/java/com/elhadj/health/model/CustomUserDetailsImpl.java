@@ -55,7 +55,6 @@ public class CustomUserDetailsImpl implements CustomUserDetails {
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
 		return isAccountNonLocked;
 	}
 

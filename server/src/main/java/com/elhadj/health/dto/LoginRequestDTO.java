@@ -5,7 +5,6 @@ public class LoginRequestDTO {
 	private String password;
 	
 	public LoginRequestDTO() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public LoginRequestDTO(String email, String password) {

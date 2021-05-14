@@ -103,7 +103,6 @@ public class Address implements Cloneable {
 		try {
 			address = (Address) super.clone();
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

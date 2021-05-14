@@ -1,6 +1,8 @@
 package com.elhadj.health.dto;
 
-public class UpdateCredentialsRequestDTO {
+import com.elhadj.health.Exception.SHRuntimeException;
+
+public class UpdateCredentialsRequestDTO implements ValidateDTO{
 	private String email;
 	private String tel;
 
@@ -18,5 +20,12 @@ public class UpdateCredentialsRequestDTO {
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+	@Override
+	public void validate() {
+		if (email==null || email.isEmpty()) {
+			throw new SHRuntimeException(400, "formulaire invalide", "email are required");
+		}
 	}
 }

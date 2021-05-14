@@ -130,6 +130,7 @@ public class UserController {
 		try {
 			long userId = Long.parseLong(id);
 			isCurrentUserRessource(principal, userId);
+			input.validate();
 			userService.updateCredentials(userId, input.getEmail(), input.getTel());
 		}catch (SHRuntimeException e) {
 			return ResponseEntity.status(e.getStatusCode())

@@ -28,7 +28,6 @@ public class Filter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String header = request.getHeader("Authorization");
 		String jwt = null;
 		String email = null;
