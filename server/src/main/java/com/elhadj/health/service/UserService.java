@@ -3,6 +3,7 @@ package com.elhadj.health.service;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -65,7 +66,11 @@ public class UserService implements UserDetailsService{
 	}
 	
 	public void updateCredentials(long userId, String newEmail, String newTel) throws Exception {
-		userDAO.updateUserCredentials(userId, newEmail, newTel);
+		try {
+			userDAO.updateUserCredentials(userId, newEmail, newTel);
+		} catch (Exception e) {
+			throw new SHRuntimeException(400, "cet email est déjà utilisé", "email should be unique");
+		}
 	}
 	
 	public User loadUserById(long id) {

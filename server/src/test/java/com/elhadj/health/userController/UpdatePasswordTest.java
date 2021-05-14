@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.LoginResponseDTO;
+import com.elhadj.health.dto.UpdateCredentialsRequestDTO;
 import com.elhadj.health.dto.UpdatePasswordRequestDTO;
 import com.elhadj.health.model.User;
 import com.elhadj.health.service.UserService;
@@ -52,6 +53,8 @@ public class UpdatePasswordTest {
 	public void clean_() throws Exception {
 		userService.deleteUser(id);
 	}
+	
+	// --------------------- update password tests -----------------------------------
 	
 	@Test
 	public void it_should_succed() throws Exception {
@@ -89,4 +92,53 @@ public class UpdatePasswordTest {
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest());
 	}
+	
+	// ------------------- update credentials tests -------------------------------------------
+
+	@Test
+	public void update_credentials_should_succed() throws Exception {
+		UpdateCredentialsRequestDTO input = new UpdateCredentialsRequestDTO();
+		input.setEmail(user.getEmail());
+		input.setTel("1234567890");
+
+		mockMvc.perform(put("/users/" + id + "/credentials")
+				.header("Authorization", "Bearer " + token)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(SignupTest.asJsonString(input))
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+	}
+	
+	@Test
+	public void update_credentials_should_fail_if_input_is_not_valid() throws Exception {
+		UpdateCredentialsRequestDTO input = new UpdateCredentialsRequestDTO();
+		input.setEmail(null);
+		input.setTel("1234567890");
+
+		mockMvc.perform(put("/users/" + id + "/credentials")
+				.header("Authorization", "Bearer " + token)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(SignupTest.asJsonString(input))
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest());
+	}
+	
+	@Test
+	public void update_credentials_should_fail_if_email_already_used_by_anoter_user() throws Exception {
+		User newUser = user.clone();
+		newUser.setEmail("existingEmail@gmail.com");
+		long _id = userService.addUser(newUser);
+		UpdateCredentialsRequestDTO input = new UpdateCredentialsRequestDTO();
+		input.setEmail(newUser.getEmail());
+		input.setTel("1234567890");
+
+		mockMvc.perform(put("/users/" + id + "/credentials")
+				.header("Authorization", "Bearer " + token)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(SignupTest.asJsonString(input))
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest());
+		userService.deleteUser(_id); // TODO use an array of ids to delete after each test all ids
+	}
+
 }
