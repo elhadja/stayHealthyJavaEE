@@ -64,4 +64,29 @@ public class UpdatePasswordTest {
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
+	
+	@Test
+	public void it_should_fail_if_password_not_match() throws Exception {
+		UpdatePasswordRequestDTO input = new UpdatePasswordRequestDTO(
+				"wrong-password", "bbbbbbbb");
+		mockMvc.perform(put("/users/" + id + "/password")
+				.header("Authorization", "Bearer " + token)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(SignupTest.asJsonString(input))
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isForbidden());
+	}
+	
+	@Test
+	public void it_should_fail_if_input_are_not_valid() throws Exception {
+		UpdatePasswordRequestDTO input = new UpdatePasswordRequestDTO(
+				user.getPassword(), "");
+
+		mockMvc.perform(put("/users/" + id + "/password")
+				.header("Authorization", "Bearer " + token)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(SignupTest.asJsonString(input))
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest());
+	}
 }
