@@ -92,7 +92,7 @@ public class User implements Cloneable{
 	}
 
 	public void setEmail(String email) {
-		if (email == null) {
+		if (email == null) {   // TODO make these controls in requests input
 			throw new SHRuntimeException(400, "email is required", "required");
 		}
 
@@ -104,11 +104,7 @@ public class User implements Cloneable{
 	}
 
 	public void setPassword(String password) {
-		if (email == null) {
-			throw new SHRuntimeException(400, "password is required", "required");
-		}
-
-		this.password = password;
+		this.password = password; // TODO check the passsword in request inputs
 	}
 
 	public Address getAddress() {

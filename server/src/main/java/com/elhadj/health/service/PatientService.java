@@ -17,6 +17,7 @@ public class PatientService {
 		if (user == null) {
 			throw new SHRuntimeException(404, "utilisateur non trouvé", "no user match the path paramte id");
 		}
+		user.setPassword(null);
 		return user;
 	}
 }
