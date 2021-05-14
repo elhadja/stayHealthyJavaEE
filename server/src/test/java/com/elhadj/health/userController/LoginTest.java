@@ -16,7 +16,7 @@ import com.elhadj.health.model.User;
 import com.elhadj.health.service.UserService;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc(addFilters = true)
 public class LoginTest {
 	@Autowired
 	private MockMvc mockMvc;

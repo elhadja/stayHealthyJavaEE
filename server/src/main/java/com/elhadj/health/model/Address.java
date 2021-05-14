@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Address {
+public class Address implements Cloneable {
 	@Id
 	@GeneratedValue
 	private long id;
@@ -59,5 +59,54 @@ public class Address {
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + postalCode;
+		result = prime * result + ((road == null) ? 0 : road.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Address other = (Address) obj;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (id != other.id)
+			return false;
+		if (postalCode != other.postalCode)
+			return false;
+		if (road == null) {
+			if (other.road != null)
+				return false;
+		} else if (!road.equals(other.road))
+			return false;
+		return true;
+	}
+	
+	public Address clone() {
+		Address address = null;
+		try {
+			address = (Address) super.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return address;
 	}
 }

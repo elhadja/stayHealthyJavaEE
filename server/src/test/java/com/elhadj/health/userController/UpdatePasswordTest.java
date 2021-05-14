@@ -17,11 +17,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.elhadj.health.dto.LoginRequestDTO;
+import com.elhadj.health.dto.LoginResponseDTO;
+import com.elhadj.health.dto.UpdatePasswordRequestDTO;
 import com.elhadj.health.model.User;
 import com.elhadj.health.service.UserService;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@AutoConfigureMockMvc(addFilters = true)
 public class UpdatePasswordTest {
 	@Autowired
 	private MockMvc mockMvc;
@@ -30,20 +32,20 @@ public class UpdatePasswordTest {
 	private UserService userService;
 	
 	final private User user = new User("firstName", "lastName", "email@springboots.com", "password");
-	private String token;
+	private String token = null;
 	private long id;
 	
 	@BeforeEach
 	public void init() throws Exception {
-		LoginRequestDTO input = new LoginRequestDTO(user.getEmail(), user.getPassword());
 		id = userService.addUser(user);
+		LoginRequestDTO input = new LoginRequestDTO(user.getEmail(), user.getPassword());
 
 		MvcResult res = mockMvc.perform(post("/users/login")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(SignupTest.asJsonString(input))
 				.accept(MediaType.APPLICATION_JSON))
 				.andReturn();
-		token = SignupTest.parseResponse(res, String.class);
+		token = SignupTest.parseResponse(res, LoginResponseDTO.class).getToken();
 	}
 	
 	@AfterEach
@@ -51,15 +53,15 @@ public class UpdatePasswordTest {
 		userService.deleteUser(id);
 	}
 	
-	/*
 	@Test
 	public void it_should_succed() throws Exception {
+		UpdatePasswordRequestDTO input = new UpdatePasswordRequestDTO(
+				user.getPassword(), "bbbbbbbb");
 		mockMvc.perform(put("/users/" + id + "/password")
 				.header("Authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("newPassword")
+				.content(SignupTest.asJsonString(input))
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
-	*/
 }

@@ -26,14 +26,14 @@ public class UserService implements UserDetailsService{
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	public long addUser(User user) throws Exception {
-		user.setPassword(encoder.encode(user.getPassword()));
-		User addedUser = null;
+		User userToSave = user.clone();
+		userToSave.setPassword(encoder.encode(user.getPassword()));
 		try {
-			addedUser = userDAO.save(user);
+			userDAO.save(userToSave);
 		} catch (Exception e) {
 			throw new SHRuntimeException(403, "User already exists", "email field must be unique");
 		}
-		return addedUser.getId();
+		return userToSave.getId();
 	}
 	
 	public void deleteUser(long id) throws Exception {

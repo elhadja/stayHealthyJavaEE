@@ -26,7 +26,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 @SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)	
+@AutoConfigureMockMvc(addFilters = true)	
 public class SignupTest {
 	@Autowired
 	private MockMvc mockMvc;
