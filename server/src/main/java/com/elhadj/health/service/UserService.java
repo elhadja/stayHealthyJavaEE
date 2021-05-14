@@ -45,7 +45,6 @@ public class UserService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		try {
 			User u = userDAO.loadUserByEmail(email);
-			System.out.println("==> user getted: "+ u.getEmail() + " " + u.getPassword());
 			return new CustomUserDetailsImpl(u.getEmail(), u.getPassword(), u.getId(), (Collection<? extends GrantedAuthority>) new ArrayList<GrantedAuthority>());
 		} catch (Exception e) {
 			throw new UsernameNotFoundException("user not found");

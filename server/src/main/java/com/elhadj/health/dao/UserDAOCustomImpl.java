@@ -23,8 +23,6 @@ public class UserDAOCustomImpl implements UserDAOCustom{
 		javax.persistence.Query nq = em.createNativeQuery("select * from User where email=:email", User.class);
 		nq.setParameter("email", email);
 		List<User> users = nq.getResultList();
-		if (users.isEmpty())
-			throw new Exception();
 		return users.get(0);
 	}
 
