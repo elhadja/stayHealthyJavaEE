@@ -25,13 +25,13 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.elhadj.health.service.UserService;
+import com.elhadj.health.service.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Autowired
-	UserService service;
+	UserServiceImpl service;
 
 	@Autowired
 	private Filter filter;

@@ -3,8 +3,6 @@ package com.elhadj.health.userController;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.function.BiConsumer;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.elhadj.health.Util;
 import com.elhadj.health.dto.LoginRequestDTO;
-import com.elhadj.health.model.User;
+import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.service.UserService;
 
 @SpringBootTest
@@ -27,9 +25,17 @@ public class LoginTest {
 	@Autowired
 	private UserService userService;
 	
-	final private User user = new User("firstName", "lastName", "email@springboots.com", "password");
+	final private SignupRequestDTO user;
 	
 	private Util util = new Util();
+	
+	public LoginTest() {
+		user = new SignupRequestDTO();
+		user.setFirstName("firstname");
+		user.setLastName("lastName");
+		user.setEmail("testSpringBoots.javaee");
+		user.setPassword("password");
+	}
 	
 	@AfterEach
 	public void afterEach() {

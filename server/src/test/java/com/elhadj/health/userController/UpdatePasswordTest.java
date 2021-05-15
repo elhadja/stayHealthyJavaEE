@@ -4,8 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.function.BiConsumer;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,9 +17,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.elhadj.health.Util;
 import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.LoginResponseDTO;
+import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.dto.UpdateCredentialsRequestDTO;
 import com.elhadj.health.dto.UpdatePasswordRequestDTO;
-import com.elhadj.health.model.User;
 import com.elhadj.health.service.UserService;
 
 @SpringBootTest
@@ -33,10 +31,18 @@ public class UpdatePasswordTest {
 	@Autowired
 	private UserService userService;
 	
-	final private User user = new User("firstName", "lastName", "email@springboots.com", "password");
+	final private SignupRequestDTO user;
 	private String token = null;
 	private Util userUtil = new Util();
 	private long id;
+	
+	public UpdatePasswordTest() {
+		user = new SignupRequestDTO();
+		user.setFirstName("firstname");
+		user.setLastName("lastName");
+		user.setEmail("testSpringBoots.javaee");
+		user.setPassword("password");
+	}
 	
 	@BeforeEach
 	public void init() throws Exception {
@@ -128,10 +134,12 @@ public class UpdatePasswordTest {
 	
 	@Test
 	public void update_credentials_should_fail_if_email_already_used_by_anoter_user() throws Exception {
-		User newUser = user.clone();
+		SignupRequestDTO newUser = new SignupRequestDTO();
+		newUser.setFirstName("firstname");
+		newUser.setLastName("lastName");
 		newUser.setEmail("existingEmail@gmail.com");
-		long _id = userService.addUser(newUser);
-		userUtil.add(_id);
+		newUser.setPassword("password");
+		userService.addUser(newUser);
 		UpdateCredentialsRequestDTO input = new UpdateCredentialsRequestDTO();
 		input.setEmail(newUser.getEmail());
 		input.setTel("1234567890");

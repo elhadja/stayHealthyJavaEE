@@ -8,7 +8,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,14 +47,7 @@ public class UserController {
 		long addedUserId = 0;
 		try {
 			input.validate();
-			user.setAddress(input.getAddress());
-			user.setFirstName(input.getFirstName());
-			user.setLastName(input.getLastName());
-			user.setEmail(input.getEmail());
-			user.setPassword(input.getPassword());
-			user.setUserType(input.getUserType());
-
-			addedUserId = userService.addUser(user);
+			addedUserId = userService.addUser(input);
 		} catch (SHRuntimeException e) {
 			return ResponseEntity.status(e.getStatusCode())
 								 .body(new RequestErrorDTO(e.getStatusCode(), 

@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.elhadj.health.service.UserService;
+import com.elhadj.health.service.UserServiceImpl;
 
 @Component
 public class Filter extends OncePerRequestFilter{
@@ -23,7 +23,7 @@ public class Filter extends OncePerRequestFilter{
 	JwtToken jwtToken;
 	
 	@Autowired
-	UserService userService;
+	UserServiceImpl userService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

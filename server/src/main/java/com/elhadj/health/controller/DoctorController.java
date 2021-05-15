@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elhadj.health.Exception.SHRuntimeException;
+import com.elhadj.health.dto.DoctorDTO;
 import com.elhadj.health.dto.RequestErrorDTO;
 import com.elhadj.health.model.CustomUserDetails;
-import com.elhadj.health.model.Doctor;
 import com.elhadj.health.service.DoctorService;
-import com.elhadj.health.service.UserService;
+import com.elhadj.health.service.UserServiceImpl;
 
 @RestController
 @RequestMapping(value = "/doctors")
@@ -23,11 +23,11 @@ public class DoctorController {
 	DoctorService doctorService;
 	
 	@Autowired
-	UserService userService;
+	UserServiceImpl userService;
 
 	@GetMapping("{id}")
 	public ResponseEntity<?> getById(@PathVariable String id, Principal principal) {
-		Doctor doctor = null;
+		DoctorDTO doctor = null;
 		try {
 			long userId = Long.parseLong(id);
 			isCurrentUserRessource(principal, userId);
