@@ -4,9 +4,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.AfterAll;
+import java.util.function.BiConsumer;
+
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.elhadj.health.Util;
 import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.UpdateCredentialsRequestDTO;
@@ -34,24 +35,33 @@ public class UpdatePasswordTest {
 	
 	final private User user = new User("firstName", "lastName", "email@springboots.com", "password");
 	private String token = null;
+	private Util userUtil = new Util();
 	private long id;
 	
 	@BeforeEach
 	public void init() throws Exception {
 		id = userService.addUser(user);
+		userUtil.add(id);
 		LoginRequestDTO input = new LoginRequestDTO(user.getEmail(), user.getPassword());
 
 		MvcResult res = mockMvc.perform(post("/users/login")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(SignupTest.asJsonString(input))
+				.content(Util.asJsonString(input))
 				.accept(MediaType.APPLICATION_JSON))
 				.andReturn();
-		token = SignupTest.parseResponse(res, LoginResponseDTO.class).getToken();
+		token = Util.parseResponse(res, LoginResponseDTO.class).getToken();
 	}
 	
 	@AfterEach
 	public void clean_() throws Exception {
-		userService.deleteUser(id);
+		BiConsumer<UserService, Long> f = (service, id) -> { 
+			try {
+				service.deleteUser(id);
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+		};
+		userUtil.deleteAll(f, userService);
 	}
 	
 	// --------------------- update password tests -----------------------------------
@@ -63,7 +73,7 @@ public class UpdatePasswordTest {
 		mockMvc.perform(put("/users/" + id + "/password")
 				.header("Authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(SignupTest.asJsonString(input))
+				.content(Util.asJsonString(input))
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
@@ -75,7 +85,7 @@ public class UpdatePasswordTest {
 		mockMvc.perform(put("/users/" + id + "/password")
 				.header("Authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(SignupTest.asJsonString(input))
+				.content(Util.asJsonString(input))
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isForbidden());
 	}
@@ -88,7 +98,7 @@ public class UpdatePasswordTest {
 		mockMvc.perform(put("/users/" + id + "/password")
 				.header("Authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(SignupTest.asJsonString(input))
+				.content(Util.asJsonString(input))
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest());
 	}
@@ -104,7 +114,7 @@ public class UpdatePasswordTest {
 		mockMvc.perform(put("/users/" + id + "/credentials")
 				.header("Authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(SignupTest.asJsonString(input))
+				.content(Util.asJsonString(input))
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
 	}
@@ -118,7 +128,7 @@ public class UpdatePasswordTest {
 		mockMvc.perform(put("/users/" + id + "/credentials")
 				.header("Authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(SignupTest.asJsonString(input))
+				.content(Util.asJsonString(input))
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest());
 	}
@@ -128,6 +138,7 @@ public class UpdatePasswordTest {
 		User newUser = user.clone();
 		newUser.setEmail("existingEmail@gmail.com");
 		long _id = userService.addUser(newUser);
+		userUtil.add(_id);
 		UpdateCredentialsRequestDTO input = new UpdateCredentialsRequestDTO();
 		input.setEmail(newUser.getEmail());
 		input.setTel("1234567890");
@@ -135,10 +146,9 @@ public class UpdatePasswordTest {
 		mockMvc.perform(put("/users/" + id + "/credentials")
 				.header("Authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(SignupTest.asJsonString(input))
+				.content(Util.asJsonString(input))
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest());
-		userService.deleteUser(_id); // TODO use an array of ids to delete after each test all ids
 	}
 
 }
