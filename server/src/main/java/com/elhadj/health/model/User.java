@@ -7,11 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
-
-import com.elhadj.health.Exception.SHRuntimeException;
-import javax.validation.constraints.NotNull;
 
 @Component
 @Entity
@@ -64,9 +62,6 @@ public class User implements Cloneable{
 	}
 
 	public void setFirstName(String firstName) {
-		if (firstName == null) {
-			throw new SHRuntimeException(400, "first name is required", "required");
-		}
 		this.firstName = firstName;
 	}
 
@@ -75,9 +70,6 @@ public class User implements Cloneable{
 	}
 
 	public void setLastName(String lastName) {
-		if (lastName == null) {
-			throw new SHRuntimeException(400, "lastName is required", "required");
-		}
 		this.lastName = lastName;
 	}
 
@@ -102,10 +94,6 @@ public class User implements Cloneable{
 	}
 
 	public void setEmail(String email) {
-		if (email == null) {   // TODO make these controls in requests input
-			throw new SHRuntimeException(400, "email is required", "required");
-		}
-
 		this.email = email;
 	}
 
@@ -114,7 +102,7 @@ public class User implements Cloneable{
 	}
 
 	public void setPassword(String password) {
-		this.password = password; // TODO check the passsword in request inputs
+		this.password = password;
 	}
 
 	public Address getAddress() {

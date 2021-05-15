@@ -47,6 +47,7 @@ public class UserController {
 	public ResponseEntity<?> signup(@RequestBody SignupRequestDTO input) throws Exception {
 		long addedUserId = 0;
 		try {
+			input.validate();
 			user.setAddress(input.getAddress());
 			user.setFirstName(input.getFirstName());
 			user.setLastName(input.getLastName());

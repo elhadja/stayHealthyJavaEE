@@ -1,8 +1,9 @@
 package com.elhadj.health.dto;
 
+import com.elhadj.health.Exception.SHRuntimeException;
 import com.elhadj.health.model.Address;
 
-public class SignupRequestDTO {
+public class SignupRequestDTO implements ValidateDTO {
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -68,5 +69,16 @@ public class SignupRequestDTO {
 
 	public void setUserType(String userType) {
 		this.userType = userType;
+	}
+
+	@Override
+	public void validate() {
+		if (firstName == null || firstName.isEmpty() 
+				|| lastName == null || lastName.isEmpty()
+				|| email == null || email.isEmpty()
+				|| password == null || password.isEmpty()
+				|| userType == null || userType.isEmpty()) {
+			throw new SHRuntimeException(400, "formulaire invalide","firstName, lastName, email, password and userType are required and cannot be empty");
+		}
 	}
 }
