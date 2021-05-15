@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-6">
+            <h2>Inscription</h2>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="email">email</label>
+                    <input type="email" formControlName="email" class="form-control" name="email" id="email" required>
+                    <app-generic-error *ngIf="email != null"
+                        [fc]="email"
+                        [fieldName]="'email'"
+                        [required]="true"
+                        [email]="true">
+                    </app-generic-error>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" formControlName="password" class="form-control" name="password" id="password" required>
+                    <app-generic-error *ngIf="password != null"
+                        [fc]="password"
+                        [fieldName]="'password'"
+                        [required]="true" [minLength]="pswMinLength" [maxLength]="pswMaxLength">
+                    </app-generic-error>
+                </div>
+                <div class="form-group">
+                    <label for="">Choisir un type de compte</label>
+                    <select class="custom-select" formControlName="userType">
+                        <option value="patient">patient</option>
+                        <option value="doctor">docteur</option>
+                    </select>
+                    <app-generic-error *ngIf="userType != null"
+                        [fc]="userType"
+                        [fieldName]="'userType'"
+                        [required]="true">
+                    </app-generic-error>
+                </div>
+               <div *ngIf="error && error.length > 0" class="alert alert-danger">
+                    {{ error }}
+                </div>
+                <input type="submit" class="btn btn-primary" value="Se connecter" [disabled]="loginForm.invalid">
+                <a routerLink="/signup">s'incrire</a>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="row  d-flex justify-content-center">
+        <div class="col-6">
+            <h2>Inscription</h2>
+            <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="firstName">Votre nom</label>
+                        <input type="text" formControlName="firstName" name="firstName" id="firstName" class="form-control" required>
+                        <app-generic-error *ngIf="firstName != null"
+                            [fc]="firstName"
+                            [fieldName]="'firstName'"
+                            [required]="true">
+                        </app-generic-error>
+                    </div>
+                    <div class="form-group col">
+                        <label for="lastName">Votre Prenom</label>
+                        <input type="text" formControlName="lastName" name="lastName" id="lastName" class="form-control" required>
+                        <app-generic-error *ngIf="lastName != null"
+                            [fc]="lastName"
+                            [fieldName]="'lastName'"
+                            [required]="true">
+                        </app-generic-error>
+                    </div>
+                </div>
+               <div class="form-group">
+                    <label for="email">Votre email</label>
+                    <input type="email" formControlName="email" name="email" id="email" class="form-control">
+                    <app-generic-error *ngIf="email != null"
+                        [fc]="email"
+                        [fieldName]="'email'"
+                        [required]="true"
+                        [email]="true">
+                    </app-generic-error>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="password">Votre mot de passe</label>
+                        <input type="text" formControlName="password" name="password" id="password" class="form-control">
+                        <app-generic-error *ngIf="password != null"
+                            [fc]="password"
+                            [fieldName]="'password'"
+                            [required]="true" [minLength]="pswMinLength" [maxLength]="pswMaxLength">
+                        </app-generic-error>
+                    </div>
+                    <div class="form-group col">
+                        <label for="passwordAgain">Confirmer votre mot de passe</label>
+                        <input type="text" formControlName="passwordAgain" name="passwordAgain" id="passwordAgain" class="form-control">
+                        <div *ngIf="passwordAgain?.invalid && (passwordAgain?.dirty || passwordAgain?.touched)" class="alert alert-danger">
+                            <div *ngIf="passwordAgain?.errors?.spec">
+                                mot de passe differents
+                            </div>
+                       </div>
+                    </div>
+                </div>
+                <ng-template formGroupName="address">
+                    <div class="form-group">
+                        <label for="tel">Numéro de Rue</label>
+                        <input type="tel" formControlName="road" name="tel" id="tel" class="form-control">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label for="tel">Ville</label>
+                            <input type="tel" formControlName="city" name="tel" id="tel" class="form-control">
+                        </div>
+                        <div class="form-group col">
+                            <label for="tel">code postal</label>
+                            <input type="tel" formControlName="postalColde" name="tel" id="tel" class="form-control">
+                        </div>
+                    </div>
+                </ng-template>
+                <input type="submit" class="btn btn-primary" value="s'inscrire" [disabled]="!signupForm.valid">
+                <a routerLink="/login">se connecter</a>
+            </form>
+        </div>
+    </div>
+</div>
