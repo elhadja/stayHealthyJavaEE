@@ -3,10 +3,10 @@ package com.elhadj.health.service;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +20,7 @@ import com.elhadj.health.dto.UserDTO;
 import com.elhadj.health.model.CustomUserDetailsImpl;
 import com.elhadj.health.model.DoctorInfos;
 import com.elhadj.health.model.User;
+import com.elhadj.health.util.JavaUtil;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -32,15 +33,10 @@ public class UserServiceImpl implements UserService{
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	public long addUser(SignupRequestDTO input) throws Exception {
-		User user = new User();
-		user.setAddress(input.getAddress());
-		user.setFirstName(input.getFirstName());
-		user.setLastName(input.getLastName());
-		user.setEmail(input.getEmail());
-		user.setPassword(input.getPassword());
-		user.setUserType(input.getUserType());
-		user.setPassword(encoder.encode(user.getPassword()));
+		User user =  null;
 		try {
+			user = JavaUtil.convertTo(input, User.class);
+			user.setPassword(encoder.encode(user.getPassword()));
 			userDAO.save(user);
 			if ("doctor".equals(user.getUserType())) {
 				DoctorInfos di = new DoctorInfos();
@@ -90,19 +86,12 @@ public class UserServiceImpl implements UserService{
 	
 	public UserDTO loadUserById(long id) {
 		User user = userDAO.findById(id).get();
-		UserDTO userDTO = new UserDTO();
-		userDTO.setId(user.getId());
-		userDTO.setFirstName(user.getFirstName());
-		userDTO.setLastName(user.getLastName());
-		userDTO.setEmail(user.getEmail());
-		userDTO.setPassword(user.getPassword()); // TODO use model mapper
-		userDTO.setAddress(user.getAddress());
-		userDTO.setUserType(user.getUserType());
-
+		UserDTO userDTO = JavaUtil.convertTo(user, UserDTO.class);
 		return userDTO;
 	}
 	
 	public void deleteAll() {
 		userDAO.deleteAll();
 	}
+	
 }
