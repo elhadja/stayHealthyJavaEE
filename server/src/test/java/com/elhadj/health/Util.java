@@ -34,6 +34,7 @@ public class Util {
         }
     }
 	
+	
 	public static <T> T parseResponse(MvcResult result, Class<T> responseClass) {
 	    try {
 			String contentAsString = result.getResponse().getContentAsString();

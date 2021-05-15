@@ -8,16 +8,18 @@ public class SignupRequestDTO {
 	private String email;
 	private String password;
 	private Address address;
+	private String userType;
 	
 	
 	public SignupRequestDTO() {
 	}
 	
-	public SignupRequestDTO(String firstName, String lastName, String email, String password) {
+	public SignupRequestDTO(String firstName, String lastName, String email, String password, String userType) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.userType = userType;
 	}
 
 	public String getFirstName() {
@@ -58,5 +60,13 @@ public class SignupRequestDTO {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 }

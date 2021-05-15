@@ -39,6 +39,8 @@ public class User implements Cloneable{
 	@JoinColumn(name="addressId")
 	private Address address;
 	
+	private String userType;
+	
 	public User() {}
 	
 	public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email,
@@ -77,6 +79,14 @@ public class User implements Cloneable{
 			throw new SHRuntimeException(400, "lastName is required", "required");
 		}
 		this.lastName = lastName;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 
 	public String getTel() {

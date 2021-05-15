@@ -14,15 +14,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.elhadj.health.Exception.SHRuntimeException;
+import com.elhadj.health.dao.DoctorInfosDAO;
 import com.elhadj.health.dao.UserDAO;
 import com.elhadj.health.dto.UpdatePasswordRequestDTO;
 import com.elhadj.health.model.CustomUserDetailsImpl;
+import com.elhadj.health.model.DoctorInfos;
 import com.elhadj.health.model.User;
 
 @Service
 public class UserService implements UserDetailsService{
 	@Autowired
 	private UserDAO userDAO;
+	
+	@Autowired
+	private DoctorInfosDAO doctorInfosDAO;
 	
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -31,8 +36,13 @@ public class UserService implements UserDetailsService{
 		userToSave.setPassword(encoder.encode(user.getPassword()));
 		try {
 			userDAO.save(userToSave);
+			if ("doctor".equals(userToSave.getUserType())) {
+				DoctorInfos di = new DoctorInfos();
+				di.setId(userToSave.getId());
+				doctorInfosDAO.save(di);
+			}
 		} catch (Exception e) {
-			throw new SHRuntimeException(403, "User already exists", "email field must be unique");
+			throw new SHRuntimeException(403, e.getMessage(), "email field must be unique");
 		}
 		return userToSave.getId();
 	}
@@ -74,5 +84,9 @@ public class UserService implements UserDetailsService{
 	
 	public User loadUserById(long id) {
 		return userDAO.findById(id).get();
+	}
+	
+	public void deleteAll() {
+		userDAO.deleteAll();
 	}
 }

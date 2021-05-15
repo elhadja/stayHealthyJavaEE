@@ -3,10 +3,9 @@ package com.elhadj.health.dao;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.elhadj.health.model.Doctor;
-import com.elhadj.health.model.User;
+import com.elhadj.health.model.DoctorInfos;
 
 @Repository
-public interface DoctorDAO extends CrudRepository<Doctor, Long> {
+public interface DoctorInfosDAO extends CrudRepository<DoctorInfos, Long>{
 
 }

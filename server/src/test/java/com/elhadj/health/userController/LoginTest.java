@@ -33,14 +33,7 @@ public class LoginTest {
 	
 	@AfterEach
 	public void afterEach() {
-		BiConsumer<UserService, Long> f = (service, id) -> { 
-			try {
-				service.deleteUser(id);
-			} catch (Exception e) {
-				e.printStackTrace();
-			} 
-		};
-		util.deleteAll(f, userService);
+		userService.deleteAll();
 	}
 	
 	@Test

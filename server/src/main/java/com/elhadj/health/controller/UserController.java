@@ -52,6 +52,7 @@ public class UserController {
 			user.setLastName(input.getLastName());
 			user.setEmail(input.getEmail());
 			user.setPassword(input.getPassword());
+			user.setUserType(input.getUserType());
 
 			addedUserId = userService.addUser(user);
 		} catch (SHRuntimeException e) {

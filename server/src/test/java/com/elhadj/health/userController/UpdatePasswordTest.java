@@ -54,14 +54,7 @@ public class UpdatePasswordTest {
 	
 	@AfterEach
 	public void clean_() throws Exception {
-		BiConsumer<UserService, Long> f = (service, id) -> { 
-			try {
-				service.deleteUser(id);
-			} catch (Exception e) {
-				e.printStackTrace();
-			} 
-		};
-		userUtil.deleteAll(f, userService);
+		userService.deleteAll();
 	}
 	
 	// --------------------- update password tests -----------------------------------
