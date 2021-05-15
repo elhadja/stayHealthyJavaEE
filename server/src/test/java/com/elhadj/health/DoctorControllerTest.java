@@ -22,7 +22,7 @@ import com.elhadj.health.service.UserService;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = true)
-public class PatientController {
+public class DoctorControllerTest {
 	@Autowired
 	MockMvc mockMvc;
 	
@@ -34,10 +34,9 @@ public class PatientController {
 	
 	private SignupRequestDTO signupRequestDTO;
 	private String token = null;
-	private Util userUtil = new Util();
 	private long id;
 	
-	public PatientController() {
+	public DoctorControllerTest() {
 		signupRequestDTO = new SignupRequestDTO();
 		signupRequestDTO.setFirstName("firstname");
 		signupRequestDTO.setLastName("lastName");
@@ -67,7 +66,7 @@ public class PatientController {
 	
 	@Test
 	public void getUserById_should_succed() throws Exception {
-		MvcResult res = mockMvc.perform(get("/patients/" + id)
+		MvcResult res = mockMvc.perform(get("/doctors/" + id)
 			.header("Authorization", "Bearer " + token)
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON))
@@ -76,7 +75,7 @@ public class PatientController {
 	}
 	
 	@Test void getUserById_should_fail_if_user_not_exists() throws Exception {
-		mockMvc.perform(get("/patients/" + 0)
+		mockMvc.perform(get("/doctors/" + 0)
 			.header("Authorization", "Bearer " + token)
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON))
