@@ -19,8 +19,8 @@ public class PatientServiceImpl implements PatientService {
 		if (user == null) {
 			throw new SHRuntimeException(404, "utilisateur non trouvé", "no user match the path paramte id");
 		}
+
 		PatientDTO dto = new PatientDTO();
-		// TODO do the mapping
 		return dto;
 	}
 }
