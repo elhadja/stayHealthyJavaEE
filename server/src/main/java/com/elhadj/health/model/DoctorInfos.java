@@ -11,17 +11,26 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 @Entity(name = "doctorInfos")
 public class DoctorInfos {
 	@Id
+	@GeneratedValue
 	private long id;
+	
+	@OneToOne (cascade = CascadeType.ALL)
+	@JoinColumn(name = "userId", nullable = false)
+	private User user;
 	
 	public String presentation;
 	public String speciality;
@@ -90,6 +99,14 @@ public class DoctorInfos {
 		this.prices = prices;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -97,4 +114,7 @@ public class DoctorInfos {
 	public void setId(long id) {
 		this.id = id;
 	}
+	
+	
+	
 }

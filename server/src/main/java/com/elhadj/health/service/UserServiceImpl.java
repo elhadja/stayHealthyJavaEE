@@ -3,7 +3,6 @@ package com.elhadj.health.service;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,12 +36,11 @@ public class UserServiceImpl implements UserService{
 		try {
 			user = JavaUtil.convertTo(input, User.class);
 			user.setPassword(encoder.encode(user.getPassword()));
-			userDAO.save(user);
-			if ("doctor".equals(user.getUserType())) {
+			if (!user.getIsPatient() || true) {
 				DoctorInfos di = new DoctorInfos();
-				di.setId(user.getId());
-				doctorInfosDAO.save(di);
+				user.addDoctorInfos(di);
 			}
+			userDAO.save(user);
 		} catch (Exception e) {
 			throw new SHRuntimeException(403, e.getMessage(), "email field must be unique");
 		}

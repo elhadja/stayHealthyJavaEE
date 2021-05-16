@@ -3,6 +3,7 @@ package com.elhadj.health.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -37,7 +38,14 @@ public class User implements Cloneable{
 	@JoinColumn(name="addressId")
 	private Address address;
 	
-	private String userType;
+	@OneToOne (
+			mappedBy = "user",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+			)
+	private DoctorInfos doctorInfos;
+	
+	private boolean isPatient;
 	
 	public User() {}
 	
@@ -47,6 +55,18 @@ public class User implements Cloneable{
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+	}
+	
+	public void addDoctorInfos(DoctorInfos di) {
+		this.doctorInfos = di;
+		doctorInfos.setUser(this);
+	}
+	
+	public void removeDoctorInfos() {
+		if (doctorInfos != null) {
+			this.doctorInfos.setUser(null);
+			this.doctorInfos = null;
+		}
 	}
 
 	public long getId() {
@@ -73,12 +93,12 @@ public class User implements Cloneable{
 		this.lastName = lastName;
 	}
 
-	public String getUserType() {
-		return userType;
+	public boolean getIsPatient() {
+		return isPatient;
 	}
 
-	public void setUserType(String userType) {
-		this.userType = userType;
+	public void setIsPatient(boolean patient) {
+		this.isPatient = patient;
 	}
 
 	public String getTel() {
