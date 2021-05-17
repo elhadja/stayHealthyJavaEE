@@ -136,6 +136,7 @@ public class UserController {
 		return ResponseEntity.status(200).build();
 	}
 	
+	
 	@RequestMapping() 
 	public ResponseEntity<?> notFound() {
 		return ResponseEntity.status(404).body("uri not found");
