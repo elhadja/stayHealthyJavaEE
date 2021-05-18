@@ -1,12 +1,14 @@
 package com.elhadj.health.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elhadj.health.Exception.SHRuntimeException;
@@ -41,6 +43,25 @@ public class DoctorController {
 		}
 		return ResponseEntity.status(200).body(doctor);
 
+	}
+	
+	@GetMapping
+	public ResponseEntity<?> getByCriteria(@RequestParam(required = false) String name,
+										   @RequestParam(required = false) String speciality ,
+										   @RequestParam(required = false) String city,
+										   Principal principal) throws Exception {
+		List<DoctorDTO> doctors = null;
+		try {
+			doctors = doctorService.getSeverall(name, speciality, city);
+		}catch (SHRuntimeException e) {
+			return ResponseEntity.status(e.getStatusCode())
+				.body(new RequestErrorDTO(e.getStatusCode(), e.getMessage(), e.getMessageDescription()));
+		}catch (Exception e) {
+			return ResponseEntity.status(500)
+						 .body(new RequestErrorDTO(500, e.getMessage(), e.getMessage()));
+		}
+
+		return ResponseEntity.status(200).body(doctors);
 	}
 	
 	private void isCurrentUserRessource(Principal principal, long id) throws SHRuntimeException {
