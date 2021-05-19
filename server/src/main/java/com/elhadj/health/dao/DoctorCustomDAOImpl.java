@@ -63,10 +63,16 @@ public class DoctorCustomDAOImpl implements DoctorCustom {
 				sql += "or last_name=:last_name) ";
 			}
 			if (speciality != null) {
-				sql += "and speciality=:speciality ";
+				if (name != null) {
+					sql += "and ";
+				}
+				sql += "speciality=:speciality ";
 			}
 			if (city != null) {
-				sql += "and city=:city";
+				if (name != null || speciality != null) {
+					sql += "and ";
+				}
+				sql += "city=:city";
 			}
 		}
 		Query query = em.createNativeQuery(sql, Doctor.class);

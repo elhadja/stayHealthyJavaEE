@@ -32,6 +32,8 @@ public class UpdatePasswordTest {
 	@Autowired
 	private UserService userService;
 	
+	Util util = new Util();
+	
 	final private SignupRequestDTO user;
 	private String token = null;
 	private Util userUtil = new Util();
@@ -64,14 +66,6 @@ public class UpdatePasswordTest {
 		userService.deleteAll();
 	}
 	
-	public long addUser(String email) throws Exception {
-		SignupRequestDTO dto = new SignupRequestDTO();
-		dto.setFirstName("firstname");
-		dto.setLastName("lastName");
-		dto.setEmail(email);
-		dto.setPassword("password");
-		return userService.addUser(dto);
-	}
 	
 	public String logUser(String email) throws Exception {
 		LoginRequestDTO input = new LoginRequestDTO(email, "password");
@@ -83,6 +77,16 @@ public class UpdatePasswordTest {
 				.andReturn();
 		return Util.parseResponse(res, LoginResponseDTO.class).getToken();
 	}
+	
+	public long addUser(String email) throws Exception {
+		SignupRequestDTO dto = new SignupRequestDTO();
+		dto.setFirstName("firstname");
+		dto.setLastName("lastName");
+		dto.setEmail(email);
+		dto.setPassword("password");
+		return userService.addUser(dto);
+	}
+
 	
 	// --------------------- update password tests -----------------------------------
 	

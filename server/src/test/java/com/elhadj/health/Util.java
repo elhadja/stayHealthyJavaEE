@@ -9,11 +9,17 @@ import java.util.function.Consumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.elhadj.health.dto.SignupRequestDTO;
+import com.elhadj.health.model.Address;
+import com.elhadj.health.model.User;
+import com.elhadj.health.service.UserService;
+import com.elhadj.health.service.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 public class Util {
 	List<Long> ids = new ArrayList<>();
+	UserService userService = new UserServiceImpl();
 	
 	public void add(long id) {
 		ids.add(id);
@@ -25,6 +31,21 @@ public class Util {
 		 }
 		 ids.clear();
 	}
+	
+	
+	public long addUser2(String email) throws Exception {
+		SignupRequestDTO dto = new SignupRequestDTO();
+		dto.setFirstName("firstnamespring");
+		dto.setLastName("lastNamespring");
+		dto.setEmail(email);
+		dto.setPassword("password");
+		Address address = new Address();
+		address.setRoad("road of success");
+		address.setCity("success");
+		address.setPostalCode(33100);
+		return userService.addUser(dto);
+	}
+
 
 	public static String asJsonString(final Object obj) {
         try {

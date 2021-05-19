@@ -8,7 +8,7 @@ public class SignupRequestDTO implements ValidateDTO {
 	private String lastName;
 	private String email;
 	private String password;
-	private Address address;
+	private Address address; // replace by addressDTO
 	private boolean isPatient;
 	
 	

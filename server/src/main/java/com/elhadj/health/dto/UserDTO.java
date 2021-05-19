@@ -2,6 +2,7 @@ package com.elhadj.health.dto;
 
 import com.elhadj.health.model.Address;
 
+// TODO Fix user, doctor, patient DTOs
 public class UserDTO {
 	private long id;
 	private String firstName;
@@ -9,7 +10,7 @@ public class UserDTO {
 	private String tel;
 	private String email;
 	private String password;
-	private Address address;
+	private Address address; 
 	private boolean userType;
 	
 	public UserDTO() {
