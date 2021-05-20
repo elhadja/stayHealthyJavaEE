@@ -2,10 +2,14 @@ package com.elhadj.health;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +26,7 @@ import com.elhadj.health.dto.DoctorDTO;
 import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
+import com.elhadj.health.dto.UpdateDoctorDTO;
 import com.elhadj.health.model.Address;
 import com.elhadj.health.service.PatientService;
 import com.elhadj.health.service.UserService;
@@ -145,7 +150,50 @@ public class DoctorControllerTest {
 		// TODO when update doctor service will be implemented
 	}
 	
-
+	@Test
+	void it_should_update_doctor() throws Exception {
+		long id = addUser2("updateDoctor@gmail.com");
+		String token = logUser("updateDoctor@gmail.com");
+		UpdateDoctorDTO body = new UpdateDoctorDTO();
+		body.setFirstName("elhadj");
+		body.setLastName("bah");
+		body.setSpeciality("medecin");
+		Set<String> set = new HashSet<String>();
+		set.add("cb");
+		set.add("especes");
+		body.setMeanOfPayment(set);
+		
+		MvcResult res = mockMvc.perform(put("/doctors/" + id)
+			.header("Authorization", "Bearer " + token)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(Util.asJsonString(body))
+			.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andReturn();
+		UpdateDoctorDTO dto = Util.parseResponse(res, UpdateDoctorDTO.class);
+		Assert.isTrue(dto.getFirstName().equals("elhadj"));
+		// Assert.isTrue(dto.getMeanOfPayment().size() == 2); // TODO to uncomment util getdoctorbyid fixec
+	}
+	
+	@Test
+	void it_should_not_update_doctor() throws Exception {
+		long id = addUser2("updateDoctor@gmail.com");
+		String token = logUser("updateDoctor@gmail.com");
+		UpdateDoctorDTO body = new UpdateDoctorDTO();
+		body.setFirstName("elhadj");
+		body.setLastName("bah");
+		body.setSpeciality("medecin");
+		Set<String> set = new HashSet<String>();
+		body.setMeanOfPayment(set);
+		
+		mockMvc.perform(put("/doctors/" + id)
+			.header("Authorization", "Bearer " + token)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(Util.asJsonString(body))
+			.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isBadRequest())
+			.andReturn();
+	}
 	
 	@Test void get_seveeral_doctors_should_return_emplty_list() throws Exception {
 		MvcResult res = mockMvc.perform(get("/doctors?name=xxxxxx")

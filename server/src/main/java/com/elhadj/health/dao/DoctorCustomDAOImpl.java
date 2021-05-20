@@ -24,7 +24,7 @@ public class DoctorCustomDAOImpl implements DoctorCustom {
 	EntityManager em;
 
 	@Override
-	public Doctor getById(long id) throws Exception {
+	public Doctor getById(long id) throws Exception { // FIXME use Crud repository
 		final String sqlQuery = "select * "
 				+ "from User left join doctor_infos "
 				+ "on User.id = Doctor_infos.id "

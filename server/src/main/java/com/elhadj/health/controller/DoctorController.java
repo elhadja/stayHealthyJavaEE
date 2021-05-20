@@ -73,6 +73,7 @@ public class DoctorController {
 									Principal principal) throws Exception {
 		UpdateDoctorDTO doctor = null;
 		try {
+			input.validate();
 			long _id = Long.parseLong(id);
 			isCurrentUserRessource(principal, _id);
 			doctor = doctorService.update(_id, input);
