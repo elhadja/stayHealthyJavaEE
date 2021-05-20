@@ -132,6 +132,18 @@ public class User implements Cloneable{
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+	
+	public DoctorInfos getDoctorInfos() {
+		return doctorInfos;
+	}
+
+	public void setDoctorInfos(DoctorInfos doctorInfos) {
+		this.doctorInfos = doctorInfos;
+	}
+
+	public void setPatient(boolean isPatient) {
+		this.isPatient = isPatient;
+	}
 
 	@Override
 	public int hashCode() {
