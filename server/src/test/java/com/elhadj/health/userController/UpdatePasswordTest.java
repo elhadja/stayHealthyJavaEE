@@ -66,28 +66,6 @@ public class UpdatePasswordTest {
 		userService.deleteAll();
 	}
 	
-	
-	public String logUser(String email) throws Exception {
-		LoginRequestDTO input = new LoginRequestDTO(email, "password");
-
-		MvcResult res = mockMvc.perform(post("/users/login")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(Util.asJsonString(input))
-				.accept(MediaType.APPLICATION_JSON))
-				.andReturn();
-		return Util.parseResponse(res, LoginResponseDTO.class).getToken();
-	}
-	
-	public long addUser(String email) throws Exception {
-		SignupRequestDTO dto = new SignupRequestDTO();
-		dto.setFirstName("firstname");
-		dto.setLastName("lastName");
-		dto.setEmail(email);
-		dto.setPassword("password");
-		return userService.addUser(dto);
-	}
-
-	
 	// --------------------- update password tests -----------------------------------
 	
 	@Test
@@ -182,8 +160,8 @@ public class UpdatePasswordTest {
 	@Test
 	public void delete_user_by_id_should_succed() throws Exception {
 		final String email = "deleteTest@succed.com";
-		long addedUser = addUser(email);
-		String token = logUser(email);
+		long addedUser = Util.addUser2(email, userService);
+		String token = Util.logUser(email, mockMvc);
 
 		mockMvc.perform(delete("/users/" + addedUser)
 			.header("Authorization", "Bearer " + token)

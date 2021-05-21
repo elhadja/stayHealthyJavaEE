@@ -1,5 +1,7 @@
 package com.elhadj.health;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +9,12 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.elhadj.health.dto.LoginRequestDTO;
+import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.model.Address;
 import com.elhadj.health.model.User;
@@ -33,6 +39,7 @@ public class Util {
 	}
 	
 	
+	/*
 	public long addUser2(String email) throws Exception {
 		SignupRequestDTO dto = new SignupRequestDTO();
 		dto.setFirstName("firstnamespring");
@@ -45,7 +52,46 @@ public class Util {
 		address.setPostalCode(33100);
 		return userService.addUser(dto);
 	}
+	*/
+	
+	public static long addUser2(String email, String city, UserService userService) throws Exception {
+		SignupRequestDTO dto = new SignupRequestDTO();
+		dto.setEmail(email);
+		dto.setFirstName("firstnamespring");
+		dto.setLastName("lastnamespring");
+		dto.setPassword("password");
+		Address address = new Address();
+		address.setRoad("road of success");
+		address.setCity(city);
+		address.setPostalCode(33100);
+		dto.setAddress(address);
+		return userService.addUser(dto);
+	}
+	
+	public static long addUser2(String email, UserService userService) throws Exception {
+		SignupRequestDTO dto = new SignupRequestDTO();
+		dto.setEmail(email);
+		dto.setFirstName("firstnamespring");
+		dto.setLastName("lastnamespring");
+		dto.setPassword("password");
+		Address address = new Address();
+		address.setRoad("road of success");
+		address.setCity("success");
+		address.setPostalCode(33100);
+		dto.setAddress(address);
+		return userService.addUser(dto);
+	}
 
+	public static String logUser(String email, MockMvc mockMvc) throws Exception {
+		LoginRequestDTO input = new LoginRequestDTO(email, "password");
+
+		MvcResult res = mockMvc.perform(post("/users/login")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(Util.asJsonString(input))
+				.accept(MediaType.APPLICATION_JSON))
+				.andReturn();
+		return Util.parseResponse(res, LoginResponseDTO.class).getToken();
+	}
 
 	public static String asJsonString(final Object obj) {
         try {

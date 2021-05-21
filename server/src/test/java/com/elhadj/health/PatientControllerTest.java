@@ -21,7 +21,6 @@ import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.dto.UpdatePatientRequestDTO;
-import com.elhadj.health.model.Address;
 import com.elhadj.health.service.PatientService;
 import com.elhadj.health.service.UserService;
 
@@ -100,8 +99,8 @@ public class PatientControllerTest {
 	
 	@Test
 	void update_patient_names_should_succed() throws Exception {
-		final long addedUserId = addUser("update_patient@gmail.com");
-		final String token = logUser("update_patient@gmail.com");
+		final long addedUserId = Util.addUser2("update_patient@gmail.com", userService);
+		final String token = Util.logUser("update_patient@gmail.com", mockMvc);
 		final UpdatePatientRequestDTO body = new UpdatePatientRequestDTO();
 		body.setFirstName("elhadj");
 		body.setLastName("bah");
@@ -121,8 +120,8 @@ public class PatientControllerTest {
 	
 	@Test
 	void update_all_patients_infos_should_succed() throws Exception {
-		final long addedUserId = addUser("update_patient@gmail.com");
-		final String token = logUser("update_patient@gmail.com");
+		final long addedUserId = Util.addUser2("update_patient@gmail.com", userService);
+		final String token = Util.logUser("update_patient@gmail.com", mockMvc);
 		final UpdatePatientRequestDTO body = new UpdatePatientRequestDTO();
 		body.setFirstName("elhadj");
 		body.setLastName("bah");
@@ -148,8 +147,8 @@ public class PatientControllerTest {
 	
 	@Test
 	void update_patient_should_fail_if_request_body_is_not_valid() throws Exception {
-		final long addedUserId = addUser("update_patient@gmail.com");
-		final String token = logUser("update_patient@gmail.com");
+		final long addedUserId = Util.addUser2("update_patient@gmail.com", userService);
+		final String token = Util.logUser("update_patient@gmail.com", mockMvc);
 		final UpdatePatientRequestDTO body = new UpdatePatientRequestDTO();
 		body.setFirstName("elhadj");
 
@@ -160,31 +159,5 @@ public class PatientControllerTest {
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isBadRequest())
 			.andReturn();
-	}
-	
-	
-	public long addUser(String email) throws Exception {
-		SignupRequestDTO dto = new SignupRequestDTO();
-		dto.setEmail(email);
-		dto.setFirstName("firstnamespring");
-		dto.setLastName("lastnamespring");
-		dto.setPassword("password");
-		Address address = new Address();
-		address.setRoad("road of success");
-		address.setCity("success");
-		address.setPostalCode(33100);
-		dto.setAddress(address);
-		return userService.addUser(dto);
-	}
-	
-	public String logUser(String email) throws Exception {
-		LoginRequestDTO input = new LoginRequestDTO(email, "password");
-
-		MvcResult res = mockMvc.perform(post("/users/login")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(Util.asJsonString(input))
-				.accept(MediaType.APPLICATION_JSON))
-				.andReturn();
-		return Util.parseResponse(res, LoginResponseDTO.class).getToken();
 	}
 }

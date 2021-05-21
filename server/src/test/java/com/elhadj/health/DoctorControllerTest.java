@@ -110,8 +110,8 @@ public class DoctorControllerTest {
 	
 	/************************************* get several doctors *$****************************/
 	@Test void it_should_get_doctor_by_firstName() throws Exception {
-		long id1 = addUser2("getseverallsucced1");
-		long id2 = addUser2("getseverallsucced2");
+		long id1 = Util.addUser2("getseverallsucced1", userService);
+		long id2 = Util.addUser2("getseverallsucced2", userService);
 		
 		MvcResult res = mockMvc.perform(get("/doctors?name=firstnamespring")
 			.header("Authorization", "Bearer " + token)
@@ -125,9 +125,9 @@ public class DoctorControllerTest {
 	}
 	
 	@Test void it_should_get_doctor_by_city() throws Exception {
-		long id1 = addUser2("getseverallsucced1");
-		long id2 = addUser2("getseverallsucced2");
-		long id3 = addUser2("getseverallsucced3", "muskCity");
+		long id1 = Util.addUser2("getseverallsucced1", userService);
+		long id2 = Util.addUser2("getseverallsucced2", userService);
+		long id3 = Util.addUser2("getseverallsucced3", "muskCity", userService);
 		
 		MvcResult res = mockMvc.perform(get("/doctors?city=muskCity")
 			.header("Authorization", "Bearer " + token)
@@ -152,7 +152,7 @@ public class DoctorControllerTest {
 	
 	@Test
 	void it_should_update_doctor() throws Exception {
-		long id = addUser2("updateDoctor@gmail.com");
+		long id = Util.addUser2("updateDoctor@gmail.com", userService);
 		String token = logUser("updateDoctor@gmail.com");
 		UpdateDoctorDTO body = new UpdateDoctorDTO();
 		body.setFirstName("elhadj");
@@ -177,7 +177,7 @@ public class DoctorControllerTest {
 	
 	@Test
 	void it_should_not_update_doctor() throws Exception {
-		long id = addUser2("updateDoctor@gmail.com");
+		long id = Util.addUser2("updateDoctor@gmail.com", userService);
 		String token = logUser("updateDoctor@gmail.com");
 		UpdateDoctorDTO body = new UpdateDoctorDTO();
 		body.setFirstName("elhadj");
@@ -223,34 +223,4 @@ public class DoctorControllerTest {
 		dto.setAddress(address);
 		return userService.addUser(dto);
 	}
-
-	
-	public long addUser2(String email) throws Exception {
-		SignupRequestDTO dto = new SignupRequestDTO();
-		dto.setEmail(email);
-		dto.setFirstName("firstnamespring");
-		dto.setLastName("lastnamespring");
-		dto.setPassword("password");
-		Address address = new Address();
-		address.setRoad("road of success");
-		address.setCity("success");
-		address.setPostalCode(33100);
-		dto.setAddress(address);
-		return userService.addUser(dto);
-	}
-	
-	public long addUser2(String email, String city) throws Exception {
-		SignupRequestDTO dto = new SignupRequestDTO();
-		dto.setEmail(email);
-		dto.setFirstName("firstnamespring");
-		dto.setLastName("lastnamespring");
-		dto.setPassword("password");
-		Address address = new Address();
-		address.setRoad("road of success");
-		address.setCity(city);
-		address.setPostalCode(33100);
-		dto.setAddress(address);
-		return userService.addUser(dto);
-	}
-
 }
