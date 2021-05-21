@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.elhadj.health.dao.DoctorCustom;
+import com.elhadj.health.dao.DoctorDAO;
 import com.elhadj.health.dao.UserDAO;
 import com.elhadj.health.dto.DoctorDTO;
 import com.elhadj.health.dto.UpdateDoctorDTO;
@@ -19,7 +19,7 @@ import com.elhadj.health.util.JavaUtil;
 @Service
 public class DoctorServiceImpl implements DoctorService {
 	@Autowired
-	DoctorCustom doctorDAO; // TODO find how to use DoctorDAO as type
+	DoctorDAO doctorDAO; // TODO find how to use DoctorDAO as type
 	
 	@Autowired
 	UserDAO userDAO;

@@ -19,7 +19,7 @@ import com.elhadj.health.model.DoctorInfos;
 import com.elhadj.health.model.User;
 
 @Repository
-public class DoctorCustomDAOImpl implements DoctorCustom {
+public class DoctorDAOCustomImpl implements DoctorDAOCustom {
 	@PersistenceContext
 	EntityManager em;
 

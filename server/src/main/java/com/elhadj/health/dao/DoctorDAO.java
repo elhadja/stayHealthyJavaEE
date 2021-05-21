@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.elhadj.health.model.User;
 
 @Repository
-public interface DoctorDAO extends CrudRepository<User, Long> {
+public interface DoctorDAO extends CrudRepository<User, Long>, DoctorDAOCustom {
 
 }
