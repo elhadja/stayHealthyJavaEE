@@ -6,18 +6,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.elhadj.health.dto.AddressDTO;
 import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
-import com.elhadj.health.model.Address;
-import com.elhadj.health.model.User;
 import com.elhadj.health.service.UserService;
 import com.elhadj.health.service.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,28 +36,13 @@ public class Util {
 	}
 	
 	
-	/*
-	public long addUser2(String email) throws Exception {
-		SignupRequestDTO dto = new SignupRequestDTO();
-		dto.setFirstName("firstnamespring");
-		dto.setLastName("lastNamespring");
-		dto.setEmail(email);
-		dto.setPassword("password");
-		Address address = new Address();
-		address.setRoad("road of success");
-		address.setCity("success");
-		address.setPostalCode(33100);
-		return userService.addUser(dto);
-	}
-	*/
-	
 	public static long addUser2(String email, String city, UserService userService) throws Exception {
 		SignupRequestDTO dto = new SignupRequestDTO();
 		dto.setEmail(email);
 		dto.setFirstName("firstnamespring");
 		dto.setLastName("lastnamespring");
 		dto.setPassword("password");
-		Address address = new Address();
+		AddressDTO address = new AddressDTO();
 		address.setRoad("road of success");
 		address.setCity(city);
 		address.setPostalCode(33100);
@@ -74,7 +56,7 @@ public class Util {
 		dto.setFirstName("firstnamespring");
 		dto.setLastName("lastnamespring");
 		dto.setPassword("password");
-		Address address = new Address();
+		AddressDTO address = new AddressDTO();
 		address.setRoad("road of success");
 		address.setCity("success");
 		address.setPostalCode(33100);
@@ -89,7 +71,7 @@ public class Util {
 		dto.setLastName("lastnamespring");
 		dto.setPassword("password");
 		dto.setUserType(isPatient);
-		Address address = new Address();
+		AddressDTO address = new AddressDTO();
 		address.setRoad("road of success");
 		address.setCity("success");
 		address.setPostalCode(33100);

@@ -8,7 +8,7 @@ public class SignupRequestDTO implements ValidateDTO {
 	private String lastName;
 	private String email;
 	private String password;
-	private Address address; // replace by addressDTO
+	private AddressDTO address;
 	private boolean isPatient;
 	
 	
@@ -55,11 +55,11 @@ public class SignupRequestDTO implements ValidateDTO {
 		this.password = password;
 	}
 
-	public Address getAddress() {
+	public AddressDTO getAddress() {
 		return address;
 	}
 
-	public void setAddress(Address address) {
+	public void setAddress(AddressDTO address) {
 		this.address = address;
 	}
 
@@ -80,5 +80,7 @@ public class SignupRequestDTO implements ValidateDTO {
 				) {
 			throw new SHRuntimeException(400, "formulaire invalide","firstName, lastName, email, password and userType are required and cannot be empty");
 		}
+		if (address != null)
+			this.address.validate();
 	}
 }

@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,13 +21,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.Assert;
 
+import com.elhadj.health.dto.AddressDTO;
 import com.elhadj.health.dto.DoctorDTO;
 import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.PatientDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.dto.UpdateDoctorDTO;
-import com.elhadj.health.model.Address;
 import com.elhadj.health.service.PatientService;
 import com.elhadj.health.service.UserService;
 
@@ -239,7 +238,7 @@ public class DoctorControllerTest {
 		dto.setFirstName(firstName);
 		dto.setLastName("lastnamespring");
 		dto.setPassword("password");
-		Address address = new Address();
+		AddressDTO address = new AddressDTO();
 		address.setRoad("road of success");
 		address.setCity("success");
 		address.setPostalCode(33100);
