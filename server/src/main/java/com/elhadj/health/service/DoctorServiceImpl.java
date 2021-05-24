@@ -81,8 +81,13 @@ public class DoctorServiceImpl implements DoctorService {
 		}
 		doctor.addDoctorInfos(doctorInfos);
 		userDAO.save(doctor);
-		Doctor updateDoctor = doctorDAO.getById(doctor.getId());
+		UpdateDoctorDTO res = JavaUtil.convertTo(doctor, UpdateDoctorDTO.class);
+		res.setPresentation(doctorInfos.getPresentation());
+		res.setSpeciality(doctorInfos.getSpeciality());
+		res.setMeanOfPayment(doctorInfos.getMeanOfPayment());
+		res.setPrices(doctorInfos.getPrices());
+		res.setDiplomas(doctorInfos.getDiplomas());
 		
-		return JavaUtil.convertTo(updateDoctor, UpdateDoctorDTO.class);
+		return res;
 	}
 }

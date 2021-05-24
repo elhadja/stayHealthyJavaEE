@@ -195,7 +195,7 @@ public class DoctorControllerTest {
 			.andReturn();
 		UpdateDoctorDTO dto = Util.parseResponse(res, UpdateDoctorDTO.class);
 		Assert.isTrue(dto.getFirstName().equals("elhadj"));
-		// Assert.isTrue(dto.getMeanOfPayment().size() == 2); // TODO to uncomment util getdoctorbyid fixec
+		Assert.isTrue(dto.getMeanOfPayment().size() == 2);
 	}
 	
 	@Test

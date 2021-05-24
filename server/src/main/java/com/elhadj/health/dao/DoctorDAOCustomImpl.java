@@ -1,40 +1,19 @@
 package com.elhadj.health.dao;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Root;
 
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.elhadj.health.model.Doctor;
-import com.elhadj.health.model.DoctorInfos;
-import com.elhadj.health.model.User;
 
 @Repository
 public class DoctorDAOCustomImpl implements DoctorDAOCustom {
 	@PersistenceContext
 	EntityManager em;
-
-	@Override
-	public Doctor getById(long id) throws Exception { // FIXME use Crud repository
-		final String sqlQuery = "select * "
-				+ "from User left join doctor_infos "
-				+ "on User.id = Doctor_infos.id "
-				+ "where User.id = :id";
-
-		Query query = em.createNativeQuery(sqlQuery, Doctor.class);
-		query.setParameter("id", id);
-		Doctor doctor = (Doctor) query.getSingleResult();
-		return doctor;
-	}
 	
 	public List<Doctor> getByCriteria(String name, String speciality, String city) throws Exception {
 		/*
