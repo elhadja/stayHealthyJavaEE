@@ -27,8 +27,9 @@ public class PatientServiceImpl implements PatientService {
 			throw new SHRuntimeException(404, "utilisateur non trouvé", "no user match the path paramte id");
 		}
 
-		PatientDTO dto = new PatientDTO();
-		return JavaUtil.convertTo(user, PatientDTO.class);
+		PatientDTO dto = JavaUtil.convertTo(user, PatientDTO.class);
+		dto.setPassword(null);
+		return dto;
 	}
 
 	@Override

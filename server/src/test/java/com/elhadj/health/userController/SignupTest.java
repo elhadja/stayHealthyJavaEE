@@ -24,10 +24,6 @@ public class SignupTest {
 	@Autowired
 	private UserService userService;
 	
-	
-	//TODO test that doctor signup create doctorInfo row
-	//TODO test that doctor delete delete doctorInfo row
-	
 	@Test
 	public void signupTest() throws Exception {
 		SignupRequestDTO input = new SignupRequestDTO("firstName", "lastName", "email", "password", 0);

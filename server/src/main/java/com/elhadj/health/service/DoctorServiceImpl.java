@@ -21,7 +21,7 @@ import com.elhadj.health.util.JavaUtil;
 @Service
 public class DoctorServiceImpl implements DoctorService {
 	@Autowired
-	DoctorDAO doctorDAO; // TODO find how to use DoctorDAO as type
+	DoctorDAO doctorDAO;
 	
 	@Autowired
 	UserDAO userDAO;
@@ -34,7 +34,12 @@ public class DoctorServiceImpl implements DoctorService {
 			throw new SHRuntimeException(404, "utilisateur non trouvé", "no user match the path paramte id");
 		}
 		DoctorDTO dto = JavaUtil.convertTo(user, DoctorDTO.class);
-		// TODO comple the dto by using setters
+		dto.setPassword(null);
+		dto.setPresentation(user.getDoctorInfos().getPresentation());
+		dto.setSpeciality(user.getDoctorInfos().getSpeciality());
+		dto.setMeanOfPayment(user.getDoctorInfos().getMeanOfPayment());
+		dto.setPrices(user.getDoctorInfos().getPrices());
+		dto.setDiplomas(user.getDoctorInfos().getDiplomas());
 		
 		return dto;
 	}

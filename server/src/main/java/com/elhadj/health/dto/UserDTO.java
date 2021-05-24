@@ -2,14 +2,13 @@ package com.elhadj.health.dto;
 
 import com.elhadj.health.model.Address;
 
-// TODO Fix user, doctor, patient DTOs
 public class UserDTO {
 	private long id;
 	private String firstName;
 	private String lastName;
 	private String tel;
 	private String email;
-	private String password; // TODO to remove
+	private String password;
 	private Address address; 
 	private boolean userType;
 	
