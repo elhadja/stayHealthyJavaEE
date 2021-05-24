@@ -55,6 +55,7 @@ public class DoctorControllerTest {
 		signupRequestDTO.setLastName("lastName");
 		signupRequestDTO.setEmail("testSpringBoots.javaee");
 		signupRequestDTO.setPassword("password");
+		signupRequestDTO.setUserType(1);
 	}
 
 	
@@ -100,7 +101,7 @@ public class DoctorControllerTest {
 	
 	@Test void get_patient_by_id_should_succed() throws Exception {
 		final String email = "test@gmail.com";
-		final long id = Util.addUser(email, true, userService);
+		final long id = Util.addUser(email, 0, userService); // TODO remove magic number
 		final String token = util.logUser(email, mockMvc);
 
 
@@ -116,7 +117,7 @@ public class DoctorControllerTest {
 	
 	@Test void get_doctor_by_id_should_succed() throws Exception {
 		final String email = "testdoctor@gmail.com";
-		final long id = Util.addUser(email, true, userService);
+		final long id = Util.addUser(email, 1, userService);
 		final String token = util.logUser(email, mockMvc);
 
 

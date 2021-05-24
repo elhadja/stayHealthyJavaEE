@@ -45,6 +45,7 @@ public class UpdatePasswordTest {
 		user.setLastName("lastName");
 		user.setEmail("testSpringBoots.javaee");
 		user.setPassword("password");
+		user.setUserType(0); // TODO remove magic number
 	}
 	
 	@BeforeEach
@@ -142,6 +143,7 @@ public class UpdatePasswordTest {
 		newUser.setLastName("lastName");
 		newUser.setEmail("existingEmail@gmail.com");
 		newUser.setPassword("password");
+		newUser.setUserType(0);
 		userService.addUser(newUser);
 		UpdateCredentialsRequestDTO input = new UpdateCredentialsRequestDTO();
 		input.setEmail(newUser.getEmail());

@@ -32,11 +32,12 @@ public class UserServiceImpl implements UserService{
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	public long addUser(SignupRequestDTO input) throws Exception {
+		input.validate();
 		User user =  null;
 		try {
 			user = JavaUtil.convertTo(input, User.class);
 			user.setPassword(encoder.encode(user.getPassword()));
-			if (!user.getIsPatient() || true) {
+			if (user.getUserType() == 1 || true) { // TODO remove magic number
 				DoctorInfos di = new DoctorInfos();
 				user.addDoctorInfos(di);
 			}

@@ -42,6 +42,7 @@ public class Util {
 		dto.setFirstName("firstnamespring");
 		dto.setLastName("lastnamespring");
 		dto.setPassword("password");
+		dto.setUserType(0);
 		AddressDTO address = new AddressDTO();
 		address.setRoad("road of success");
 		address.setCity(city);
@@ -56,6 +57,7 @@ public class Util {
 		dto.setFirstName("firstnamespring");
 		dto.setLastName("lastnamespring");
 		dto.setPassword("password");
+		dto.setUserType(0);
 		AddressDTO address = new AddressDTO();
 		address.setRoad("road of success");
 		address.setCity("success");
@@ -64,13 +66,13 @@ public class Util {
 		return userService.addUser(dto);
 	}
 	
-	public static long addUser(String email, boolean isPatient, UserService userService) throws Exception {
+	public static long addUser(String email, int userType, UserService userService) throws Exception {
 		SignupRequestDTO dto = new SignupRequestDTO();
 		dto.setEmail(email);
 		dto.setFirstName("firstnamespring");
 		dto.setLastName("lastnamespring");
 		dto.setPassword("password");
-		dto.setUserType(isPatient);
+		dto.setUserType(userType);
 		AddressDTO address = new AddressDTO();
 		address.setRoad("road of success");
 		address.setCity("success");

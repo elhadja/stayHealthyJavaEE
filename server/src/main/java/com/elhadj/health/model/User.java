@@ -45,7 +45,7 @@ public class User implements Cloneable{
 			)
 	private DoctorInfos doctorInfos;
 	
-	private boolean isPatient;
+	private int userType;
 	
 	public User() {}
 	
@@ -93,12 +93,12 @@ public class User implements Cloneable{
 		this.lastName = lastName;
 	}
 
-	public boolean getIsPatient() {
-		return isPatient;
+	public int getUserType() {
+		return userType;
 	}
 
-	public void setIsPatient(boolean patient) {
-		this.isPatient = patient;
+	public void setUserType(int userType) {
+		this.userType = userType;
 	}
 
 	public String getTel() {
@@ -139,10 +139,6 @@ public class User implements Cloneable{
 
 	public void setDoctorInfos(DoctorInfos doctorInfos) {
 		this.doctorInfos = doctorInfos;
-	}
-
-	public void setPatient(boolean isPatient) {
-		this.isPatient = isPatient;
 	}
 
 	@Override

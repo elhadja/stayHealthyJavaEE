@@ -30,7 +30,7 @@ public class SignupTest {
 	
 	@Test
 	public void signupTest() throws Exception {
-		SignupRequestDTO input = new SignupRequestDTO("firstName", "lastName", "email", "password", true);
+		SignupRequestDTO input = new SignupRequestDTO("firstName", "lastName", "email", "password", 0);
 
 		mockMvc.perform(post("/users")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -45,7 +45,7 @@ public class SignupTest {
 	 */
 	@Test
 	public void signupTest2() throws Exception {
-		SignupRequestDTO input = new SignupRequestDTO(null, "lastName", "email2", "password", true);
+		SignupRequestDTO input = new SignupRequestDTO(null, "lastName", "email2", "password", 0);
 
 		mockMvc.perform(post("/users")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -59,7 +59,7 @@ public class SignupTest {
 	 * should fail when the user already exists
 	 */
 	@Test void signupTest3() throws Exception {
-		SignupRequestDTO input = new SignupRequestDTO("firstName", "lastName", "email2", "password", true);
+		SignupRequestDTO input = new SignupRequestDTO("firstName", "lastName", "email2", "password", 0);
 		SignupRequestDTO user = new SignupRequestDTO();
 		user.setFirstName("firstname");
 		user.setLastName("lastName");

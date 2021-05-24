@@ -47,6 +47,7 @@ public class PatientControllerTest {
 		signupRequestDTO.setLastName("lastName");
 		signupRequestDTO.setEmail("testSpringBoots.javaee");
 		signupRequestDTO.setPassword("password");
+		signupRequestDTO.setUserType(0);
 	}
 
 	
