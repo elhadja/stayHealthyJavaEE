@@ -25,6 +25,7 @@ import org.springframework.util.Assert;
 import com.elhadj.health.dto.DoctorDTO;
 import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.LoginResponseDTO;
+import com.elhadj.health.dto.PatientDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.dto.UpdateDoctorDTO;
 import com.elhadj.health.model.Address;
@@ -89,16 +90,6 @@ public class DoctorControllerTest {
 	}
 
 	
-	@Test
-	public void getUserById_should_succed() throws Exception {
-		MvcResult res = mockMvc.perform(get("/doctors/" + id)
-			.header("Authorization", "Bearer " + token)
-			.contentType(MediaType.APPLICATION_JSON)
-			.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk())
-			.andReturn();
-	}
-	
 	@Test void getUserById_should_fail_if_user_not_exists() throws Exception {
 		mockMvc.perform(get("/doctors/" + 0)
 			.header("Authorization", "Bearer " + token)
@@ -106,6 +97,38 @@ public class DoctorControllerTest {
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isForbidden())
 			.andReturn();
+	}
+	
+	@Test void get_patient_by_id_should_succed() throws Exception {
+		final String email = "test@gmail.com";
+		final long id = Util.addUser(email, true, userService);
+		final String token = util.logUser(email, mockMvc);
+
+
+		MvcResult res = mockMvc.perform(get("/patients/" + id)
+			.header("Authorization", "Bearer " + token)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andReturn();
+		PatientDTO dto = Util.parseResponse(res, PatientDTO.class);
+		Assert.isTrue(dto.getEmail().equals(email));
+	}
+	
+	@Test void get_doctor_by_id_should_succed() throws Exception {
+		final String email = "testdoctor@gmail.com";
+		final long id = Util.addUser(email, true, userService);
+		final String token = util.logUser(email, mockMvc);
+
+
+		MvcResult res = mockMvc.perform(get("/doctors/" + id)
+			.header("Authorization", "Bearer " + token)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andReturn();
+		DoctorDTO dto = Util.parseResponse(res, DoctorDTO.class);
+		Assert.isTrue(dto.getEmail().equals(email));
 	}
 	
 	/************************************* get several doctors *$****************************/

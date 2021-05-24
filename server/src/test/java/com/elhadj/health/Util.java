@@ -81,6 +81,22 @@ public class Util {
 		dto.setAddress(address);
 		return userService.addUser(dto);
 	}
+	
+	public static long addUser(String email, boolean isPatient, UserService userService) throws Exception {
+		SignupRequestDTO dto = new SignupRequestDTO();
+		dto.setEmail(email);
+		dto.setFirstName("firstnamespring");
+		dto.setLastName("lastnamespring");
+		dto.setPassword("password");
+		dto.setUserType(isPatient);
+		Address address = new Address();
+		address.setRoad("road of success");
+		address.setCity("success");
+		address.setPostalCode(33100);
+		dto.setAddress(address);
+		return userService.addUser(dto);
+	}
+
 
 	public static String logUser(String email, MockMvc mockMvc) throws Exception {
 		LoginRequestDTO input = new LoginRequestDTO(email, "password");

@@ -26,8 +26,12 @@ public class DoctorServiceImpl implements DoctorService {
 
 	public DoctorDTO getById(long id) throws Exception {
 		Doctor doctor = null;
-		doctor = doctorDAO.getById(id);
+		User user = userDAO.findById(id).get();
 		DoctorDTO dto = new DoctorDTO();
+		if (user != null) {
+			dto = JavaUtil.convertTo(user, DoctorDTO.class);
+		}
+
 		return dto;
 	}
 

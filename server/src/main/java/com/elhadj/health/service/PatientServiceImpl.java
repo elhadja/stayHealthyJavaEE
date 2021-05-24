@@ -24,7 +24,7 @@ public class PatientServiceImpl implements PatientService {
 		}
 
 		PatientDTO dto = new PatientDTO();
-		return dto;
+		return JavaUtil.convertTo(user, PatientDTO.class);
 	}
 
 	@Override

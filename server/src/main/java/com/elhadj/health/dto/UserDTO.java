@@ -9,7 +9,7 @@ public class UserDTO {
 	private String lastName;
 	private String tel;
 	private String email;
-	private String password;
+	private String password; // TODO to remove
 	private Address address; 
 	private boolean userType;
 	
