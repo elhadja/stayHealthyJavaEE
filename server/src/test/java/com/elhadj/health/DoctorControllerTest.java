@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.Assert;
 
+import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dto.AddressDTO;
 import com.elhadj.health.dto.DoctorDTO;
 import com.elhadj.health.dto.LoginRequestDTO;
@@ -101,7 +102,7 @@ public class DoctorControllerTest {
 	
 	@Test void get_patient_by_id_should_succed() throws Exception {
 		final String email = "test@gmail.com";
-		final long id = Util.addUser(email, 0, userService); // TODO remove magic number
+		final long id = Util.addUser(email, SHConstants.PATIENT, userService);
 		final String token = util.logUser(email, mockMvc);
 
 

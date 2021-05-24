@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.elhadj.health.Exception.SHRuntimeException;
+import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dao.DoctorInfosDAO;
 import com.elhadj.health.dao.UserDAO;
 import com.elhadj.health.dto.SignupRequestDTO;
@@ -26,9 +27,6 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserDAO userDAO;
 	
-	@Autowired
-	private DoctorInfosDAO doctorInfosDAO;
-	
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	public long addUser(SignupRequestDTO input) throws Exception {
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService{
 		try {
 			user = JavaUtil.convertTo(input, User.class);
 			user.setPassword(encoder.encode(user.getPassword()));
-			if (user.getUserType() == 1 || true) { // TODO remove magic number
+			if (user.getUserType() == SHConstants.DOCTOR || true) {
 				DoctorInfos di = new DoctorInfos();
 				user.addDoctorInfos(di);
 			}

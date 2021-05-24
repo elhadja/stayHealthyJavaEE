@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.elhadj.health.Util;
+import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
@@ -45,7 +46,7 @@ public class UpdatePasswordTest {
 		user.setLastName("lastName");
 		user.setEmail("testSpringBoots.javaee");
 		user.setPassword("password");
-		user.setUserType(0); // TODO remove magic number
+		user.setUserType(SHConstants.PATIENT);
 	}
 	
 	@BeforeEach
