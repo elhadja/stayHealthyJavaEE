@@ -18,9 +18,10 @@ public class CustomUserDetailsImpl implements CustomUserDetails {
 	private boolean isAccountNonLocked;
 	private boolean isCredentialsNonExpired;
 	private boolean isEnabled;
+	private int userType;
 	
 
-	public CustomUserDetailsImpl(@NotNull String username, String password, long userId,
+	public CustomUserDetailsImpl(@NotNull String username, String password, long userId, int userType,
 			@NotNull Collection<? extends GrantedAuthority> grantedAuthorities) {
 		super();
 		this.username = username;
@@ -31,6 +32,7 @@ public class CustomUserDetailsImpl implements CustomUserDetails {
 		this.isAccountNonLocked = true;
 		this.isCredentialsNonExpired = true;
 		this.isEnabled = true;
+		this.userType = userType;
 	}
 
 	@Override
@@ -71,4 +73,9 @@ public class CustomUserDetailsImpl implements CustomUserDetails {
 	public long getUserId() {
 		return userId;
 	}
+	
+	public int getUserType() {
+		return userType;
+	}
+	
 }

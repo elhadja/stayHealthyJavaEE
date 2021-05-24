@@ -85,7 +85,7 @@ public class PatientControllerTest {
 			.header("Authorization", "Bearer " + token)
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isForbidden())
+			.andExpect(status().isNotFound())
 			.andReturn();
 	}
 	
@@ -94,7 +94,7 @@ public class PatientControllerTest {
 			.header("Authorization", "Bearer " + token)
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isForbidden())
+			.andExpect(status().isNotFound())
 			.andReturn();
 	}
 	

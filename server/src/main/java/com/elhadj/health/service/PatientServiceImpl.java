@@ -1,5 +1,7 @@
 package com.elhadj.health.service;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,10 @@ public class PatientServiceImpl implements PatientService {
 	UserDAO userDao;
 
 	public PatientDTO getById(long id) {
-		User user =  (User) userDao.findById(id).get();
-		if (user == null) {
+		User user = null;
+		try {
+			user =  (User) userDao.findById(id).get();
+		} catch (NoSuchElementException e) {
 			throw new SHRuntimeException(404, "utilisateur non trouvé", "no user match the path paramte id");
 		}
 
@@ -29,7 +33,13 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public UpdatePatientRequestDTO update(UpdatePatientRequestDTO dto, long userId) throws Exception {
-		User user = userDao.findById(userId).get();
+		User user = null;
+		try {
+			user =  (User) userDao.findById(userId).get();
+		} catch (NoSuchElementException e) {
+			throw new SHRuntimeException(404, "utilisateur non trouvé", "no user match the path paramte id");
+		}
+
 		user.setFirstName(dto.getFirstName());
 		user.setLastName(dto.getLastName());
 		if (dto.getAddress() != null) {

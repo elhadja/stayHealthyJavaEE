@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService{
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		try {
 			User u = userDAO.loadUserByEmail(email);
-			return new CustomUserDetailsImpl(u.getEmail(), u.getPassword(), u.getId(), (Collection<? extends GrantedAuthority>) new ArrayList<GrantedAuthority>());
+			return new CustomUserDetailsImpl(u.getEmail(), u.getPassword(), u.getId(), u.getUserType(), (Collection<? extends GrantedAuthority>) new ArrayList<GrantedAuthority>());
 		} catch (Exception e) {
 			throw new UsernameNotFoundException("user not found");
 		}

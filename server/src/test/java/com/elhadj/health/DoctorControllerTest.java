@@ -95,7 +95,7 @@ public class DoctorControllerTest {
 			.header("Authorization", "Bearer " + token)
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isForbidden())
+			.andExpect(status().isNotFound())
 			.andReturn();
 	}
 	
@@ -175,7 +175,7 @@ public class DoctorControllerTest {
 	
 	@Test
 	void it_should_update_doctor() throws Exception {
-		long id = Util.addUser2("updateDoctor@gmail.com", userService);
+		long id = Util.addUser("updateDoctor@gmail.com", 1, userService);
 		String token = logUser("updateDoctor@gmail.com");
 		UpdateDoctorDTO body = new UpdateDoctorDTO();
 		body.setFirstName("elhadj");

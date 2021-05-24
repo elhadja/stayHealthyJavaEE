@@ -2,10 +2,12 @@ package com.elhadj.health.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.elhadj.health.Exception.SHRuntimeException;
 import com.elhadj.health.dao.DoctorDAO;
 import com.elhadj.health.dao.UserDAO;
 import com.elhadj.health.dto.DoctorDTO;
@@ -25,13 +27,15 @@ public class DoctorServiceImpl implements DoctorService {
 	UserDAO userDAO;
 
 	public DoctorDTO getById(long id) throws Exception {
-		Doctor doctor = null;
-		User user = userDAO.findById(id).get();
-		DoctorDTO dto = new DoctorDTO();
-		if (user != null) {
-			dto = JavaUtil.convertTo(user, DoctorDTO.class);
+		User user = null;
+		try {
+			user = userDAO.findById(id).get();
+		} catch (NoSuchElementException e) {
+			throw new SHRuntimeException(404, "utilisateur non trouvé", "no user match the path paramte id");
 		}
-
+		DoctorDTO dto = JavaUtil.convertTo(user, DoctorDTO.class);
+		// TODO comple the dto by using setters
+		
 		return dto;
 	}
 
@@ -47,35 +51,38 @@ public class DoctorServiceImpl implements DoctorService {
 
 	@Override
 	public UpdateDoctorDTO update(long doctorId, UpdateDoctorDTO dto) throws Exception {
-		User doctor = userDAO.findById(doctorId).get();
+		User doctor = null;
+		try {
+			doctor = userDAO.findById(doctorId).get();
+		} catch (NoSuchElementException e) {
+			throw new SHRuntimeException(404, "utilisateur non trouvé", "no user match the path paramte id");
+		}
 		DoctorInfos doctorInfos = doctor.getDoctorInfos();
-		
-		if (doctor != null) {
-			doctor.setFirstName(dto.getFirstName());
-			doctor.setLastName(dto.getLastName());
-			if (dto.getAddress() != null) {
-				dto.getAddress().validate();
-				doctor.setAddress(JavaUtil.convertTo(dto.getAddress(), Address.class));
-			}
-			if (dto.getPresentation() != null) {
-				doctorInfos.setPresentation(dto.getPresentation());
-			}
-			if (dto.getSpeciality() != null) {
-				doctorInfos.setSpeciality(dto.getSpeciality());
-			}
-			if (dto.getMeanOfPayment() != null) {
-				doctorInfos.setMeanOfPayment(dto.getMeanOfPayment());
-			}
-			if (dto.getPrices() != null) {
-				doctorInfos.setPrices(dto.getPrices());
-			}
-			if (dto.getDiplomas() != null) {
-				doctorInfos.setDiplomas(dto.getDiplomas());
-			}
+		doctor.setFirstName(dto.getFirstName());
+		doctor.setLastName(dto.getLastName());
+		if (dto.getAddress() != null) {
+			dto.getAddress().validate();
+			doctor.setAddress(JavaUtil.convertTo(dto.getAddress(), Address.class));
+		}
+		if (dto.getPresentation() != null) {
+			doctorInfos.setPresentation(dto.getPresentation());
+		}
+		if (dto.getSpeciality() != null) {
+			doctorInfos.setSpeciality(dto.getSpeciality());
+		}
+		if (dto.getMeanOfPayment() != null) {
+			doctorInfos.setMeanOfPayment(dto.getMeanOfPayment());
+		}
+		if (dto.getPrices() != null) {
+			doctorInfos.setPrices(dto.getPrices());
+		}
+		if (dto.getDiplomas() != null) {
+			doctorInfos.setDiplomas(dto.getDiplomas());
 		}
 		doctor.addDoctorInfos(doctorInfos);
 		userDAO.save(doctor);
 		Doctor updateDoctor = doctorDAO.getById(doctor.getId());
+		
 		return JavaUtil.convertTo(updateDoctor, UpdateDoctorDTO.class);
 	}
 }

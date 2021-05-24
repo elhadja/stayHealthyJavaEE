@@ -29,11 +29,10 @@ public class PatientController {
 	UserServiceImpl userService;
 
 	@GetMapping("{id}")
-	public ResponseEntity<?> getById(@PathVariable String id, Principal principal) {
+	public ResponseEntity<?> getById(@PathVariable String id) {
 		PatientDTO patient = null;
 		try {
 			long userId = Long.parseLong(id);
-			isCurrentUserRessource(principal, userId);
 			patient = patientService.getById(userId);
 		}catch (SHRuntimeException e) {
 			return ResponseEntity.status(e.getStatusCode())
@@ -68,8 +67,11 @@ public class PatientController {
 	
 	private void isCurrentUserRessource(Principal principal, long id) throws SHRuntimeException {
 		CustomUserDetails user = (CustomUserDetails) userService.loadUserByUsername(principal.getName());
-		if (user.getUserId() != id) {
+		if (user != null && user.getUserId() != id) {
 			throw new SHRuntimeException(403, "You are not authorized to perform this action", "the id of the logged user do not match the path parameter id");
+		}
+		if (user != null && user.getUserType() != 0) {
+			throw new SHRuntimeException(403, "Opération valable uniquement pour les patients", "Opération valable uniquement pour les patients");
 		}
 	}
 }

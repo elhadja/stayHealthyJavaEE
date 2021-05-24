@@ -35,7 +35,6 @@ public class DoctorController {
 		DoctorDTO doctor = null;
 		try {
 			long userId = Long.parseLong(id);
-			isCurrentUserRessource(principal, userId);
 			doctor = doctorService.getById(userId);
 		}catch (SHRuntimeException e) {
 			return ResponseEntity.status(e.getStatusCode())
@@ -90,8 +89,12 @@ public class DoctorController {
 	
 	private void isCurrentUserRessource(Principal principal, long id) throws SHRuntimeException {
 		CustomUserDetails user = (CustomUserDetails) userService.loadUserByUsername(principal.getName());
-		if (user.getUserId() != id) {
+		if (user != null && user.getUserId() != id) {
 			throw new SHRuntimeException(403, "You are not authorized to perform this action", "the id of the logged user do not match the path parameter id");
+		}
+		
+		if (user != null && user.getUserType() != 1) {
+			throw new SHRuntimeException(403, "Opération valable uniquement pour les docteurs", "Opération valable uniquement pour les docteurs");
 		}
 	}
 
