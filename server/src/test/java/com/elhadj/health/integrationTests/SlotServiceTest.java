@@ -71,11 +71,11 @@ public class SlotServiceTest {
 				"2021-06-28, 1"})
 	public void it_should_get_slots_by_doctorId_and_date(String date, String expectedSlots) throws Exception {
 		long id = Util.addUser("testspringee@mail.com", SHConstants.DOCTOR, userService);
-		addSlot("2021-04-26", "11:00", id);
-		addSlot("2021-04-27", "11:00", id);
-		addSlot("2021-05-27", "11:00", id);
-		addSlot("2021-06-27", "11:00", id);
-		addSlot("2021-06-28", "11:00", id);
+		Util.addSlot("2021-04-26", "11:00", id, slotService);
+		Util.addSlot("2021-04-27", "11:00", id, slotService);
+		Util.addSlot("2021-05-27", "11:00", id, slotService);
+		Util.addSlot("2021-06-27", "11:00", id, slotService);
+		Util.addSlot("2021-06-28", "11:00", id, slotService);
 		
 		List<Slot> slots = slotService.getByCriteria(id, date);
 
@@ -95,10 +95,4 @@ public class SlotServiceTest {
 		}
 	}
 	
-	private long addSlot(String date, String time, long id) throws Exception {
-		AddSlotRequestDTO input = new AddSlotRequestDTO();
-		input.setDate(date);
-		input.setStartTime(time);
-		return slotService.addSlot(input, id);
-	}
 }

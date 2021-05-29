@@ -1,5 +1,6 @@
 package com.elhadj.health;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -29,7 +30,9 @@ import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.PatientDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.dto.UpdateDoctorDTO;
+import com.elhadj.health.model.Slot;
 import com.elhadj.health.service.PatientService;
+import com.elhadj.health.service.SlotService;
 import com.elhadj.health.service.UserService;
 
 @SpringBootTest
@@ -43,6 +46,9 @@ public class DoctorControllerTest {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	SlotService slotService;
 	
 	Util util = new Util();
 	
@@ -230,6 +236,32 @@ public class DoctorControllerTest {
 		list = Util.parseResponse(res, list.getClass());
 		Assert.isTrue(list.isEmpty(), "empty liste");
 	}
+	
+	@Test
+	public void delete_slot_should_succed() throws Exception {
+		long id = Util.addUser("emailjee@test.com", SHConstants.DOCTOR, userService);
+		String token = Util.logUser("emailjee@test.com", mockMvc);
+		long slotId = Util.addSlot("2021-05-16", "11:16", id, slotService);
+
+		mockMvc.perform(delete("/doctors/" + id + "/slots/" + slotId)
+			.header("Authorization", "Bearer " + token)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());
+	}
+	
+	@Test
+	public void delete_slot_should_fail_if_slot_not_exists() throws Exception {
+		long id = Util.addUser("emailjee@test.com", SHConstants.DOCTOR, userService);
+		String token = Util.logUser("emailjee@test.com", mockMvc);
+
+		mockMvc.perform(delete("/doctors/" + id + "/slots/" + 0)
+			.header("Authorization", "Bearer " + token)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isNotFound());
+	}
+
 	
 	public long addUser2(String email,
 						 String firstName,

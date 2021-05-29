@@ -11,10 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import com.elhadj.health.dto.AddSlotRequestDTO;
 import com.elhadj.health.dto.AddressDTO;
 import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
+import com.elhadj.health.service.SlotService;
 import com.elhadj.health.service.UserService;
 import com.elhadj.health.service.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -112,5 +114,12 @@ public class Util {
 	    } catch (IOException e) {
 	      throw new RuntimeException(e);
 	    }
+	}
+	
+	public static long addSlot(String date, String time, long id, SlotService slotService) throws Exception {
+		AddSlotRequestDTO input = new AddSlotRequestDTO();
+		input.setDate(date);
+		input.setStartTime(time);
+		return slotService.addSlot(input, id);
 	}
 }

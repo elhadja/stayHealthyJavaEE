@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elhadj.health.Exception.SHRuntimeException;
+import com.elhadj.health.dao.SlotDAO;
 import com.elhadj.health.dto.AddSlotRequestDTO;
 import com.elhadj.health.dto.DoctorDTO;
 import com.elhadj.health.dto.RequestErrorDTO;
@@ -37,6 +39,9 @@ public class DoctorController {
 	
 	@Autowired
 	SlotService slotService;
+	
+	@Autowired
+	SlotDAO slotDAO;
 
 	@GetMapping("{id}")
 	public ResponseEntity<?> getById(@PathVariable String id, Principal principal) {
@@ -134,7 +139,28 @@ public class DoctorController {
 
 		return ResponseEntity.status(200).body(slots);
 	}
-
+	
+	@DeleteMapping("{doctorId}/slots/{slotId}")
+	public ResponseEntity<?> deletebyId(@PathVariable String doctorId,
+			@PathVariable String slotId, Principal principal) throws Exception {
+		try {
+			long _id = Long.parseLong(doctorId);
+			long _slotId = Long.parseLong(slotId);
+			isCurrentUserRessource(principal, _id);
+			if (!slotDAO.existsById(_slotId)) {
+				throw new SHRuntimeException(404, "slot non trouvé", "slot not found");
+			}
+			slotDAO.deleteById(_slotId);
+		}catch (SHRuntimeException e) {
+			return ResponseEntity.status(e.getStatusCode())
+				.body(new RequestErrorDTO(e.getStatusCode(), e.getMessage(), e.getMessageDescription()));
+		}catch (Exception e) {
+			return ResponseEntity.status(500)
+						 .body(new RequestErrorDTO(500, e.getMessage(), e.getMessage()));
+		}
+	
+		return ResponseEntity.status(200).build();
+	}
 
 	private void isCurrentUserRessource(Principal principal, long id) throws SHRuntimeException {
 		CustomUserDetails user = (CustomUserDetails) userService.loadUserByUsername(principal.getName());
