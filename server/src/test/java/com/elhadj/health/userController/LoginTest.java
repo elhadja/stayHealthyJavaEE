@@ -35,6 +35,7 @@ public class LoginTest {
 		user.setLastName("lastName");
 		user.setEmail("testSpringBoots.javaee");
 		user.setPassword("password");
+		user.setUserType(0);
 	}
 	
 	@AfterEach

@@ -9,8 +9,8 @@ public class UserDTO {
 	private String tel;
 	private String email;
 	private String password;
-	private Address address;
-	private String userType;
+	private Address address; 
+	private boolean userType;
 	
 	public UserDTO() {
 		
@@ -72,11 +72,11 @@ public class UserDTO {
 		this.address = address;
 	}
 
-	public String getUserType() {
+	public boolean getUserType() {
 		return userType;
 	}
 
-	public void setUserType(String userType) {
+	public void setUserType(boolean userType) {
 		this.userType = userType;
 	}
 }

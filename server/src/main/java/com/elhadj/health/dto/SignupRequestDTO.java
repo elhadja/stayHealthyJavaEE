@@ -8,14 +8,15 @@ public class SignupRequestDTO implements ValidateDTO {
 	private String lastName;
 	private String email;
 	private String password;
-	private Address address;
-	private String userType;
+	private AddressDTO address;
+	private int userType;
 	
 	
 	public SignupRequestDTO() {
+		userType = -1;
 	}
 	
-	public SignupRequestDTO(String firstName, String lastName, String email, String password, String userType) {
+	public SignupRequestDTO(String firstName, String lastName, String email, String password, int userType) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -55,19 +56,19 @@ public class SignupRequestDTO implements ValidateDTO {
 		this.password = password;
 	}
 
-	public Address getAddress() {
+	public AddressDTO getAddress() {
 		return address;
 	}
 
-	public void setAddress(Address address) {
+	public void setAddress(AddressDTO address) {
 		this.address = address;
 	}
-
-	public String getUserType() {
+	
+	public int getUserType() {
 		return userType;
 	}
 
-	public void setUserType(String userType) {
+	public void setUserType(int userType) {
 		this.userType = userType;
 	}
 
@@ -77,8 +78,15 @@ public class SignupRequestDTO implements ValidateDTO {
 				|| lastName == null || lastName.isEmpty()
 				|| email == null || email.isEmpty()
 				|| password == null || password.isEmpty()
-				|| userType == null || userType.isEmpty()) {
+				) {
 			throw new SHRuntimeException(400, "formulaire invalide","firstName, lastName, email, password and userType are required and cannot be empty");
 		}
+		
+		if (userType == -1) {
+			throw new SHRuntimeException(400, "user type is required","user type is required");
+		}
+		
+		if (address != null)
+			this.address.validate();
 	}
 }

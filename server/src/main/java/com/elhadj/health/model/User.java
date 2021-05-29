@@ -1,11 +1,15 @@
 package com.elhadj.health.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
@@ -37,7 +41,18 @@ public class User implements Cloneable{
 	@JoinColumn(name="addressId")
 	private Address address;
 	
-	private String userType;
+	@OneToOne (
+			mappedBy = "user",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true
+			)
+	private DoctorInfos doctorInfos;
+	
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Slot> slots;
+
+	
+	private int userType;
 	
 	public User() {}
 	
@@ -47,6 +62,18 @@ public class User implements Cloneable{
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+	}
+	
+	public void addDoctorInfos(DoctorInfos di) {
+		this.doctorInfos = di;
+		doctorInfos.setUser(this);
+	}
+	
+	public void removeDoctorInfos() {
+		if (doctorInfos != null) {
+			this.doctorInfos.setUser(null);
+			this.doctorInfos = null;
+		}
 	}
 
 	public long getId() {
@@ -73,11 +100,11 @@ public class User implements Cloneable{
 		this.lastName = lastName;
 	}
 
-	public String getUserType() {
+	public int getUserType() {
 		return userType;
 	}
 
-	public void setUserType(String userType) {
+	public void setUserType(int userType) {
 		this.userType = userType;
 	}
 
@@ -111,6 +138,22 @@ public class User implements Cloneable{
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+	
+	public DoctorInfos getDoctorInfos() {
+		return doctorInfos;
+	}
+
+	public void setDoctorInfos(DoctorInfos doctorInfos) {
+		this.doctorInfos = doctorInfos;
+	}
+
+	public List<Slot> getSlots() {
+		return slots;
+	}
+
+	public void setSlots(List<Slot> slots) {
+		this.slots = slots;
 	}
 
 	@Override

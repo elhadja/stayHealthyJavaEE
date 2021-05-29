@@ -3,7 +3,6 @@ package com.elhadj.health.service;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.elhadj.health.Exception.SHRuntimeException;
+import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dao.DoctorInfosDAO;
 import com.elhadj.health.dao.UserDAO;
 import com.elhadj.health.dto.SignupRequestDTO;
@@ -27,22 +27,19 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserDAO userDAO;
 	
-	@Autowired
-	private DoctorInfosDAO doctorInfosDAO;
-	
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 	public long addUser(SignupRequestDTO input) throws Exception {
+		input.validate();
 		User user =  null;
 		try {
 			user = JavaUtil.convertTo(input, User.class);
 			user.setPassword(encoder.encode(user.getPassword()));
-			userDAO.save(user);
-			if ("doctor".equals(user.getUserType())) {
+			if (user.getUserType() == SHConstants.DOCTOR || true) {
 				DoctorInfos di = new DoctorInfos();
-				di.setId(user.getId());
-				doctorInfosDAO.save(di);
+				user.addDoctorInfos(di);
 			}
+			userDAO.save(user);
 		} catch (Exception e) {
 			throw new SHRuntimeException(403, e.getMessage(), "email field must be unique");
 		}
@@ -57,7 +54,7 @@ public class UserServiceImpl implements UserService{
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		try {
 			User u = userDAO.loadUserByEmail(email);
-			return new CustomUserDetailsImpl(u.getEmail(), u.getPassword(), u.getId(), (Collection<? extends GrantedAuthority>) new ArrayList<GrantedAuthority>());
+			return new CustomUserDetailsImpl(u.getEmail(), u.getPassword(), u.getId(), u.getUserType(), (Collection<? extends GrantedAuthority>) new ArrayList<GrantedAuthority>());
 		} catch (Exception e) {
 			throw new UsernameNotFoundException("user not found");
 		}

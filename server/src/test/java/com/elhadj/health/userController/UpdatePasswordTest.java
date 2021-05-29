@@ -1,5 +1,6 @@
 package com.elhadj.health.userController;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import com.elhadj.health.Util;
+import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dto.LoginRequestDTO;
 import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
@@ -31,6 +33,8 @@ public class UpdatePasswordTest {
 	@Autowired
 	private UserService userService;
 	
+	Util util = new Util();
+	
 	final private SignupRequestDTO user;
 	private String token = null;
 	private Util userUtil = new Util();
@@ -42,6 +46,7 @@ public class UpdatePasswordTest {
 		user.setLastName("lastName");
 		user.setEmail("testSpringBoots.javaee");
 		user.setPassword("password");
+		user.setUserType(SHConstants.PATIENT);
 	}
 	
 	@BeforeEach
@@ -139,6 +144,7 @@ public class UpdatePasswordTest {
 		newUser.setLastName("lastName");
 		newUser.setEmail("existingEmail@gmail.com");
 		newUser.setPassword("password");
+		newUser.setUserType(0);
 		userService.addUser(newUser);
 		UpdateCredentialsRequestDTO input = new UpdateCredentialsRequestDTO();
 		input.setEmail(newUser.getEmail());
@@ -151,5 +157,30 @@ public class UpdatePasswordTest {
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest());
 	}
+	
+	/*------------------------- delete user by id ******************************/
 
+	@Test
+	public void delete_user_by_id_should_succed() throws Exception {
+		final String email = "deleteTest@succed.com";
+		long addedUser = Util.addUser2(email, userService);
+		String token = Util.logUser(email, mockMvc);
+
+		mockMvc.perform(delete("/users/" + addedUser)
+			.header("Authorization", "Bearer " + token)
+			.contentType(MediaType.APPLICATION_JSON)
+			.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());;
+	
+	}
+	
+	@Test
+	public void delete_user_by_id_should_fail_if_user_not_exists() throws Exception {
+		final long unexistantId = 0;
+		mockMvc.perform(delete("/users/" + unexistantId)
+				.header("Authorization", "Bearer " + token)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isForbidden());;
+	}
 }
