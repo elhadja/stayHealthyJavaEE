@@ -2,6 +2,7 @@ package com.elhadj.health.service;
 
 import java.util.List;
 
+import com.elhadj.health.dto.AddSlotRequestDTO;
 import com.elhadj.health.dto.DoctorDTO;
 import com.elhadj.health.dto.UpdateDoctorDTO;
 
