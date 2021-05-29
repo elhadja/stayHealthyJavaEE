@@ -1,8 +1,8 @@
 package com.elhadj.health.service;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,8 +11,11 @@ import com.elhadj.health.Exception.SHRuntimeException;
 import com.elhadj.health.dao.SlotDAO;
 import com.elhadj.health.dao.UserDAO;
 import com.elhadj.health.dto.AddSlotRequestDTO;
+import com.elhadj.health.dto.UpdateSlotDTORequest;
 import com.elhadj.health.model.Slot;
 import com.elhadj.health.model.User;
+
+import javassist.NotFoundException;
 
 @Service
 public class SlotServiceImpl implements SlotService {
@@ -51,5 +54,25 @@ public class SlotServiceImpl implements SlotService {
 		}
 		// TODO return a DTO
 		return slotDAO.findByDoctorIdAndDateGreaterThanEqual(doctorId, _date);
+	}
+
+	@Override
+	public void update(long id, UpdateSlotDTORequest input) {
+		input.validate();
+		Slot slot = null;
+		try {
+			slot = slotDAO.findById(id).get();
+		} catch(NoSuchElementException e) {
+			throw new SHRuntimeException(404, "slot non trouvé", "not found");
+		}
+		slot.setDate(input.getLocalDate());
+		slot.setStartTime(input.getLocaltime());
+		slot.setUsed(input.getIsUsed());
+		
+		try {
+			slotDAO.save(slot);
+		} catch (Exception e) {
+			throw new SHRuntimeException(400, "le creneaux existe déjà", "time and date should be unique");
+		}
 	}
 }

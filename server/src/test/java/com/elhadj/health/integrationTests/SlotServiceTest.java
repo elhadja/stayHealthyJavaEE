@@ -2,6 +2,8 @@ package com.elhadj.health.integrationTests;
 
 import static org.assertj.core.api.Assertions.fail;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -18,6 +20,7 @@ import com.elhadj.health.Exception.SHRuntimeException;
 import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dao.SlotDAO;
 import com.elhadj.health.dto.AddSlotRequestDTO;
+import com.elhadj.health.dto.UpdateSlotDTORequest;
 import com.elhadj.health.model.Slot;
 import com.elhadj.health.service.SlotService;
 import com.elhadj.health.service.UserService;
@@ -95,4 +98,36 @@ public class SlotServiceTest {
 		}
 	}
 	
+	@Test
+	public void it_should_update_the_slot() throws Exception {
+		long id = Util.addUser("testspringee@mail.com", SHConstants.DOCTOR, userService);
+		long slotId = Util.addSlot("2021-04-26", "11:00", id, slotService);
+		UpdateSlotDTORequest input = new UpdateSlotDTORequest();
+		input.setDate("2022-06-20");
+		input.setStartTime("04:00");
+		input.setIsUsed(true);
+		
+		slotService.update(slotId, input);
+		
+		Slot slot = slotDAO.findById(slotId).get();
+		Assert.isTrue(slot.getDate().equals(LocalDate.parse("2022-06-20")), "");
+		Assert.isTrue(slot.getStartTime().equals(LocalTime.parse("04:00")), "");
+		Assert.isTrue(slot.isUsed() == true, "");
+	}
+	
+	@Test
+	public void it_should_fail() throws Exception {
+		long id = Util.addUser("testspringee@mail.com", SHConstants.DOCTOR, userService);
+		UpdateSlotDTORequest input = new UpdateSlotDTORequest();
+		input.setDate("2021-04-26");
+		input.setStartTime("11:00");
+		input.setIsUsed(true);
+		
+		try {
+			slotService.update(0, input);
+			fail("");
+		} catch (SHRuntimeException e) {
+			Assert.isTrue(e.getStatusCode() == 404, "");
+		}
+	}
 }
