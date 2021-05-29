@@ -5,8 +5,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -17,10 +17,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.util.Assert;
 
 import com.elhadj.health.Util;
+import com.elhadj.health.Exception.SHRuntimeException;
 import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dto.AddSlotRequestDTO;
+import com.elhadj.health.model.Slot;
 import com.elhadj.health.service.DoctorService;
 import com.elhadj.health.service.SlotService;
 import com.elhadj.health.service.UserService;
@@ -55,6 +58,44 @@ public class DoctorControllerUTest {
 				.content(Util.asJsonString(input))
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
+	}
+	
+	@Test
+	public void it_should_get_doctors() throws Exception {
+			long id = Util.addUser("oups@gmail.com", SHConstants.PATIENT, userService);
+			String token = Util.logUser("oups@gmail.com", mockMvc);
+			List<Slot> slots = new ArrayList<>();
+			slots.add(new Slot());
+			slots.add(new Slot());
+			when(slotService.getByCriteria(id, "2021-05-16")).thenReturn(slots);
+		
+			MvcResult res = mockMvc.perform(get("/doctors/" + id + "/slots?date=2021-05-16")
+				.header("Authorization", "Bearer " + token)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andReturn();
+
+			List<Slot> getRes = Util.parseResponse(res, slots.getClass());
+			Assert.isTrue(getRes.size() == 2);
+
+	}
+	
+	@Test
+	public void it_should_fail_get_doctors() throws Exception {
+			long id = Util.addUser("oups@gmail.com", SHConstants.PATIENT, userService);
+			String token = Util.logUser("oups@gmail.com", mockMvc);
+			List<Slot> slots = new ArrayList<>();
+			slots.add(new Slot());
+			slots.add(new Slot());
+			when(slotService.getByCriteria(id, "2021?05-16")).thenThrow(new SHRuntimeException(400, "", ""));
+		
+			mockMvc.perform(get("/doctors/" + id + "/slots?date=2021?05-16")
+				.header("Authorization", "Bearer " + token)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest())
+				.andReturn();
 	}
 	
 	@AfterEach

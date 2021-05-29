@@ -21,6 +21,7 @@ import com.elhadj.health.dto.DoctorDTO;
 import com.elhadj.health.dto.RequestErrorDTO;
 import com.elhadj.health.dto.UpdateDoctorDTO;
 import com.elhadj.health.model.CustomUserDetails;
+import com.elhadj.health.model.Slot;
 import com.elhadj.health.service.DoctorService;
 import com.elhadj.health.service.SlotService;
 import com.elhadj.health.service.UserServiceImpl;
@@ -113,6 +114,27 @@ public class DoctorController {
 
 		return ResponseEntity.status(200).body(slotId);
 	}
+	
+	// TODO use request parameter for date
+	@GetMapping("{id}/slots")
+	public ResponseEntity<?> getSlotsByDoctorandDate(@PathVariable String id, 
+									@RequestParam(required = true) String date,
+									Principal principal) throws Exception {
+		List<Slot> slots = null;
+		try {
+			long _id = Long.parseLong(id);
+			slots = slotService.getByCriteria(_id, date);
+		}catch (SHRuntimeException e) {
+			return ResponseEntity.status(e.getStatusCode())
+				.body(new RequestErrorDTO(e.getStatusCode(), e.getMessage(), e.getMessageDescription()));
+		}catch (Exception e) {
+			return ResponseEntity.status(500)
+						 .body(new RequestErrorDTO(500, e.getMessage(), e.getMessage()));
+		}
+
+		return ResponseEntity.status(200).body(slots);
+	}
+
 
 	private void isCurrentUserRessource(Principal principal, long id) throws SHRuntimeException {
 		CustomUserDetails user = (CustomUserDetails) userService.loadUserByUsername(principal.getName());

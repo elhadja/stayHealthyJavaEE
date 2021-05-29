@@ -5,6 +5,9 @@ public class SHRuntimeException extends RuntimeException {
 	private String messageDescription;
 	private int statusCode;
 	
+	public SHRuntimeException() {
+	}
+	
 	public SHRuntimeException(String message) {
 		super(message);
 		this.messageDescription = message;

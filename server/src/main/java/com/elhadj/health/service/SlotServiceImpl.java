@@ -2,6 +2,7 @@ package com.elhadj.health.service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,4 +41,15 @@ public class SlotServiceImpl implements SlotService {
 		return slot.getId();
 	}
 
+	@Override
+	public List<Slot> getByCriteria(long doctorId, String date) throws Exception {
+		LocalDate _date = null;
+		try {
+			_date = LocalDate.parse(date);
+		} catch (Exception e) {
+			throw new SHRuntimeException(400, "date invalide", "date format should be yyyy-mm-dd");
+		}
+		// TODO return a DTO
+		return slotDAO.findByDoctorIdAndDateGreaterThanEqual(doctorId, _date);
+	}
 }
