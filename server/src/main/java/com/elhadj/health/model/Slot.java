@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -21,6 +22,10 @@ public class Slot {
 	@ManyToOne
 	@JoinColumn(name="doctorId", foreignKey = @ForeignKey(name = "doctorId_FK"))
 	private User doctor;
+	
+	@OneToOne
+	@JoinColumn(name="appointmentId", nullable = true)
+	private Appointment appointment;
 	
 	private java.time.LocalDate date;
 	
@@ -70,14 +75,19 @@ public class Slot {
 		this.isUsed = isUsed;
 	}
 
+	public Appointment getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(Appointment appointment) {
+		this.appointment = appointment;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((doctor == null) ? 0 : doctor.hashCode());
-		result = prime * result + (isUsed ? 1231 : 1237);
-		result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
 
@@ -90,22 +100,7 @@ public class Slot {
 		if (getClass() != obj.getClass())
 			return false;
 		Slot other = (Slot) obj;
-		if (date == null) {
-			if (other.date != null)
-				return false;
-		} else if (!date.equals(other.date))
-			return false;
-		if (doctor == null) {
-			if (other.doctor != null)
-				return false;
-		} else if (!doctor.equals(other.doctor))
-			return false;
-		if (isUsed != other.isUsed)
-			return false;
-		if (startTime == null) {
-			if (other.startTime != null)
-				return false;
-		} else if (!startTime.equals(other.startTime))
+		if (id != other.id)
 			return false;
 		return true;
 	}

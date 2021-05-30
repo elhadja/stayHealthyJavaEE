@@ -130,4 +130,5 @@ public class SlotServiceTest {
 			Assert.isTrue(e.getStatusCode() == 404, "");
 		}
 	}
+	
 }

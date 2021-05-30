@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.util.Assert;
 
+import com.elhadj.health.Util;
+import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dao.UserDAO;
 import com.elhadj.health.dto.UserDTO;
 import com.elhadj.health.model.User;
@@ -23,6 +25,8 @@ public class UserServiceTest {
 	
 	@MockBean
 	UserDAO userDAO;
+	
+	
 
 	@Test
 	public void it_should_load_a_user_by_id() throws Exception {

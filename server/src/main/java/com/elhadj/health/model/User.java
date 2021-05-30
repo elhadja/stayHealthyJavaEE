@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -51,6 +50,11 @@ public class User implements Cloneable{
 	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Slot> slots;
 
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Appointment> patientAppointments;
+	
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Appointment> doctorAppointments;
 	
 	private int userType;
 	
@@ -152,9 +156,29 @@ public class User implements Cloneable{
 		return slots;
 	}
 
+	public List<Appointment> getPatientAppointments() {
+		return patientAppointments;
+	}
+
+	public void setPatientAppointments(List<Appointment> patientAppointments) {
+		this.patientAppointments = patientAppointments;
+	}
+
+	public List<Appointment> getDoctorAppointments() {
+		return doctorAppointments;
+	}
+
+	public void setDoctorAppointments(List<Appointment> doctorAppointments) {
+		this.doctorAppointments = doctorAppointments;
+	}
+
 	public void setSlots(List<Slot> slots) {
 		this.slots = slots;
 	}
+	
+	
+	
+	
 
 	@Override
 	public int hashCode() {
