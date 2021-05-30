@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -92,6 +93,28 @@ public class PatientController {
 
 		return ResponseEntity.status(201).body(response);
 	}
+	
+	@DeleteMapping("{patientId}/appointments/{appointmentId}")
+	public ResponseEntity<?> cancelAppointment(@PathVariable String patientId,
+											   @PathVariable String appointmentId,
+											   Principal principal) throws Exception {
+		long addAppointmentId = 0;
+		try {
+			long userId = Long.parseLong(patientId);
+			isCurrentUserRessource(principal, userId);
+			appointmentService.cancelAppointment(Long.parseLong(appointmentId));
+		}catch (SHRuntimeException e) {
+			return ResponseEntity.status(e.getStatusCode())
+				.body(new RequestErrorDTO(e.getStatusCode(), e.getMessage(), e.getMessageDescription()));
+		}catch (Exception e) {
+			return ResponseEntity.status(500)
+						 .body(new RequestErrorDTO(500, e.getMessage(), e.getMessage()));
+		}
+		CreateRessouceResponseDTO response = new CreateRessouceResponseDTO(201, addAppointmentId);
+
+		return ResponseEntity.status(200).build();
+	}
+
 
 	
 	private void isCurrentUserRessource(Principal principal, long id) throws SHRuntimeException {

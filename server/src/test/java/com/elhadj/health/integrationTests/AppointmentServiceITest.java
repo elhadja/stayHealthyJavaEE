@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 import com.elhadj.health.Util;
 import com.elhadj.health.Exception.SHRuntimeException;
 import com.elhadj.health.common.SHConstants;
+import com.elhadj.health.dao.SlotDAO;
 import com.elhadj.health.dto.AddAppointmentRequestDTO;
 import com.elhadj.health.model.Appointment;
 import com.elhadj.health.service.AppointmentDAO;
@@ -33,6 +34,9 @@ public class AppointmentServiceITest {
 	
 	@Autowired
 	AppointmentDAO appointmentDAO;
+	
+	@Autowired
+	SlotDAO slotDAO;
 	
 	@AfterEach
 	public void cleanDB() {
@@ -92,6 +96,26 @@ public class AppointmentServiceITest {
 			fail("");
 		}catch(SHRuntimeException e) {
 
+		}
+	}
+	
+	@Test
+	public void it_should_cancel_appointment() throws Exception {
+		long doctorId = Util.addUser("doctormail@testjee.com", SHConstants.DOCTOR, userService);
+		long slotId = Util.addSlot("2021-05-30", "11:25", doctorId, slotService);
+		long patientId = Util.addUser("patientmail@testjee.com", SHConstants.PATIENT, userService);
+		AddAppointmentRequestDTO input = new AddAppointmentRequestDTO();
+		input.setRaison("consultation dentaire");
+		input.setSlotId(slotId);
+		long appointmentId = appointemntService.addAppointment(input, patientId);
+		
+		appointemntService.cancelAppointment(appointmentId);
+		
+		try {
+			appointmentDAO.findById(appointmentId).get();
+			fail("appointment should be deleted");
+		} catch (NoSuchElementException e) {
+			Assert.isTrue(!slotDAO.findById(slotId).get().isUsed(), "slot should be free");
 		}
 	}
 }

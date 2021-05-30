@@ -53,4 +53,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 		return app.getId();
 	}
+
+	@Override
+	@Transactional
+	public void cancelAppointment(long appointmentId) {
+		try {
+			Appointment appointment = appointmentDAO.findById(appointmentId).get();
+			Slot slot = appointment.getSlot();
+			slot.setUsed(false);
+			slot.setAppointment(null);
+			appointmentDAO.deleteById(appointmentId);
+		} catch (NoSuchElementException e) {
+			throw new SHRuntimeException(404, "rendez-vous non trouvé", "appointment not found");
+		}
+	}
 }
