@@ -11,7 +11,12 @@ export class UserService {
   private token: string;
 
   constructor(private readonly userApiService: UserApiService) { 
-    this.token = "";
+    const tmp = localStorage.getItem('token');
+    if (tmp != null) {
+      this.token = tmp;
+    } else {
+      this.token = '';
+    }
   }
 
   public signup(input: signupDTO): Observable<any> {
@@ -19,6 +24,7 @@ export class UserService {
   }
 
   public setToken(token: string): void {
+    localStorage.setItem('token', token);
     this.token = token;
     this.userApiService.setHttpOptions(token);
  }

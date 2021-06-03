@@ -43,9 +43,7 @@ export class LoginComponent implements OnInit {
     }
     this.userApiService.login(input).subscribe(
       (res) => {
-        console.log(res);
           this.userService.setToken(res.token);
-          // TODO get userType from back or find better solution
           console.log(res)
           if (res.userType === 0) {
             this.router.navigate(['/patient']);
