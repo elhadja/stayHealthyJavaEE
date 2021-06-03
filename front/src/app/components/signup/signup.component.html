@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row  d-flex justify-content-center">
         <div class="col-6">
-            <h2>Inscription</h2>
+            <h2 style="text-align: center;">Inscription</h2>
             <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
                 <div class="form-row">
                     <div class="form-group col">
@@ -36,7 +36,7 @@
                 <div class="form-row">
                     <div class="form-group col">
                         <label for="password">Votre mot de passe</label>
-                        <input type="text" formControlName="password" name="password" id="password" class="form-control">
+                        <input type="password" formControlName="password" name="password" id="password" class="form-control">
                         <app-generic-error *ngIf="password != null"
                             [fc]="password"
                             [fieldName]="'password'"
@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group col">
                         <label for="passwordAgain">Confirmer votre mot de passe</label>
-                        <input type="text" formControlName="passwordAgain" name="passwordAgain" id="passwordAgain" class="form-control">
+                        <input type="password" formControlName="passwordAgain" name="passwordAgain" id="passwordAgain" class="form-control">
                         <div *ngIf="passwordAgain?.invalid && (passwordAgain?.dirty || passwordAgain?.touched)" class="alert alert-danger">
                             <div *ngIf="passwordAgain?.errors?.spec">
                                 mot de passe differents
@@ -53,23 +53,35 @@
                        </div>
                     </div>
                 </div>
-                <ng-template formGroupName="address">
+                <div formGroupName="address">
                     <div class="form-group">
                         <label for="tel">Numéro de Rue</label>
-                        <input type="tel" formControlName="road" name="tel" id="tel" class="form-control">
+                        <input type="text" formControlName="road" name="road" id="road" class="form-control">
                     </div>
                     <div class="row">
                         <div class="form-group col">
-                            <label for="tel">Ville</label>
-                            <input type="tel" formControlName="city" name="tel" id="tel" class="form-control">
+                            <label for="city">Ville</label>
+                            <input type="city" formControlName="city" name="city" id="city" class="form-control">
                         </div>
                         <div class="form-group col">
-                            <label for="tel">code postal</label>
-                            <input type="tel" formControlName="postalColde" name="tel" id="tel" class="form-control">
+                            <label for="postalCode">code postal</label>
+                            <input type="postalCode" formControlName="postalCode" name="postalCode" id="postalCode" class="form-control">
                         </div>
                     </div>
-                </ng-template>
-                <input type="submit" class="btn btn-primary" value="s'inscrire" [disabled]="!signupForm.valid">
+                </div>
+                <div class="form-group">
+                    <label for="">Choisir un type de compte</label>
+                    <select class="custom-select" formControlName="userType">
+                        <option value="0">patient</option>
+                        <option value="1">docteur</option>
+                    </select>
+                    <app-generic-error *ngIf="userType != null"
+                        [fc]="userType"
+                        [fieldName]="'userType'"
+                        [required]="true">
+                    </app-generic-error>
+                </div>
+               <input type="submit" class="btn btn-primary" value="s'inscrire" [disabled]="!signupForm.valid">
                 <a routerLink="/login">se connecter</a>
             </form>
         </div>

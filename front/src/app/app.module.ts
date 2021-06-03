@@ -13,6 +13,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthValidatorService } from './services/auth-validator.service';
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 import { AccountComponent } from './components/account/account.component';
+import { MessageComponent } from './components/message/message.component';
+import { MessageService } from './services/Message.service';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -29,7 +31,8 @@ const routes: Routes = [
     SignupComponent,
     LoginComponent,
     GenericErrorComponent,
-    AccountComponent
+    AccountComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserApiService, UserService, AuthValidatorService],
+  providers: [UserApiService, UserService, AuthValidatorService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
