@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { signupDTO } from 'src/app/api/dto/signupDTO';
 import { MessageService } from 'src/app/services/Message.service';
 import { UserService } from 'src/app/services/user.service';
@@ -17,7 +19,8 @@ export class SignupComponent implements OnInit {
 
   public constructor(private readonly userService: UserService,
     private readonly fb: FormBuilder,
-    private readonly messageService: MessageService) {
+    private readonly messageService: MessageService,
+    private readonly router: Router) {
     this.input = {};
     this.signupForm = this.fb.group({
       firstName: ['bah', Validators.required],
@@ -55,7 +58,9 @@ export class SignupComponent implements OnInit {
     }
 
     this.userService.signup(this.input).subscribe(
-      (res) => {},
+      (res) => {
+        this.router.navigate(['/login']);
+      },
       (error) => {
         this.messageService.showMessage(error.error.message, 2);
       }

@@ -11,17 +11,16 @@ export class MessageComponent implements OnInit, OnDestroy {
   message: string | undefined;
   messageType: number;
   messageSubscription: Subscription;
-  show: boolean;
 
   constructor(public readonly messageService: MessageService) {
-    this.show = false;
     this.message = undefined;
     this.messageType = 0;
     this.messageSubscription = this.messageService.messageSubject.subscribe((message => {
       this.message = message;
       this.messageType = messageService.getCurrentMessageType();
-      this.show = true;
-      console.log(this.show);
+      setTimeout(() => {
+        this.message = undefined;
+      }, 5000);
     }))
    }
 
