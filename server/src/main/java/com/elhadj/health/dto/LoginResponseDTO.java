@@ -3,11 +3,13 @@ package com.elhadj.health.dto;
 public class LoginResponseDTO {
 	private String token;
 	private long id;
+	private int userType;
 	
-	public LoginResponseDTO(String token, long id) {
+	public LoginResponseDTO(String token, long id, int userType) {
 		super();
 		this.token = token;
 		this.id = id;
+		this.userType = userType;
 	}
 
 	public String getToken() {
@@ -24,5 +26,13 @@ public class LoginResponseDTO {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public int getUserType() {
+		return userType;
+	}
+
+	public void setUserType(int userType) {
+		this.userType = userType;
 	}
 }

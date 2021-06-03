@@ -46,8 +46,9 @@ export class LoginComponent implements OnInit {
         console.log(res);
           this.userService.setToken(res.token);
           // TODO get userType from back or find better solution
-          if (true) {
-            this.router.navigate(['/account']);
+          console.log(res)
+          if (res.userType === 0) {
+            this.router.navigate(['/patient']);
           } else {
             this.router.navigate(['/doctor']);
           }
