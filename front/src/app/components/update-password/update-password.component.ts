@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { UpdatePasswordRequestDTO } from 'src/app/api/dto/UpdatePasswordRequestDTO';
+import { UpdatePasswordRequestDTO } from 'src/app/dto/UpdatePasswordRequestDTO';
 import { MessageService } from 'src/app/services/Message.service';
 import { UserService } from 'src/app/services/user.service';
 

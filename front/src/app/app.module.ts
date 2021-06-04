@@ -18,6 +18,7 @@ import { MessageComponent } from './components/message/message.component';
 import { MessageService } from './services/Message.service';
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { API } from './services/api';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -47,7 +48,7 @@ const routes: Routes = [
     MatDialogModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserService, AuthValidatorService, MessageService, MatDialog],
+  providers: [UserService, AuthValidatorService, MessageService, MatDialog, API],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { signupDTO } from 'src/app/api/dto/signupDTO';
+import { signupDTO } from 'src/app/dto/signupDTO';
 import { MessageService } from 'src/app/services/Message.service';
 import { UserService } from 'src/app/services/user.service';
 
