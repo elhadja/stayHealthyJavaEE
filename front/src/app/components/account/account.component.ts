@@ -5,7 +5,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginDTO } from 'src/app/api/dto/loginDTO';
 import { updateCredentialsOutputDTO } from 'src/app/api/dto/UpdateCredentialsOutputDTO';
-import { UserApiService } from 'src/app/api/user-api.service';
 import { MessageService } from 'src/app/services/Message.service';
 import { UserService } from 'src/app/services/user.service';
 import { UpdatePasswordComponent } from '../update-password/update-password.component';
@@ -20,7 +19,6 @@ export class AccountComponent implements OnInit {
   error: string;
 
   constructor(private readonly fb: FormBuilder,
-     private readonly useApiService: UserApiService,
      private readonly userService: UserService,
      private readonly messageService: MessageService,
      private readonly matDialog: MatDialog) { 
@@ -33,7 +31,7 @@ export class AccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.useApiService.getById(this.userService.getUserId()).subscribe((user) => {
+    this.userService.getById(this.userService.getUserId()).subscribe((user) => {
       this.accountForm.get('email')?.setValue(user.email);
       this.accountForm.get('tel')?.setValue(user.tel);
     })
@@ -44,7 +42,7 @@ export class AccountComponent implements OnInit {
       email: this.accountForm.get('email')?.value,
       tel: this.accountForm.get('tel')?.value
     };
-    this.useApiService.updateCredentials(input, this.userService.getUserId()).subscribe(
+    this.userService.updateCredentials(input, this.userService.getUserId()).subscribe(
       () => { 
         this.messageService.showMessage("informations modifées", 0)
         // TODO set token

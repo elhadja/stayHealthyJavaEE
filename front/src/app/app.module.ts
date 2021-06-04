@@ -7,7 +7,6 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { UserApiService } from './api/user-api.service';
 import { UserService } from './services/user.service';
 import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -48,7 +47,7 @@ const routes: Routes = [
     MatDialogModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserApiService, UserService, AuthValidatorService, MessageService, MatDialog],
+  providers: [UserService, AuthValidatorService, MessageService, MatDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
