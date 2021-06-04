@@ -47,11 +47,8 @@ export class LoginComponent implements OnInit {
           } else {
             this.router.navigate(['/doctor']);
           }
-      },
-      (error) => {
-        this.error = error.error.message;
       }
-    );
+     );
   }
 
   get email() {return this.loginForm.get(this.loginFormConstants.email)}

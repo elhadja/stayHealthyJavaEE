@@ -38,9 +38,6 @@ export class UpdatePasswordComponent implements OnInit {
           () => {
             this.dialogRef.close();
             this.messageService.showMessage("Mot de passe modifié", 0);
-          },
-          (httpResponseError) => {
-            this.messageService.showMessage(httpResponseError.error.message, 2);
           }
         );
   }

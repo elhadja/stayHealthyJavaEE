@@ -46,9 +46,6 @@ export class AccountComponent implements OnInit {
       () => { 
         this.messageService.showMessage("informations modifées", 0)
         // TODO set token
-      },
-      (error) => {
-        this.messageService.showMessage(error.error.message, 2); // TODO remove magic number
       });
   }
 

@@ -58,11 +58,8 @@ export class SignupComponent implements OnInit {
     }
 
     this.userService.signup(this.input).subscribe(
-      (res) => {
+      () => {
         this.router.navigate(['/login']);
-      },
-      (error) => {
-        this.messageService.showMessage(error.error.message, 2);
       }
     )
   }
