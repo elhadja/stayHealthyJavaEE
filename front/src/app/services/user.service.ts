@@ -9,8 +9,10 @@ import { UserApiService } from '../api/user-api.service';
 })
 export class UserService {
   private token: string;
+  private userId: number;
 
   constructor(private readonly userApiService: UserApiService) { 
+    this.userId = 0;
     const tmp = localStorage.getItem('token');
     if (tmp != null) {
       this.token = tmp;
@@ -23,13 +25,18 @@ export class UserService {
     return this.userApiService.signup(input);
   }
 
-  public setToken(token: string): void {
+  public setToken(token: string, id: number): void {
     localStorage.setItem('token', token);
+    this.userId = id;
     this.token = token;
     this.userApiService.setHttpOptions(token);
  }
   
   public isLogged(): boolean {
     return this.token.length > 0;
+  }
+
+  public getUserId(): number {
+    return this.userId;
   }
 }

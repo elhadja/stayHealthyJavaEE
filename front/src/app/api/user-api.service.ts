@@ -1,9 +1,11 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { UserService } from '../services/user.service';
 import { LoginDTO } from './dto/loginDTO';
 import { signupDTO } from './dto/signupDTO';
 import { updateCredentialsOutputDTO } from './dto/UpdateCredentialsOutputDTO';
+import { UpdatePasswordRequestDTO } from './dto/UpdatePasswordRequestDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +39,16 @@ export class UserApiService {
     return this.httpClient.put(this.baseUri + "/" + id + "/credentials", input, this.httpOptions);
   }
 
+  public updatePassword(input: UpdatePasswordRequestDTO, userId: number, newPassword: string): Observable<any> {
+    return this.httpClient.put(this.baseUri + "/" + userId + "/" + "password", input,this.httpOptions);
+  }
+
   public setHttpOptions(token: string) {
     this.httpOptions.headers = this.httpOptions.headers?.set("Authorization", "Bearer " + token);
   }
+
+  public getById(id: number): Observable<any> {
+    return this.httpClient.get(this.baseUri + "/" + id, this.httpOptions);
+  }
+
 }

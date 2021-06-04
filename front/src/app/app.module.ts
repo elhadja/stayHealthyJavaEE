@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'
 
+import {MatDialog, MatDialogModule} from '@angular/material/dialog'; 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -15,6 +17,8 @@ import { GenericErrorComponent } from './components/generic-error/generic-error.
 import { AccountComponent } from './components/account/account.component';
 import { MessageComponent } from './components/message/message.component';
 import { MessageService } from './services/Message.service';
+import { UpdatePasswordComponent } from './components/update-password/update-password.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -32,16 +36,19 @@ const routes: Routes = [
     LoginComponent,
     GenericErrorComponent,
     AccountComponent,
-    MessageComponent
+    MessageComponent,
+    UpdatePasswordComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserApiService, UserService, AuthValidatorService, MessageService],
+  providers: [UserApiService, UserService, AuthValidatorService, MessageService, MatDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

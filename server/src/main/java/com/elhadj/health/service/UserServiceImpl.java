@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
+	// TODO return new token corresponding to the new email
 	public void updateCredentials(long userId, String newEmail, String newTel) throws Exception {
 		try {
 			userDAO.updateUserCredentials(userId, newEmail, newTel);

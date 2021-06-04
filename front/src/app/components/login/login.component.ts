@@ -43,10 +43,9 @@ export class LoginComponent implements OnInit {
     }
     this.userApiService.login(input).subscribe(
       (res) => {
-          this.userService.setToken(res.token);
-          console.log(res)
+          this.userService.setToken(res.token, res.id);
           if (res.userType === 0) {
-            this.router.navigate(['/patient']);
+            this.router.navigate(['/account']);
           } else {
             this.router.navigate(['/doctor']);
           }
