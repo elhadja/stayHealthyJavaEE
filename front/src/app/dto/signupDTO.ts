@@ -7,4 +7,5 @@ export interface signupDTO {
     tel?: string | undefined;
     password?: string | undefined;
     address?: AdressDTO;
+    userType?: number;
 }

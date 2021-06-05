@@ -30,6 +30,7 @@ import com.elhadj.health.dto.RequestErrorDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.dto.UpdateCredentialsRequestDTO;
 import com.elhadj.health.dto.UpdatePasswordRequestDTO;
+import com.elhadj.health.dto.UserDTO;
 import com.elhadj.health.model.CustomUserDetails;
 import com.elhadj.health.model.User;
 import com.elhadj.health.service.AppointmentService;
@@ -93,7 +94,7 @@ public class UserController {
 		
 		final UserDetails userDetails = userService.loadUserByUsername(input.getEmail());
 		final String token = jwt.generateToken(userDetails);
-		return ResponseEntity.ok(new LoginResponseDTO(token, user.getUserId()));
+		return ResponseEntity.ok(new LoginResponseDTO(token, user.getUserId(), user.getUserType()));
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -147,6 +148,23 @@ public class UserController {
 		}
 		return ResponseEntity.status(200).build();
 	}
+	
+	@GetMapping("{id}")
+	public ResponseEntity<?> updateCredentials(@PathVariable String id, Principal principal) throws Exception {
+		UserDTO userDTO = null;
+		try {
+			long userId = Long.parseLong(id);
+			userDTO = userService.loadUserById(userId);
+		}catch (SHRuntimeException e) {
+			return ResponseEntity.status(e.getStatusCode())
+				.body(new RequestErrorDTO(e.getStatusCode(), e.getMessage(), e.getMessageDescription()));
+		}catch (Exception e) {
+			return ResponseEntity.status(500)
+						 .body(new RequestErrorDTO(500, e.getMessage(), e.getMessage()));
+		}
+		return ResponseEntity.status(200).body(userDTO);
+	}
+
 	
 	
 	@RequestMapping() 

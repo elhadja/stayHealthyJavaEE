@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService{
 			}
 			userDAO.save(user);
 		} catch (Exception e) {
-			throw new SHRuntimeException(403, e.getMessage(), "email field must be unique");
+			throw new SHRuntimeException(403, "Cet mail est déjà utilisé", "email field must be unique");
 		}
 		return user.getId();
 	}
@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
+	// TODO return new token corresponding to the new email
 	public void updateCredentials(long userId, String newEmail, String newTel) throws Exception {
 		try {
 			userDAO.updateUserCredentials(userId, newEmail, newTel);

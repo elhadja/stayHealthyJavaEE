@@ -15,18 +15,20 @@
                 </div>
                 <div class="form-group">
                     <label for="tel">Votre numéro de téléphone</label>
-                    <input type="tel" formControlName="tel" class="form-control" name="tel" id="tel" required>
+                    <input type="tel" formControlName="tel" class="form-control" name="tel" id="tel">
                     <app-generic-error *ngIf="tel != null"
                         [fc]="tel"
-                        [fieldName]="'tel'"
-                        [required]="true">
+                        [fieldName]="'tel'">
                     </app-generic-error>
                 </div>
                 <div *ngIf="error && error.length > 0" class="alert alert-danger">
                     {{ error }}
                 </div>
                 <input type="submit" class="btn btn-primary" value="Enregistrer" [disabled]="accountForm.invalid">
+                <br>
+                <p (click)="showDialog()">modifier votre mot de passe</p>
             </form>
+            <button (click)="updateProfile()">modifier votre profile</button>
         </div>
     </div>
 </div>

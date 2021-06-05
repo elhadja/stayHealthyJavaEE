@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginDTO } from 'src/app/api/dto/loginDTO';
-import { UserApiService } from 'src/app/api/user-api.service';
+import { LoginDTO } from 'src/app/dto/loginDTO';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -20,14 +19,12 @@ export class LoginComponent implements OnInit {
     password: "password"
   };
 
-  constructor(private readonly userApiService: UserApiService,
-    private readonly router: Router,
+  constructor(private readonly router: Router,
     private readonly userService: UserService)
   {
     this.loginForm = new FormGroup({
       email: new FormControl('front@gmail.com', [Validators.required, Validators.email]),
       password: new FormControl('aaaaaaaa', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]),
-      userType: new FormControl('', [Validators.required])
     });
 
     this.error = '';
@@ -42,24 +39,18 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.get(this.loginFormConstants.email)?.value,
       password: this.loginForm.get(this.loginFormConstants.password)?.value,
     }
-    this.userApiService.login(input).subscribe(
+    this.userService.login(input).subscribe(
       (res) => {
-        console.log(res);
-          this.userService.setToken(res.token);
-          // TODO get userType from back or find better solution
-          if (this.loginForm.get('userType')?.value === 'patient') {
-            this.router.navigate(['/account']);
+          this.userService.setToken(res.token, res.id);
+          if (res.userType === 0) {
+            this.router.navigate(['/patient']);
           } else {
             this.router.navigate(['/doctor']);
           }
-      },
-      (error) => {
-        this.error = error.error.message;
       }
-    );
+     );
   }
 
   get email() {return this.loginForm.get(this.loginFormConstants.email)}
   get password() {return this.loginForm.get(this.loginFormConstants.password)}
-  get userType() {return this.loginForm.get('userType')}
 }
