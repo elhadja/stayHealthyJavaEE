@@ -9,6 +9,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProfilComponent } from './components/profil/profil.component';
 import { SharedModule } from '../shared/shared.module';
 
+
+import {MatDividerModule} from '@angular/material/divider'; 
+
 const routes: Routes = [
   {path: '', component: PatientComponent},
   {path: 'search', component: SearchComponent},
@@ -21,6 +24,7 @@ const routes: Routes = [
     CommonModule,
     ReactiveFormsModule,
     SharedModule,
+    MatDividerModule,
     RouterModule.forChild(routes),
   ],
 })

@@ -2,5 +2,30 @@
 .hidden {
     display: none;
 }
+
+.width-100 {
+    width: 100%;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.blue {
+    color: dodgerblue;
+}
+
+.mouse {
+    cursor: pointer;
+}
+
+.default-color {
+    color: #435f71;
+}
+
+.bg-default {
+    background-color: rgba(0, 0, 0, 0);
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

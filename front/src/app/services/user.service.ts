@@ -53,6 +53,10 @@ export class UserService {
     this.router.navigate(['/login']);
   }
 
+  public delete(): Observable<any> {
+    return this.api.delete(this.baseUri + "/" + this.userId);
+  }
+
 
   public setToken(token: string, id: number): void {
     localStorage.setItem('token', token);

@@ -1,35 +1,43 @@
-<div class="container">
-    <div class="row d-flex justify-content-center">
-        <div class="col-6">
-            <h2>Compte</h2>
-            <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                    <label for="email">Votre address email</label>
-                    <input type="email" formControlName="email" class="form-control" name="email" id="email" required>
-                    <app-generic-error *ngIf="email != null"
-                        [fc]="email"
-                        [fieldName]="'email'"
-                        [required]="true"
-                        [email]="true">
-                    </app-generic-error>
-                </div>
-                <div class="form-group">
-                    <label for="tel">Votre numéro de téléphone</label>
-                    <input type="tel" formControlName="tel" class="form-control" name="tel" id="tel">
-                    <app-generic-error *ngIf="tel != null"
-                        [fc]="tel"
-                        [fieldName]="'tel'">
-                    </app-generic-error>
-                </div>
-                <div *ngIf="error && error.length > 0" class="alert alert-danger">
-                    {{ error }}
-                </div>
-                <input type="submit" class="btn btn-primary" value="Enregistrer" [disabled]="accountForm.invalid">
-                <br>
-                <p (click)="showDialog()">modifier votre mot de passe</p>
-            </form>
-            <button (click)="updateProfile()">modifier votre profile</button>
+<div class="row d-flex justify-content-center">
+    <div class="col-9 d-flex flex-column">
+        <h2>Compte</h2>
+        <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="email">Votre address email</label>
+                <input type="email" formControlName="email" class="form-control" name="email" id="email" required>
+                <app-generic-error *ngIf="email != null" [fc]="email" [fieldName]="'email'" [required]="true"
+                    [email]="true">
+                </app-generic-error>
+            </div>
+            <div class="form-group">
+                <label for="tel">Votre numéro de téléphone</label>
+                <input type="tel" formControlName="tel" class="form-control" name="tel" id="tel">
+                <app-generic-error *ngIf="tel != null" [fc]="tel" [fieldName]="'tel'">
+                </app-generic-error>
+            </div>
+            <div *ngIf="error && error.length > 0" class="alert alert-danger">
+                {{ error }}
+            </div>
+            <input type="submit" class="btn btn-primary my-2 width-100" value="Enregistrer" [disabled]="accountForm.invalid">
+            <br>
+        </form>
+        <span (click)="showDialog()" class="blue bold mouse ml-auto">modifier votre mot de passe</span>
+        <div class="bg-white"  id="infos">
+            <h2>Mes Informations Patients</h2>
+            <div (click)="updateProfile()">
+                <p>
+                    {{ username }}
+                </p>
+                <span id="oups" class="bg-primary text-white rounded py-1">
+                    c'est vous!
+                </span>
+            </div>
+        </div>
+        <hr class="bg-danger">
+        <div class="d-flex flex-column justify-content-center bg-white rounded">
+            <h2>Suppression de votre compte</h2>
+            <p>Vous avez la possibilité de supprimer votre compte sur doctolib.fr et les données associées. Cette action n'aura pas automatiquement pour effet de supprimer vos données personnelles des bases de données des professionnels de santé avec lesquels vous avez pris rendez-vous et/ou que vous avez consulté. Les professionnels de santé peuvent avoir un intérêt légitime à les conserver. Vous avez alors la possibilité d'exercer vos droits d'accès, de rectification ou d'effacement directement auprès de ces derniers</p>
+            <button class="btn text-danger bg-transparent" (click)="deleteAccount()">SUPPRIMER</button>
         </div>
     </div>
 </div>
-

@@ -40,6 +40,11 @@ export class API {
             catchError(this.f)
         );
     }
+    public delete(uri: string): Observable<any> {
+        return this.httpClient.delete(this.baseURI + uri, this.httpOptions).pipe(
+            catchError(this.f)
+        );
+    }
 
     public setHttpOptions(token: string) {
         this.httpOptions.headers = this.httpOptions.headers?.set("Authorization", "Bearer " + token);

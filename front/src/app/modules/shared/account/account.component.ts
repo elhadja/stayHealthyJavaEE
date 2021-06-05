@@ -18,6 +18,7 @@ import { UpdatePasswordComponent } from '../update-password/update-password.comp
 export class AccountComponent implements OnInit {
   accountForm: FormGroup;
   error: string;
+  username: string;
 
   constructor(private readonly fb: FormBuilder,
      private readonly userService: UserService,
@@ -29,12 +30,14 @@ export class AccountComponent implements OnInit {
     });
 
     this.error = '';
+    this.username = '';
   }
 
   ngOnInit(): void {
     this.userService.getById(this.userService.getUserId()).subscribe((user) => {
       this.accountForm.get('email')?.setValue(user.email);
       this.accountForm.get('tel')?.setValue(user.tel);
+      this.username = user.firstName + " " + user.lastName;
     })
   }
 
@@ -56,6 +59,12 @@ export class AccountComponent implements OnInit {
 
   updateProfile(): void {
     this.matDialog.open(UpdatePatientDialogComponent);
+  }
+
+  deleteAccount(): void {
+    this.userService.delete().subscribe(() => {
+      this.userService.logout();
+    });
   }
 
   get email() {return this.accountForm.get('email')}
