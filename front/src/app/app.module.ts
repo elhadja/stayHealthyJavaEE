@@ -12,19 +12,16 @@ import { LoginComponent } from './components/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthValidatorService } from './services/auth-validator.service';
-import { GenericErrorComponent } from './components/generic-error/generic-error.component';
-import { AccountComponent } from './components/account/account.component';
 import { MessageComponent } from './components/message/message.component';
 import { MessageService } from './services/Message.service';
-import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { API } from './services/api';
+import { SharedModule } from './modules/shared/shared.module';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
-  {path: 'account', component: AccountComponent},
   {path: 'patient', canActivate: [AuthValidatorService], loadChildren: () => import('./modules/patient/patient.module').then(m => m.PatientModule)},
   {path: 'doctor', canActivate: [AuthValidatorService], loadChildren: () => import('./modules/doctor/doctor.module').then(m => m.DoctorModule)},
 ]
@@ -34,10 +31,7 @@ const routes: Routes = [
     AppComponent,
     SignupComponent,
     LoginComponent,
-    GenericErrorComponent,
-    AccountComponent,
     MessageComponent,
-    UpdatePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +40,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    SharedModule,
     RouterModule.forRoot(routes)
   ],
   providers: [UserService, AuthValidatorService, MessageService, MatDialog, API],

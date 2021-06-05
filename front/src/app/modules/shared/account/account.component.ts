@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginDTO } from 'src/app/dto/loginDTO';
 import { updateCredentialsOutputDTO } from 'src/app/dto/UpdateCredentialsOutputDTO';
+import { UpdatePatientDialogComponent } from 'src/app/modules/patient/components/update-patient-dialog/update-patient-dialog.component';
 import { MessageService } from 'src/app/services/Message.service';
 import { UserService } from 'src/app/services/user.service';
 import { UpdatePasswordComponent } from '../update-password/update-password.component';
@@ -51,6 +52,10 @@ export class AccountComponent implements OnInit {
 
   showDialog(): void {
     this.matDialog.open(UpdatePasswordComponent);
+  }
+
+  updateProfile(): void {
+    this.matDialog.open(UpdatePatientDialogComponent);
   }
 
   get email() {return this.accountForm.get('email')}

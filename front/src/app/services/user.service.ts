@@ -50,6 +50,7 @@ export class UserService {
 
   public setToken(token: string, id: number): void {
     localStorage.setItem('token', token);
+    localStorage.setItem('id', id + "");
     this.userId = id;
     this.token = token;
     this.api.setHttpOptions(token);
@@ -60,6 +61,10 @@ export class UserService {
   }
 
   public getUserId(): number {
+    const id = localStorage.getItem('id');
+    if (id != null) {
+      this.userId = +id;
+    }
     return this.userId;
   }
 }
