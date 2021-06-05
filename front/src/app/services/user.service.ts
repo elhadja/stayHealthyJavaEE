@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginDTO } from '../dto/loginDTO';
 import { signupDTO } from '../dto/signupDTO';
@@ -15,7 +16,7 @@ export class UserService {
 
   private readonly baseUri: string;
 
-  constructor(private api: API) { 
+  constructor(private api: API, private router: Router) { 
     this.userId = 0;
     const tmp = localStorage.getItem('token');
     if (tmp != null) {
@@ -45,6 +46,11 @@ export class UserService {
 
   public getById(id: number = this.userId): Observable<any> {
     return this.api.get(this.baseUri + "/" + id);
+  }
+
+  public logout(): void {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
 
