@@ -17,6 +17,7 @@ import { MessageService } from './services/Message.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { API } from './services/api';
 import { SharedModule } from './modules/shared/shared.module';
+import { PatientService } from './services/patient.service';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -43,7 +44,7 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserService, AuthValidatorService, MessageService, MatDialog, API],
+  providers: [UserService, AuthValidatorService, MessageService, MatDialog, API, PatientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

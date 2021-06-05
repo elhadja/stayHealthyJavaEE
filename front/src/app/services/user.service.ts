@@ -43,7 +43,7 @@ export class UserService {
   }
 
 
-  public getById(id: number): Observable<any> {
+  public getById(id: number = this.userId): Observable<any> {
     return this.api.get(this.baseUri + "/" + id);
   }
 
