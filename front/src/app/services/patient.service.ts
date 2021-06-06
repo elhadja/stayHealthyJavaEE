@@ -16,4 +16,8 @@ export class PatientService {
     update(input: UpdatePatientRequestDTO): Observable<any> {
         return this.api.put(this.baseUri + "/" + this.id, input);
     }
+
+    getDoctorsByCriteria(name: string, speciality: string, city: string): Observable<any> {
+        return this.api.get("/doctors?name=" + name + "&speciality=" + speciality + "&postalCode=" + city);
+    }
 }

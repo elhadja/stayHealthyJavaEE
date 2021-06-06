@@ -1,1 +1,28 @@
-<p>search works!</p>
+<app-menu></app-menu>
+<div class="container">
+    <div class="row">
+        <div class="col my-2">
+            <form [formGroup]="searchForm">
+                <div class="row">
+                    <div class="col">
+                        <input type="text" formControlName="name" class="form-control" placeholder="nom ou prénom">
+                    </div>
+                    <div class="col">
+                        <input type="text" formControlName="speciality" class="form-control" placeholder="Spécialité">
+                    </div>
+                    <div class="col">
+                        <input type="text" formControlName="city" class="form-control" placeholder="Ville">
+                    </div>
+                    <button class="col btn btn-primary" (click)="onSearch()">Rechercher</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div *ngFor="let doctor of doctors">
+                {{ doctor.firstName }}
+            </div>
+        </div>
+    </div>
+</div>
