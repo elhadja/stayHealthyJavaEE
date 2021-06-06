@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { API } from './services/api';
 import { SharedModule } from './modules/shared/shared.module';
 import { PatientService } from './services/patient.service';
+import { DoctorService } from './services/doctor.service';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -44,7 +45,7 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserService, AuthValidatorService, MessageService, MatDialog, API, PatientService],
+  providers: [UserService, AuthValidatorService, MessageService, MatDialog, API, PatientService, DoctorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

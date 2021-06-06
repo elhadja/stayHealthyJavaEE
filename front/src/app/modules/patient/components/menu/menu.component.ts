@@ -13,7 +13,6 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("ok")
   }
 
   logout(): void {
