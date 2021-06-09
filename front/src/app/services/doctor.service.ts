@@ -14,4 +14,8 @@ export class DoctorService {
     update(input: UpdateDoctorRequestDTO): Observable<any> {
         return this.api.put(this.baseUri + "/" + this.userService.getUserId(), input);
     }
+
+    getById(): Observable<any> {
+        return this.api.get(this.baseUri + "/" + this.userService.getUserId());
+    }
 }

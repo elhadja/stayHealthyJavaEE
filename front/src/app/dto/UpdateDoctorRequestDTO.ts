@@ -6,8 +6,13 @@ export interface UpdateDoctorRequestDTO {
     address?: AdressDTO,
     presentation?: string,
     speciality?: string,
+    meanOfPayment?: string[],
     diplomas?: {
-        title?: string,
+        name?: string,
         university?: string
+    }[],
+    prices: {
+        description: string,
+        number: number
     }[]
 }

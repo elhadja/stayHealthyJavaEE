@@ -80,6 +80,7 @@ public class DoctorInfos {
 	}
 
 	public void setMeanOfPayment(Set<String> meanOfPayment) {
+		this.meanOfPayment.clear();
 		this.meanOfPayment = meanOfPayment;
 	}
 
@@ -88,7 +89,8 @@ public class DoctorInfos {
 	}
 
 	public void setDiplomas(List<Diplomas> diplomas) {
-		this.diplomas = diplomas;
+		this.diplomas.clear();
+		this.diplomas.addAll(diplomas);
 	}
 
 	public List<Price> getPrices() {
@@ -96,7 +98,8 @@ public class DoctorInfos {
 	}
 
 	public void setPrices(List<Price> prices) {
-		this.prices = prices;
+		this.prices.clear();
+		this.prices.addAll(prices);
 	}
 
 	public User getUser() {

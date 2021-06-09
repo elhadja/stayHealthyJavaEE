@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,8 @@ import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.PatientDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.dto.UpdateDoctorDTO;
+import com.elhadj.health.model.Diplomas;
+import com.elhadj.health.model.Price;
 import com.elhadj.health.model.Slot;
 import com.elhadj.health.service.PatientService;
 import com.elhadj.health.service.SlotService;
@@ -192,6 +195,12 @@ public class DoctorControllerTest {
 		set.add("cb");
 		set.add("especes");
 		body.setMeanOfPayment(set);
+		List<Diplomas> diplomas = new ArrayList<Diplomas>();
+		diplomas.add(new Diplomas("ingenieur", "Bordeaux"));
+		diplomas.add(new Diplomas("medecin", "harvard"));
+		body.setDiplomas(diplomas);
+		List<Price> prices = Arrays.asList(new Price(), new Price());
+		body.setPrices(prices);
 		
 		MvcResult res = mockMvc.perform(put("/doctors/" + id)
 			.header("Authorization", "Bearer " + token)
