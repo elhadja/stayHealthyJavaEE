@@ -1,4 +1,4 @@
-package com.elhadj.health;
+package com.elhadj.health.integrationTests;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.Assert;
 
+import com.elhadj.health.Util;
 import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dto.AddressDTO;
 import com.elhadj.health.dto.DoctorDTO;
@@ -143,8 +144,8 @@ public class DoctorControllerTest {
 	
 	/************************************* get several doctors *$****************************/
 	@Test void it_should_get_doctor_by_firstName() throws Exception {
-		long id1 = Util.addUser2("getseverallsucced1", userService);
-		long id2 = Util.addUser2("getseverallsucced2", userService);
+		long id1 = Util.addUser("getseverallsucced1", SHConstants.DOCTOR, userService);
+		long id2 = Util.addUser("getseverallsucced2", SHConstants.DOCTOR, userService);
 		
 		MvcResult res = mockMvc.perform(get("/doctors?name=firstnamespring")
 			.header("Authorization", "Bearer " + token)
@@ -154,13 +155,13 @@ public class DoctorControllerTest {
 			.andReturn();
 		List<DoctorDTO> list = new ArrayList<DoctorDTO>();
 		list = Util.parseResponse(res, list.getClass());
-		Assert.isTrue(list.size() == 2, "the liste size should be 2");
+		Assert.isTrue(list.size() == 2, list.size() + " should be 2");
 	}
 	
 	@Test void it_should_get_doctor_by_city() throws Exception {
 		long id1 = Util.addUser2("getseverallsucced1", userService);
-		long id2 = Util.addUser2("getseverallsucced2", userService);
-		long id3 = Util.addUser2("getseverallsucced3", "muskCity", userService);
+		long id2 = Util.addUser("getseverallsucced2", SHConstants.DOCTOR, userService);
+		long id3 = Util.addUser2("getseverallsucced3", SHConstants.DOCTOR, "muskCity", userService);
 		
 		MvcResult res = mockMvc.perform(get("/doctors?city=muskCity")
 			.header("Authorization", "Bearer " + token)

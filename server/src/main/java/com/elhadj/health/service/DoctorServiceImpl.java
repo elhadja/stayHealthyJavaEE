@@ -46,10 +46,12 @@ public class DoctorServiceImpl implements DoctorService {
 
 	@Override
 	public List<DoctorDTO> getSeverall(String name, String speciality, String city) throws Exception {
-		List<Doctor> doctors = doctorDAO.getByCriteria(name, speciality, city);
+		List<User> doctors = doctorDAO.getByCriteria(name, speciality, city);
 		List<DoctorDTO> dtos = new ArrayList<DoctorDTO>();
-		for (Doctor d: doctors) {
-			dtos.add(JavaUtil.convertTo(d, DoctorDTO.class));
+		for (User d: doctors) {
+			DoctorDTO dto = JavaUtil.convertTo(d, DoctorDTO.class);
+			// TODO complete dto
+			dtos.add(dto);
 		}
 		return dtos;
 	}
