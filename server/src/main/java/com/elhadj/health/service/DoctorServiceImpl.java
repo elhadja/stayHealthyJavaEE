@@ -50,7 +50,11 @@ public class DoctorServiceImpl implements DoctorService {
 		List<DoctorDTO> dtos = new ArrayList<DoctorDTO>();
 		for (User d: doctors) {
 			DoctorDTO dto = JavaUtil.convertTo(d, DoctorDTO.class);
-			// TODO complete dto
+			dto.setPresentation(d.getDoctorInfos().getPresentation());
+			dto.setSpeciality(d.getDoctorInfos().getSpeciality());
+			dto.setMeanOfPayment(d.getDoctorInfos().meanOfPayment);
+			dto.setPrices(d.getDoctorInfos().getPrices());
+			dto.setDiplomas(d.getDoctorInfos().getDiplomas());
 			dtos.add(dto);
 		}
 		return dtos;
