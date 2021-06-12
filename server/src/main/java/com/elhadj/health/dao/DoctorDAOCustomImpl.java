@@ -33,14 +33,14 @@ public class DoctorDAOCustomImpl implements DoctorDAOCustom {
 		Predicate predicate = cb.equal(root.get("userType"), SHConstants.DOCTOR);
 		if (JavaUtil.notNullAndEmpty(name)) {
 			predicate = cb.and(predicate, 
-							   cb.or(cb.equal(root.get("firstName"), name), 
-									  cb.equal(root.get("lastName"), name)));
+							   cb.or(cb.like(root.get("firstName"), name + "%"), 
+									  cb.like(root.get("lastName"), name + "%")));
 		}
 		if (JavaUtil.notNullAndEmpty(city)) {
-			predicate = cb.and(predicate, cb.equal(root.get("address").get("city"), city));
+			predicate = cb.and(predicate, cb.like(root.get("address").get("city"), city + "%"));
 		}
 		if (JavaUtil.notNullAndEmpty(speciality)) {
-			predicate = cb.and(predicate, cb.equal(root.get("doctorInfos").get("speciality"), speciality));
+			predicate = cb.and(predicate, cb.like(root.get("doctorInfos").get("speciality"), speciality + "%"));
 		}
 
 		userCriteria.where(predicate);

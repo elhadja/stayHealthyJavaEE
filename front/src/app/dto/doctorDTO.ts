@@ -5,5 +5,6 @@ export interface DoctorDTO {
     lastName: string,
     email: string,
     tel: string,
-    address: AdressDTO
+    address: AdressDTO,
+    speciality: string
 }

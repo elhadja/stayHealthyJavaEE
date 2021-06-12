@@ -18,6 +18,6 @@ export class PatientService {
     }
 
     getDoctorsByCriteria(name: string, speciality: string, city: string): Observable<any> {
-        return this.api.get("/doctors?name=" + name + "&speciality=" + speciality + "&postalCode=" + city);
+        return this.api.get("/doctors?name=" + name + "&speciality=" + speciality + "&city=" + city);
     }
 }

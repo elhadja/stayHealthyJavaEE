@@ -57,10 +57,5 @@ public class UpdateDoctorDTO extends UpdatePatientRequestDTO implements Validate
 	@Override
 	public void validate() {
 		super.validate();
-		if ((meanOfPayment != null && meanOfPayment.isEmpty())
-				|| (prices != null && prices.isEmpty())
-				|| (diplomas != null && diplomas.isEmpty())) {
-			throw new SHRuntimeException(400, "invalide formulaire", "meanofpayment, prices, diplomas cannot be empty but not required");
-		}
 	}
 }
