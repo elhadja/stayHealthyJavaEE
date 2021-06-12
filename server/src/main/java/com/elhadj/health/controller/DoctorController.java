@@ -21,6 +21,7 @@ import com.elhadj.health.dao.SlotDAO;
 import com.elhadj.health.dto.AddSlotRequestDTO;
 import com.elhadj.health.dto.DoctorDTO;
 import com.elhadj.health.dto.RequestErrorDTO;
+import com.elhadj.health.dto.SlotDTO;
 import com.elhadj.health.dto.UpdateDoctorDTO;
 import com.elhadj.health.model.CustomUserDetails;
 import com.elhadj.health.model.Slot;
@@ -125,7 +126,7 @@ public class DoctorController {
 	public ResponseEntity<?> getSlotsByDoctorandDate(@PathVariable String id, 
 									@RequestParam(required = true) String date,
 									Principal principal) throws Exception {
-		List<Slot> slots = null;
+		List<SlotDTO> slots = null;
 		try {
 			long _id = Long.parseLong(id);
 			slots = slotService.getByCriteria(_id, date);

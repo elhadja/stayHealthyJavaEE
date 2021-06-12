@@ -23,6 +23,7 @@ import com.elhadj.health.Util;
 import com.elhadj.health.Exception.SHRuntimeException;
 import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dto.AddSlotRequestDTO;
+import com.elhadj.health.dto.SlotDTO;
 import com.elhadj.health.model.Slot;
 import com.elhadj.health.service.DoctorService;
 import com.elhadj.health.service.SlotService;
@@ -64,9 +65,9 @@ public class DoctorControllerUTest {
 	public void it_should_get_doctors() throws Exception {
 			long id = Util.addUser("oups@gmail.com", SHConstants.PATIENT, userService);
 			String token = Util.logUser("oups@gmail.com", mockMvc);
-			List<Slot> slots = new ArrayList<>();
-			slots.add(new Slot());
-			slots.add(new Slot());
+			List<SlotDTO> slots = new ArrayList<>();
+			slots.add(new SlotDTO());
+			slots.add(new SlotDTO());
 			when(slotService.getByCriteria(id, "2021-05-16")).thenReturn(slots);
 		
 			MvcResult res = mockMvc.perform(get("/doctors/" + id + "/slots?date=2021-05-16")

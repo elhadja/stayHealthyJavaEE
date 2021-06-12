@@ -215,26 +215,6 @@ public class DoctorControllerTest {
 		Assert.isTrue(dto.getMeanOfPayment().size() == 2);
 	}
 	
-	@Test
-	void it_should_not_update_doctor() throws Exception {
-		long id = Util.addUser2("updateDoctor@gmail.com", userService);
-		String token = logUser("updateDoctor@gmail.com");
-		UpdateDoctorDTO body = new UpdateDoctorDTO();
-		body.setFirstName("elhadj");
-		body.setLastName("bah");
-		body.setSpeciality("medecin");
-		Set<String> set = new HashSet<String>();
-		body.setMeanOfPayment(set);
-		
-		mockMvc.perform(put("/doctors/" + id)
-			.header("Authorization", "Bearer " + token)
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(Util.asJsonString(body))
-			.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isBadRequest())
-			.andReturn();
-	}
-	
 	@Test void get_seveeral_doctors_should_return_emplty_list() throws Exception {
 		MvcResult res = mockMvc.perform(get("/doctors?name=xxxxxx")
 			.header("Authorization", "Bearer " + token)
