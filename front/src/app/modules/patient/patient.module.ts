@@ -8,9 +8,9 @@ import { UpdatePatientDialogComponent } from './components/update-patient-dialog
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProfilComponent } from './components/profil/profil.component';
 import { SharedModule } from '../shared/shared.module';
-
-
-import {MatDividerModule} from '@angular/material/divider'; 
+import {MatInputModule} from '@angular/material/input'; 
+import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
+import {MatFormFieldModule} from '@angular/material/form-field'; 
 
 const routes: Routes = [
   {path: '', component: PatientComponent},
@@ -23,8 +23,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
     SharedModule,
-    MatDividerModule,
     RouterModule.forChild(routes),
   ],
 })

@@ -5,13 +5,47 @@
             <form [formGroup]="searchForm">
                 <div class="row">
                     <div class="col">
-                        <input type="text" formControlName="name" class="form-control" placeholder="nom ou prénom">
+                        <mat-form-field class="example-full-width">
+                            <input type="text"
+                                formControlName="name"
+                                placeholder="nom ou prénom"
+                                aria-label="Number"
+                                matInput
+                                [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let doctor of doctorsOptions" [value]="doctor.firstName">
+                                    {{ doctor.firstName }} {{ doctor.lastName }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
                     </div>
                     <div class="col">
-                        <input type="text" formControlName="speciality" class="form-control" placeholder="Spécialité">
+                        <mat-form-field class="example-full-width">
+                            <input type="text"
+                                formControlName="speciality"
+                                placeholder="specialité"
+                                matInput
+                                [matAutocomplete]="auto2">
+                            <mat-autocomplete #auto2="matAutocomplete">
+                                <mat-option *ngFor="let doctor of doctorsOptions2" [value]="doctor.speciality">
+                                    {{ doctor.speciality }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
                     </div>
                     <div class="col">
-                        <input type="text" formControlName="city" class="form-control" placeholder="Ville">
+                        <mat-form-field class="example-full-width">
+                            <input type="text"
+                                formControlName="city"
+                                placeholder="ville oun code postal"
+                                matInput
+                                [matAutocomplete]="auto3">
+                            <mat-autocomplete #auto3="matAutocomplete">
+                                <mat-option *ngFor="let doctor of doctorsOptions3" [value]="doctor.address.city">
+                                    {{ doctor.address.city }} {{ doctor.address.postalCode }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>                       
                     </div>
                     <button class="col btn btn-primary" (click)="onSearch()">Rechercher</button>
                 </div>
@@ -20,9 +54,18 @@
     </div>
     <div class="row">
         <div class="col">
-            <div *ngFor="let doctor of doctors">
-                {{ doctor.firstName }}
+            <div *ngFor="let doctor of doctorsToShow">
+                {{ doctor.firstName }} {{ doctor.lastName }}
             </div>
         </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" (click)="onPreviousPage()"><a class="page-link" >Previous</a></li>
+                <li *ngFor="let page of pages" class="page-item" [class.active]="currentPage === page" (click)="onPage(page)"><a class="page-link">{{ page + 1 }}</a></li>
+                <li class="page-item" (click)="onNextPage()"><a class="page-link">Next</a></li>
+            </ul>
+        </nav>
     </div>
 </div>
