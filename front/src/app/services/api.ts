@@ -51,7 +51,12 @@ export class API {
     }
 
     private f = (error: HttpErrorResponse): Observable<never> => {
-        this.messageService.showMessage(error.error.message, 2);
+        if (error.status === 401 && error.error === undefined) {
+            this.messageService.showMessage("Votre session à expiré", 2);
+        } else {
+            this.messageService.showMessage(error.error.message, 2);
+        }
+
         return throwError(error);
     }
 }
