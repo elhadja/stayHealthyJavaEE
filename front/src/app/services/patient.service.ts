@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { SlotResponseDTO } from "../dto/SlotResponseDTO";
 import { UpdatePatientRequestDTO } from "../dto/UpdatePatientRequestDTO";
 import { API } from "./api";
 import { UserService } from "./user.service";
@@ -19,5 +20,9 @@ export class PatientService {
 
     getDoctorsByCriteria(name: string, speciality: string, city: string): Observable<any> {
         return this.api.get("/doctors?name=" + name + "&speciality=" + speciality + "&city=" + city);
+    }
+
+    takeAppointment(input: SlotResponseDTO): Observable<any> {
+        return this.api.post(this.baseUri + "/" + this.userService.getUserId() + "/appointments", input);
     }
 }

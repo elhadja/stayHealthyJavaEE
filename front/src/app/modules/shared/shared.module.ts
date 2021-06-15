@@ -5,13 +5,17 @@ import { AccountComponent } from './account/account.component';
 import { UpdatePasswordComponent } from './update-password/update-password.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MenuDropdownUserComponent } from './menu-dropdown-user/menu-dropdown-user.component';
+import { SlotComponent } from './slot/slot.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import {MatIconModule} from '@angular/material/icon'; 
 
 @NgModule({
-  declarations: [GenericErrorComponent, AccountComponent, UpdatePasswordComponent, MenuDropdownUserComponent],
+  declarations: [GenericErrorComponent, AccountComponent, UpdatePasswordComponent, MenuDropdownUserComponent, SlotComponent, CalendarComponent],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule
   ],
-  exports: [GenericErrorComponent, AccountComponent, MenuDropdownUserComponent]
+  exports: [GenericErrorComponent, AccountComponent, MenuDropdownUserComponent, CalendarComponent, SlotComponent]
 })
 export class SharedModule { }

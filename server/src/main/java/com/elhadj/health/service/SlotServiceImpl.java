@@ -53,6 +53,7 @@ public class SlotServiceImpl implements SlotService {
 		try {
 			_date = LocalDate.parse(date);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new SHRuntimeException(400, "date invalide", "date format should be yyyy-mm-dd");
 		}
 		List<SlotDTO> dtos = new ArrayList<>();

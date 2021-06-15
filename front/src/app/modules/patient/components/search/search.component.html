@@ -52,11 +52,18 @@
             </form>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <div *ngFor="let doctor of doctorsToShow">
-                {{ doctor.firstName }} {{ doctor.lastName }}
-            </div>
+    <div class="row bg-white my-2" *ngFor="let doctor of doctorsToShow">
+        <div class="col-3">
+            <span class="text-primary"> {{ doctor.firstName }} {{ doctor.lastName }}</span>
+            <span> {{ doctor.speciality }} </span>
+            <br><br>
+            <p *ngIf="doctor.address !== undefined">
+                {{ doctor.address.road }} <br>
+                {{ doctor.address.postalCode }} {{ doctor.address.city }}
+            </p>
+        </div>
+        <div class="col-6">
+            <app-calendar [doctor]="doctor"></app-calendar>
         </div>
     </div>
     <div class="row d-flex justify-content-center">

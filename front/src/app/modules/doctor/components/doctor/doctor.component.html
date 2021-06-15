@@ -1,1 +1,17 @@
 <app-doctor-menu></app-doctor-menu>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <input class="form-control" type="time" [formControl]="startTime" required>
+                <input class="form-control" type="date" [formControl]="date" name="" id="" required>
+                <button class="btn btn-primary" (click)="onAddSlot()" [disabled]="startTime.invalid || date.invalid">
+                    NOUVEAU
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+</div>

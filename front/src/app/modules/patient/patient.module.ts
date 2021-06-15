@@ -10,16 +10,18 @@ import { ProfilComponent } from './components/profil/profil.component';
 import { SharedModule } from '../shared/shared.module';
 import {MatInputModule} from '@angular/material/input'; 
 import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
-import {MatFormFieldModule} from '@angular/material/form-field'; 
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { CreateAppointmentDialogComponent } from './components/create-appointment-dialog/create-appointment-dialog.component'; 
 
 const routes: Routes = [
   {path: '', component: PatientComponent},
   {path: 'search', component: SearchComponent},
   {path: 'profile', component: ProfilComponent},
+  {path: 'appointment', component: SearchComponent}, // TODO redirect user to appointment component
 ]
 
 @NgModule({
-  declarations: [PatientComponent, MenuComponent, SearchComponent, UpdatePatientDialogComponent, ProfilComponent],
+  declarations: [PatientComponent, MenuComponent, SearchComponent, UpdatePatientDialogComponent, ProfilComponent, CreateAppointmentDialogComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
