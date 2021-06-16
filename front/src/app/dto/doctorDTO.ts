@@ -1,7 +1,7 @@
 import { AdressDTO } from "./AdressDTO";
 
 export interface DoctorDTO {
-    id: string,
+    id: number,
     firstName: string,
     lastName: string,
     email: string,

@@ -1,8 +1,9 @@
 import { stringify } from '@angular/compiler/src/util';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DoctorDTO } from 'src/app/dto/doctorDTO';
 import { SlotDTO } from 'src/app/dto/slot';
 import { DoctorService } from 'src/app/services/doctor.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-calendar',
@@ -11,7 +12,10 @@ import { DoctorService } from 'src/app/services/doctor.service';
 })
 export class CalendarComponent implements OnInit {
   @Input()
-  doctor: DoctorDTO | undefined;
+  userId: number;
+
+  @Output()
+  updateSlotEvent: EventEmitter<number>;
 
   slots: SlotDTO[];
   step: number;
@@ -27,7 +31,8 @@ export class CalendarComponent implements OnInit {
 
   isPatient: boolean;
 
-  constructor(private readonly doctorService: DoctorService) {
+  constructor(private readonly doctorService: DoctorService,
+    private readonly userService: UserService) {
     this.step = 0;
     this.dates = [];
     this.daysOfWeek = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"]
@@ -35,15 +40,16 @@ export class CalendarComponent implements OnInit {
     this.slotsByDay = new Map();
     this.slots = [];
     this.isPatient = true;
+    this.userId = 0;
+    this.updateSlotEvent = new EventEmitter<number>();
    }
 
   ngOnInit(): void {
-    if (this.doctor != undefined) {
-      this.doctorService.getSlotsBetween(this.doctor.id, this.jsDateToSHDate(new Date()), "").subscribe((slots: SlotDTO[]) => {
-        this.slots = slots;
-        this.makeCurrentWeek();
-      });
-    }
+    this.doctorService.getSlotsBetween(this.userId, this.jsDateToSHDate(new Date()), "").subscribe((slots: SlotDTO[]) => {
+      this.slots = slots;
+      this.makeCurrentWeek();
+    });
+    this.isPatient = this.userService.getUserType() === 0;
   }
 
   makeCurrentWeek() {

@@ -13,6 +13,7 @@ import { API } from './api';
 export class UserService {
   private token: string;
   private userId: number;
+  private userType: number;
 
   private readonly baseUri: string;
 
@@ -25,6 +26,7 @@ export class UserService {
       this.token = '';
     }
     this.baseUri = "/users";
+    this.userType = 0;
   }
 
   public signup(input: signupDTO): Observable<any> {
@@ -58,12 +60,17 @@ export class UserService {
   }
 
 
-  public setToken(token: string, id: number): void {
+  public setToken(token: string, id: number, userType: number): void {
     localStorage.setItem('token', token);
     localStorage.setItem('id', id + "");
     this.userId = id;
     this.token = token;
     this.api.setHttpOptions(token);
+    this.userType = userType;
+ }
+
+ public getUserType(): number {
+   return this.userType;
  }
   
   public isLogged(): boolean {
