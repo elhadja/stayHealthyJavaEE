@@ -40,20 +40,41 @@ export class DoctorComponent implements OnInit {
 
   onAddSlot(): void {
     this.doctorService.addSlot(this.getInput()).subscribe(() => {
-      this.messageService.showMessage("Créneaux ajouté avec succès", 0);
+      if (this.slotToUpdate !== undefined) {
+        this.messageService.showMessage("Créneaux ajouté avec succès", 0);
+      } else {
+        this.messageService.showMessage("Créneaux modifié avec succès", 0);
+        this.slotToUpdate = undefined;
+      }
+
     })
   }
 
   onUpdateSlot(): void {
-    // TODO
+    if(this.slotToUpdate?.id !== undefined) {
+      if(!this.slotToUpdate.used) {
+        this.doctorService.deleteSlot(this.slotToUpdate?.id).subscribe(() => {
+          this.onAddSlot();
+        })
+      } else {
+        this.messageService.showMessage("Ce créneaux ne pas être modifié car occupé par un patient", 2);
+        this.slotToUpdate = undefined;
+      }
+    }
+
   }
 
   onDeleteSlot(): void {
     if(this.slotToUpdate?.id !== undefined) {
-      this.doctorService.deleteSlot(this.slotToUpdate?.id).subscribe(() => {
-        this.messageService.showMessage("Créneaux supprimé avec succès", 0);
+      if(!this.slotToUpdate.used) {
+        this.doctorService.deleteSlot(this.slotToUpdate?.id).subscribe(() => {
+          this.messageService.showMessage("Créneaux supprimé avec succès", 0);
+          this.slotToUpdate = undefined;
+        })
+      } else {
+        this.messageService.showMessage("Ce créneaux ne pas être supprimé car occupé par un patient", 2);
         this.slotToUpdate = undefined;
-      })
+      }
     }
   }
 

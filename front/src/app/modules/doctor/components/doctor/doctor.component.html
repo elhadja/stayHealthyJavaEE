@@ -5,9 +5,14 @@
             <div class="form-group row">
                 <input class="form-control" type="time" [formControl]="startTime" required>
                 <input class="form-control" type="date" [formControl]="date" name="" id="" required>
-                <button class="btn btn-primary" (click)="onAddSlot()" [disabled]="startTime.invalid || date.invalid">
+                <button *ngIf="slotToUpdate === undefined; else other" class="btn btn-primary" (click)="onAddSlot()" [disabled]="startTime.invalid || date.invalid">
                     NOUVEAU
                 </button>
+                <ng-template #other>
+                    <button class="btn btn-primary" (click)="onUpdateSlot()" [disabled]="startTime.invalid || date.invalid">
+                        UPDATE
+                    </button>
+                </ng-template>
                 <button *ngIf="!!slotToUpdate" class="btn btn-danger" (click)="onDeleteSlot()">
                     SUPPRIMER
                 </button>
