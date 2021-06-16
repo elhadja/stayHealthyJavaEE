@@ -10,11 +10,13 @@ export class DoctorService {
     readonly baseUri: string;
     readonly slotUri: string;
     public updateSlotSubject: Subject<SlotDTO>;
+    public slotsSubject: Subject<SlotDTO[]>;
 
     constructor(private api: API, private readonly userService: UserService) {
         this.baseUri = "/doctors";
         this.slotUri = "/slots";
         this.updateSlotSubject = new Subject<SlotDTO>();
+        this.slotsSubject = new Subject<SlotDTO[]>();
     }
 
     update(input: UpdateDoctorRequestDTO): Observable<any> {
@@ -40,5 +42,12 @@ export class DoctorService {
 
     public emitUpdateSlot(slotIdtoUpdate: SlotDTO) {
         this.updateSlotSubject.next(slotIdtoUpdate);
+    }
+
+    public emitSlots(): void {
+        // TODO use the right date
+        this.api.get(this.baseUri + "/" + this.userService.getUserId() + this.slotUri + "?date=2021-06-16").subscribe(slots => {
+            this.slotsSubject.next(slots);
+        })
     }
 }

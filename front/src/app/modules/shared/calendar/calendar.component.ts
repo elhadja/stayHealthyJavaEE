@@ -1,5 +1,6 @@
 import { stringify } from '@angular/compiler/src/util';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { DoctorDTO } from 'src/app/dto/doctorDTO';
 import { SlotDTO } from 'src/app/dto/slot';
 import { DoctorService } from 'src/app/services/doctor.service';
@@ -14,10 +15,8 @@ export class CalendarComponent implements OnInit {
   @Input()
   userId: number;
 
-  @Output()
-  updateSlotEvent: EventEmitter<number>;
-
   slots: SlotDTO[];
+  slotsSubscription: Subscription;
   step: number;
   dates: string[];
 
@@ -41,7 +40,10 @@ export class CalendarComponent implements OnInit {
     this.slots = [];
     this.isPatient = true;
     this.userId = 0;
-    this.updateSlotEvent = new EventEmitter<number>();
+    this.slotsSubscription = doctorService.slotsSubject.subscribe((slots) => {
+      this.slots = slots;
+      this.makeCurrentWeek();
+    })
    }
 
   ngOnInit(): void {

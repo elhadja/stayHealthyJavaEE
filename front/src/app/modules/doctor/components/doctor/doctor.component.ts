@@ -46,8 +46,8 @@ export class DoctorComponent implements OnInit {
         this.messageService.showMessage("Créneaux modifié avec succès", 0);
         this.slotToUpdate = undefined;
       }
-
-    })
+      this.doctorService.emitSlots();
+    });
   }
 
   onUpdateSlot(): void {
@@ -70,6 +70,7 @@ export class DoctorComponent implements OnInit {
         this.doctorService.deleteSlot(this.slotToUpdate?.id).subscribe(() => {
           this.messageService.showMessage("Créneaux supprimé avec succès", 0);
           this.slotToUpdate = undefined;
+          this.doctorService.emitSlots();
         })
       } else {
         this.messageService.showMessage("Ce créneaux ne pas être supprimé car occupé par un patient", 2);
