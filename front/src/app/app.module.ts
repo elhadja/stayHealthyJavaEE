@@ -19,11 +19,14 @@ import { API } from './services/api';
 import { SharedModule } from './modules/shared/shared.module';
 import { PatientService } from './services/patient.service';
 import { DoctorService } from './services/doctor.service';
+import { AppointmentComponent } from './components/appointment/appointment.component';
+import { Util } from './services/util';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
   {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
+  {path: 'appointment', component: AppointmentComponent},
   {path: 'patient', canActivate: [AuthValidatorService], loadChildren: () => import('./modules/patient/patient.module').then(m => m.PatientModule)},
   {path: 'doctor', canActivate: [AuthValidatorService], loadChildren: () => import('./modules/doctor/doctor.module').then(m => m.DoctorModule)},
 ]
@@ -34,6 +37,7 @@ const routes: Routes = [
     SignupComponent,
     LoginComponent,
     MessageComponent,
+    AppointmentComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,7 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserService, AuthValidatorService, MessageService, MatDialog, API, PatientService, DoctorService],
+  providers: [UserService, AuthValidatorService, MessageService, MatDialog, API, PatientService, DoctorService, Util],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

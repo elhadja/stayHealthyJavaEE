@@ -69,6 +69,10 @@ export class UserService {
     this.userType = userType;
  }
 
+ public getUserInfos(): Observable<any> {
+   return this.api.get(this.baseUri + "/" + this.userId );
+ }
+
  public getUserType(): number {
    return this.userType;
  }
@@ -84,4 +88,9 @@ export class UserService {
     }
     return this.userId;
   }
+
+  getAppointments(): Observable<any> {
+      return this.api.get(this.baseUri + "/" + this.userId + "/appointments")
+  }
+
 }

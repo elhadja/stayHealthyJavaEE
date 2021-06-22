@@ -116,7 +116,8 @@ export class CalendarComponent implements OnInit {
     }
   */
   }
-
+  
+  // TODO replace by Util.jsDateTo...
   private jsDateToSHDate(date: Date): string {
     let shDate = date.getFullYear() + '-';
     shDate += (date.getMonth() < 10) ? ('0' + date.getMonth()) : date.getMonth() + '';    
