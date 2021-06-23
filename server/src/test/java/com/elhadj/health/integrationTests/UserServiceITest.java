@@ -3,6 +3,7 @@ package com.elhadj.health.integrationTests;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,8 +71,10 @@ public class UserServiceITest {
 		List<GetAppointmentDTOResponse> patientAppoitments = userService.getUserAppointments(patientId, startDate, endDate);
 		List<GetAppointmentDTOResponse> doctorAppoitments = userService.getUserAppointments(doctorId, startDate, endDate);
 		
+
 		//then
 		Assert.isTrue(patientAppoitments.size() == numberExpectedAppointments, patientAppoitments.size() + " should be " + numberExpectedAppointments);
 		Assert.isTrue(patientAppoitments.size() == doctorAppoitments.size(), "should be equals");
 	}
+	
 }

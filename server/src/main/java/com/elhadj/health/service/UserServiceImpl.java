@@ -19,7 +19,10 @@ import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dao.DoctorInfosDAO;
 import com.elhadj.health.dao.UserDAO;
 import com.elhadj.health.dto.AddSlotRequestDTO;
+import com.elhadj.health.dto.DoctorDTO;
+import com.elhadj.health.dto.DoctorInfosDTO;
 import com.elhadj.health.dto.GetAppointmentDTOResponse;
+import com.elhadj.health.dto.PatientDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.dto.UpdatePasswordRequestDTO;
 import com.elhadj.health.dto.UserDTO;
@@ -123,10 +126,11 @@ public class UserServiceImpl implements UserService{
 			GetAppointmentDTOResponse dto = new GetAppointmentDTOResponse();
 			dto.setRaison(appointment.getRaison());
 			dto.setSlot(JavaUtil.convertTo(appointment.getSlot(), AddSlotRequestDTO.class));
-			if (user.getUserType() == SHConstants.PATIENT) {
+			if (user.getUserType() == SHConstants.DOCTOR) {
 				dto.setUser(JavaUtil.convertTo(appointment.getPatient(), UserDTO.class));
 			} else {
 				dto.setUser(JavaUtil.convertTo(appointment.getDoctor(), UserDTO.class));
+				dto.setDoctorInfos(JavaUtil.convertTo(appointment.getDoctor().getDoctorInfos(), DoctorInfosDTO.class));
 			}
 			dto.getUser().setPassword(null);
 			res.add(dto);
