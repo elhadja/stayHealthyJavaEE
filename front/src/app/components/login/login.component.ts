@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
       (res) => {
           this.userService.setToken(res.token, res.id, res.userType);
           if (res.userType === 0) {
-            this.router.navigate(['/patient']);
+            this.router.navigate(['/appointment']);
           } else {
             this.router.navigate(['/doctor']);
           }
