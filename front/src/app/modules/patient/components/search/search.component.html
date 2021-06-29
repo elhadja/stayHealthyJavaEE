@@ -47,7 +47,7 @@
                             </mat-autocomplete>
                         </mat-form-field>                       
                     </div>
-                    <button class="col btn btn-primary" (click)="onSearch()">Rechercher</button>
+                    <button mat-stroked color="primary" (click)="onSearch()">Rechercher</button>
                 </div>
             </form>
         </div>
@@ -66,7 +66,7 @@
             <app-calendar [userId]="doctor.id"></app-calendar>
         </div>
     </div>
-    <div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-center" *ngIf="!!doctors && doctors.length > 0">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
                 <li class="page-item" (click)="onPreviousPage()"><a class="page-link" >Previous</a></li>

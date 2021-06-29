@@ -11,6 +11,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { CreateAppointmentDialogComponent } from './components/create-appointment-dialog/create-appointment-dialog.component'; 
+import {MatButtonModule} from '@angular/material/button';
 
 const routes: Routes = [
   {path: '', component: SearchComponent},
@@ -25,6 +26,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatFormFieldModule,
+    MatButtonModule,
     MatInputModule,
     SharedModule,
     RouterModule.forChild(routes),
