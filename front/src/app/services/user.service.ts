@@ -6,6 +6,7 @@ import { signupDTO } from '../dto/signupDTO';
 import { updateCredentialsOutputDTO } from '../dto/UpdateCredentialsOutputDTO';
 import { UpdatePasswordRequestDTO } from '../dto/UpdatePasswordRequestDTO';
 import { API } from './api';
+import { Util } from './util';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class UserService {
 
   private readonly baseUri: string;
 
-  constructor(private api: API, private router: Router) { 
+  constructor(private api: API, private router: Router, private readonly util: Util) { 
     this.userId = 0;
     const tmp = localStorage.getItem('token');
     if (tmp != null) {
@@ -89,8 +90,15 @@ export class UserService {
     return this.userId;
   }
 
-  getAppointments(): Observable<any> {
-      return this.api.get(this.baseUri + "/" + this.userId + "/appointments")
+  public getAppointments(filter: string): Observable<any> {
+      return this.api.get(this.baseUri + "/" + this.userId + "/appointments" + filter)
   }
 
+  public getAppointmentsBefore(): Observable<any> {
+    return this.getAppointments("?endDate=" + this.util.jsDateToSHDate(new Date()));
+  }
+
+  public getAppointmentAfter(): Observable<any> {
+    return this.getAppointments("?startDate=" + this.util.jsDateToSHDate(new Date()));
+  }
 }

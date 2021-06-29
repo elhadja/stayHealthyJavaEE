@@ -1,11 +1,96 @@
 <app-menu></app-menu>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-3 scrollable-y">
-            hehe
+            <h2>Prochains rendez-vous</h2>
+            <div class="card mg-3" *ngFor="let appointment of upcomingAppointments" (click)="currentAppointment=appointment">
+                <div class="card-header bg-primary text-white bold">
+                    {{ getFormattedDate(appointment.slot.date) }} {{ appointment.slot.startTime }}
+                </div>
+                <div class="card-body">
+                    <ng-template [ngIf]="isPatient">Dr</ng-template>
+                    {{ appointment.user.firstName }} {{ appointment.user.lastName }} <br>
+                    <span *ngIf="isPatient">{{ appointment.doctorInfos.speciality }}</span>
+                    <span *ngIf="!isPatient">{{ appointment.raison }}</span>
+                </div>
+            </div>
+            <h2>Rendez-vous passés</h2>
+            <div class="card mg-3" *ngFor="let appointment of previousAppointments">
+                <div class="card-header">
+                    {{ getFormattedDate(appointment.slot.date) }} {{ appointment.slot.startTime }}
+                </div>
+                <div class="card-body">
+                    <ng-template [ngIf]="!isPatient">Dr</ng-template>
+                    {{ appointment.user.firstName }} {{ appointment.user.lastName }}
+                    <span *ngIf="isPatient">{{ appointment.doctorInfos.speciality }}</span>
+                    <span *ngIf="!isPatient">{{ appointment.raison }}</span>
+                </div>
+                <div class="card-footer" *ngIf="isPatient">
+                    <button class="btn btn-primary">REPRENDRE RENDEZ-VOUS</button>
+                </div>
+            </div>
         </div>
-        <div class="col-6 scrollable-y">
-            heho
+        <!-- current appointment Infos -->
+        <div class="col-9 scrollable-y" *ngIf="!!currentAppointment && !!currentUser">
+            <div class="py-5 px-5 bg-white">
+                <div>
+                    <div id="headerInfos" class="bg-primary text-white bold"
+                        *ngIf="!!currentAppointment.slot.date && !!currentAppointment.slot.startTime">
+                        {{ getFormattedDate(currentAppointment.slot.date) }}
+                        {{ currentAppointment.slot.startTime }}
+                    </div>
+                    <div>
+                        <ng-template *ngIf="!isPatient">Dr</ng-template>
+                        {{ currentAppointment.user.firstName }} {{ currentAppointment.user.lastName }}
+                        <span>{{ currentAppointment.user.speciality }}</span>
+                    </div>
+                    <div id="actionButtons" class="d-flex justify-content-center">
+                        <button class="btn btn-danger" (click)="onCancelAppointment()">ANNULER LE RENDEZ-VOUS</button>
+                    </div>
+                </div>
+                <div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class="bold">Nom du patient</span>
+                            <br>
+                            <span *ngIf="isPatient; else oups">
+                                {{ currentUser.firstName }} {{ currentUser.lastName }}
+                            </span>
+                            <ng-template #oups>
+                                {{ currentAppointment.user.firstName }} {{ currentAppointment.user.lastName }}
+                            </ng-template>
+                        </li>
+                        <li class="list-group-item">
+                            <span class="bold">Numéro de téléphone </span>
+                            <br>
+                            {{currentAppointment.user.tel}}
+                        </li>
+                        <li class="list-group-item">
+                            <span *ngIf="isPatient; else elseBlock" class="bold">Se rendre au rendez-vous</span>
+                            <ng-template #elseBlock>
+                                Address du Patient
+                            </ng-template>
+                             <br>
+                            <span class="text-primary">
+                                {{currentAppointment.user.address.road}} <br>
+                                {{currentAppointment.user.address.postalCode}} {{currentAppointment.user.address.city}}
+                            </span>
+                        </li>
+                        <li class="list-group-item" *ngIf="isPatient">
+                            <span class="bold">Moyens de paiements </span>
+                            <br>
+                            {{currentAppointment.doctorInfos.meanOfPayment.toString()}}
+                        </li>
+                        <li class="list-group-item" *ngIf="isPatient">
+                            <span class="bold">Tarifs et remboursement</span><br>
+                            Conventionné <br><br>
+
+                            Merci de vous munir de votre carte Vitale à jour et, si besoin, de votre carte de mutuelle ou de votre attestation de droits à jour.
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

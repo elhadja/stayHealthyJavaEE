@@ -2,8 +2,8 @@
         <mat-icon (click)="back()" aria-hidden="false" aria-label="Example home icon">arrow_back_ios</mat-icon>
         <div  *ngFor="let date of dates" class="px-3 justify-content-center">
             <div>
-                <span>{{ getDay(date) }}</span> <br>
-                <span> {{ (date.split('-'))[2] }} {{ getMonth(date) }} </span>
+                <span>{{ utilDate.getDay(date) }}</span> <br>
+                <span> {{ (date.split('-'))[2] }} {{ utilDate.getMonth(date) }} </span>
             </div>
             <div class="d-flex flex-column my-3">
                 <ng-template ngFor let-slot [ngForOf]="slots">

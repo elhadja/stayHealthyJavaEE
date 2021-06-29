@@ -21,6 +21,7 @@ import { PatientService } from './services/patient.service';
 import { DoctorService } from './services/doctor.service';
 import { AppointmentComponent } from './components/appointment/appointment.component';
 import { Util } from './services/util';
+import { UtilDate } from './services/date.service';
 
 const routes: Routes = [
   {path: '', component: LoginComponent},
@@ -30,6 +31,16 @@ const routes: Routes = [
   {path: 'patient', canActivate: [AuthValidatorService], loadChildren: () => import('./modules/patient/patient.module').then(m => m.PatientModule)},
   {path: 'doctor', canActivate: [AuthValidatorService], loadChildren: () => import('./modules/doctor/doctor.module').then(m => m.DoctorModule)},
 ]
+
+const SERVICES = [UserService,
+                  AuthValidatorService,
+                  MessageService,
+                  MatDialog,
+                  API,
+                  PatientService,
+                  DoctorService,
+                  Util,
+                  UtilDate];
 
 @NgModule({
   declarations: [
@@ -49,7 +60,7 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserService, AuthValidatorService, MessageService, MatDialog, API, PatientService, DoctorService, Util],
+  providers: [...SERVICES],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DoctorDTO } from 'src/app/dto/doctorDTO';
 import { SlotDTO } from 'src/app/dto/slot';
+import { UtilDate } from 'src/app/services/date.service';
 import { DoctorService } from 'src/app/services/doctor.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -22,20 +23,16 @@ export class CalendarComponent implements OnInit {
 
   private slotsByDay: Map<string,SlotDTO[]>;
 
-  private readonly daysOfWeek: string[];
-  private readonly monthOfYear: string[];
-
   private showed: number = 0;
   private maxShowed: number = 0;
 
   isPatient: boolean;
 
   constructor(private readonly doctorService: DoctorService,
-    private readonly userService: UserService) {
+    private readonly userService: UserService,
+    public readonly utilDate: UtilDate) {
     this.step = 0;
     this.dates = [];
-    this.daysOfWeek = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"]
-    this.monthOfYear = ["janv", "fevr", "mars", "avri", "mai", "juin", "juil", "août", "sept", "octo", "nov", "dec"];
     this.slotsByDay = new Map();
     this.slots = [];
     this.isPatient = true;
@@ -68,24 +65,6 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  getDay(date: string): string {
-    return this.daysOfWeek[this.getJSDate(date).getDay()];
-  }
-
-  getMonth(date: string): string {
-    return this.monthOfYear[this.getJSDate(date).getMonth()];
-  }
-
-  getJSDate(date: string): Date {
-    let jsdate: Date;
-    jsdate = new Date();
-    const token = date.split("-");
-    jsdate.setDate(+token[2]);
-    jsdate.setMonth((+token[1])-1),
-    jsdate.setFullYear(+token[0]);
-    return jsdate;
-  }
-
   help(): boolean {
     if (this.showed < this.maxShowed) {
       return true;
@@ -93,30 +72,7 @@ export class CalendarComponent implements OnInit {
     this.maxShowed = this.showed;
     return false;
   }
-
-  makeSlotByDay(): void {
-    /*
-    let maxLength = 0;
-    for (const slot of this.slots) {
-      if (!this.slotsByDay?.has(slot.date)) {
-        this.slotsByDay?.set(slot.date, [slot]);
-      } else {
-        this.slotsByDay.get(slot.date)?.push(slot);
-      }
-      let currentLength = this.slotsByDay.get(slot.date)?.length;
-      if (currentLength !== undefined && currentLength > maxLength) {
-        maxLength = currentLength;
-      }
-    }
-
-    for (let entry of this.slotsByDay.entries()) {
-      while (entry[1].length < maxLength) {
-        entry[1].push(undefined);
-      }
-    }
-  */
-  }
-  
+ 
   // TODO replace by Util.jsDateTo...
   private jsDateToSHDate(date: Date): string {
     let shDate = date.getFullYear() + '-';

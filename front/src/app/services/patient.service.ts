@@ -9,8 +9,10 @@ import { UserService } from "./user.service";
 export class PatientService {
     private readonly id: number;
     private readonly baseUri: string;
+    private readonly appointmentUri: string;
     constructor(private api: API, private userService: UserService) {
         this.baseUri = "/patients";
+        this.appointmentUri = "/appointments";
         this.id = userService.getUserId();
     }
 
@@ -23,6 +25,10 @@ export class PatientService {
     }
 
     takeAppointment(input: SlotResponseDTO): Observable<any> {
-        return this.api.post(this.baseUri + "/" + this.userService.getUserId() + "/appointments", input);
+        return this.api.post(this.baseUri + "/" + this.userService.getUserId() + this.appointmentUri, input);
+    }
+
+    cancelAppointment(appointmentId: number): Observable<any> {
+        return this.api.delete(this.baseUri + "/" + this.userService.getUserId() + this.appointmentUri + "/" + appointmentId);
     }
 }
