@@ -1,8 +1,7 @@
 package com.elhadj.health.dto;
 
-import com.elhadj.health.model.DoctorInfos;
-
 public class GetAppointmentDTOResponse {
+	private long id;
 	private String raison;
 	private AddSlotRequestDTO slot;
 	private UserDTO user;
@@ -38,5 +37,13 @@ public class GetAppointmentDTOResponse {
 
 	public void setDoctorInfos(DoctorInfosDTO doctorInfos) {
 		this.doctorInfos = doctorInfos;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }

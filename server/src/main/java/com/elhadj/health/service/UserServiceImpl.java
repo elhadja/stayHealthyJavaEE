@@ -124,6 +124,7 @@ public class UserServiceImpl implements UserService{
 		List<GetAppointmentDTOResponse> res = new ArrayList<GetAppointmentDTOResponse>();
 		for (Appointment appointment: appointments) {
 			GetAppointmentDTOResponse dto = new GetAppointmentDTOResponse();
+			dto.setId(appointment.getId());
 			dto.setRaison(appointment.getRaison());
 			dto.setSlot(JavaUtil.convertTo(appointment.getSlot(), AddSlotRequestDTO.class));
 			if (user.getUserType() == SHConstants.DOCTOR) {
