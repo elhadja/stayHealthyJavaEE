@@ -7,14 +7,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { ProfileComponentComponent } from './components/profile-component/profile-component.component';
 import { AppointmentComponent } from './components/appointment/appointment.component';
+import { DoctorPresentationComponent } from './components/doctor-presentation/doctor-presentation.component';
 
 const routes: Routes = [
   {path: '', component: DoctorComponent},
+  {path: ':id', component: DoctorPresentationComponent},
   {path: 'profile', component: ProfileComponentComponent},
 ]
 
 @NgModule({
-  declarations: [DoctorComponent, UpdateDoctorProfileComponent, ProfileComponentComponent, AppointmentComponent],
+  declarations: [DoctorComponent, UpdateDoctorProfileComponent, ProfileComponentComponent, AppointmentComponent, DoctorPresentationComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

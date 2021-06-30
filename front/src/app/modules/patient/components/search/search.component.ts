@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DoctorDTO } from 'src/app/dto/doctorDTO';
 import { PatientService } from 'src/app/services/patient.service';
 
@@ -21,7 +22,9 @@ export class SearchComponent implements OnInit {
   numberOfPages: number;
   pages: number[];
 
-  constructor(private readonly fb: FormBuilder, private readonly patientService: PatientService) {
+  constructor(private readonly fb: FormBuilder,
+               private readonly patientService: PatientService,
+               private readonly router: Router) {
     this.searchForm = fb.group({
       name: fb.control(''),
       city: fb.control(''),
@@ -117,5 +120,9 @@ export class SearchComponent implements OnInit {
       this.currentPage -= 1;
       this.onPage(this.currentPage);
     }
+  }
+
+  onDoctorSelected(doctorId: number): void {
+    this.router.navigateByUrl('/doctor/' + doctorId);
   }
 }

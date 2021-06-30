@@ -54,7 +54,7 @@
     </div>
     <div class="row bg-white my-2" *ngFor="let doctor of doctorsToShow">
         <div class="col-3">
-            <span class="text-primary"> {{ doctor.firstName }} {{ doctor.lastName }}</span>
+            <span class="text-primary" (click)="onDoctorSelected(doctor.id)"> {{ doctor.firstName }} {{ doctor.lastName }}</span><br>
             <span> {{ doctor.speciality }} </span>
             <br><br>
             <p *ngIf="doctor.address !== undefined">
