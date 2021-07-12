@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elhadj.health.Exception.SHRuntimeException;
+import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dao.DoctorDAO;
 import com.elhadj.health.dao.UserDAO;
 import com.elhadj.health.dto.DoctorDTO;
@@ -30,6 +31,9 @@ public class DoctorServiceImpl implements DoctorService {
 		User user = null;
 		try {
 			user = userDAO.findById(id).get();
+			if (user.getUserType() != SHConstants.DOCTOR) {
+				throw new SHRuntimeException(400, "The user " + id + " is not a doctor", "");
+			}
 		} catch (NoSuchElementException e) {
 			throw new SHRuntimeException(404, "utilisateur non trouvé", "no user match the path paramte id");
 		}
