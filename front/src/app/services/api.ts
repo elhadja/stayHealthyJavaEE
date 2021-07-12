@@ -19,10 +19,13 @@ export class API {
                 Authorization: ''
             })
         };
+
+        /*
         let token = localStorage.getItem('token');
         if (token !== null) {
             this.setHttpOptions(token);
         }
+        */
     }
 
     public post(uri: string, body: any): Observable<any> {

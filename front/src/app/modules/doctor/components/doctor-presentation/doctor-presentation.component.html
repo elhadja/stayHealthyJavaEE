@@ -1,1 +1,27 @@
-<p>doctor-presentation works!</p>
+<app-menu></app-menu>
+<nav id="navbar-example2" class="navbar navbar-light bg-light">
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link" [href]="'/doctor/' + doctorId + '#essential'">L'essentiel</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [href]="'/doctor/' + doctorId + '#presentation'">Presentation</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [href]="'/doctor/' + doctorId + '#hours'">horaires</a>
+        </li>
+    </ul>
+</nav>
+<div class="container-fluid" *ngIf="doctor != undefined">
+    <div class="row">
+        <div class="col-6">
+            <h4 id="">Tarifs et remboursements</h4>
+            Conventionné <br>
+            Carte vitale acceptée
+        </div>
+        <div class="col-6">
+            <h4>Moyen de paiment</h4>
+            <span>{{ doctor.meanOfPayment.toString() }}</span>
+        </div>
+    </div>
+</div>

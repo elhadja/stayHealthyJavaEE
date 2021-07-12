@@ -23,8 +23,8 @@ export class DoctorService {
         return this.api.put(this.baseUri + "/" + this.userService.getUserId(), input);
     }
 
-    getById(): Observable<any> {
-        return this.api.get(this.baseUri + "/" + this.userService.getUserId());
+    getById(doctorId: number = this.userService.getUserId()): Observable<any> {
+        return this.api.get(this.baseUri + "/" + doctorId);
     }
 
     public getSlotsBetween(doctorId: number, startDate: string, endDate: string): Observable<any> {

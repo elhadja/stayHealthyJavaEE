@@ -58,7 +58,9 @@ const SERVICES = [UserService,
     BrowserAnimationsModule,
     MatDialogModule,
     SharedModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, {
+      anchorScrolling: 'enabled'
+    })
   ],
   providers: [...SERVICES],
   bootstrap: [AppComponent]

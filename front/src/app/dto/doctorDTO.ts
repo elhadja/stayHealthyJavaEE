@@ -8,5 +8,8 @@ export interface DoctorDTO {
     tel: string,
     address: AdressDTO,
     speciality: string,
-    presentation: string
+    presentation: string,
+    meanOfPayment: string[],
+    diplomas: string[],
+    prices: string[]
 }

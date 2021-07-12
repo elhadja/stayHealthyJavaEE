@@ -14,7 +14,7 @@
                                 [matAutocomplete]="auto">
                             <mat-autocomplete #auto="matAutocomplete">
                                 <mat-option *ngFor="let doctor of doctorsOptions" [value]="doctor.firstName">
-                                    {{ doctor.firstName }} {{ doctor.lastName }}
+                                    <span class="cursor-pointer">{{ doctor.firstName }} {{ doctor.lastName }}</span>
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
