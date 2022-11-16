@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col">
+        <form [formGroup]="doctorForm">
+            <div class="form-group">
+                <label for="firstName">Prénom</label>
+                <input type="text" class="form-control" formControlName="firstName" name="firstName" id="firstName" required>
+                <app-generic-error *ngIf="firstName != null"
+                    [fc]="firstName"
+                    [fieldName]="'le prenom'"
+                    [required]="true">
+                </app-generic-error>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Nom</label>
+                <input type="text" class="form-control" formControlName="lastName" name="lastName" id="lastName" required>
+                <app-generic-error *ngIf="lastName != null"
+                    [fc]="lastName"
+                    [fieldName]="'le nom'"
+                    [required]="true">
+                </app-generic-error>
+            </div>
+            <div class="form-group">
+                <label for="presantation">Ajouter une présentation</label>
+                <textarea formControlName="presentation" class="form-control" name="presentation" id="presentation" cols="40" rows="10"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="speciality">Choisir une spécialité</label>
+                <select formControlName="speciality" name="speciality" id="speciality" class="custom-select">
+                    <option *ngFor="let spec of specialityOptions" [ngValue]="spec.value">
+                        {{ spec.name }}
+                    </option>
+                </select>
+            </div>
+ 
+            <div formGroupName="address">
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" class="form-control" formControlName="road" name="road" id="road" placeholder="Addresse">
+                </div>
+                <div class="row">
+                    <div class="col form-group">
+                        <input type="text" class="form-control" formControlName="postalCode" name="postalCode" id="postalCode" placeholder="code postale">
+                    </div>
+                    <div class="col form-group">
+                        <input type="text" class="form-control" formControlName="city" name="city" id="city" placeholder="Ville">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="moyen de paiement">Moyen de paiement</label>
+                <select class="custom-select" multiple formControlName="meanOfPayment">
+                    <option *ngFor="let opt of _meanOfPayment" [ngValue]="opt.value">
+                        {{ opt.name }}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="diplomas">diplômes</label>
+                <div *ngFor="let dipl of diplomas.controls; let i=index" [formGroup]="help(dipl)"  class="row py-2">
+                    <div class="col">
+                        <input type="text" formControlName="name" class="form-control" name="title" id="title" placeholder="titre">
+                    </div>
+                    <div class="col">
+                        <input type="text" formControlName="university" class="form-control" name="university" id="university" placeholder="university">
+                   </div>
+                    <button class="col" (click)="addDiplomas()">add</button>
+                    <button class="col" (click)="removeDiplomas(i)">remove</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="price">prix</label>
+                <div *ngFor="let price of prices.controls; let i=index" [formGroup]="help(price)"  class="row py-2">
+                    <div class="col">
+                        <input type="text" formControlName="description" class="form-control" name="description" id="description" placeholder="description du service">
+                   </div>
+                    <div class="col">
+                        <input type="text" formControlName="number" class="form-control" name="university" id="university" placeholder="prix">
+                   </div>
+                    <button class="col" (click)="addPrice()">add</button>
+                    <button class="col" (click)="removePrice(i)">remove</button>
+                </div>
+            </div>
+            <button class="btn btn-primary" style="width: 100%; text-align: center;"
+                    (click)="updateDoctor()"
+                    [disabled]="doctorForm.invalid">
+            Enregistrer
+            </button>
+        </form>
+    </div>
+</div>

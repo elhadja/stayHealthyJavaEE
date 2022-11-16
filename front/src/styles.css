@@ -2,5 +2,47 @@
 .hidden {
     display: none;
 }
+
+.width-100 {
+    width: 100%;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.blue {
+    color: dodgerblue;
+}
+
+.mouse {
+    cursor: pointer;
+}
+
+.default-color {
+    color: #435f71;
+}
+
+.bg-default {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.cdk-overlay-pane {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.blue-light {
+    background-color: cadetblue;
+}
+
+.scrollable-y {
+    overflow-y: scroll;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

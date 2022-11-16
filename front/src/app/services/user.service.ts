@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LoginDTO } from '../dto/loginDTO';
 import { signupDTO } from '../dto/signupDTO';
 import { updateCredentialsOutputDTO } from '../dto/UpdateCredentialsOutputDTO';
 import { UpdatePasswordRequestDTO } from '../dto/UpdatePasswordRequestDTO';
 import { API } from './api';
+import { Util } from './util';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +14,11 @@ import { API } from './api';
 export class UserService {
   private token: string;
   private userId: number;
+  private userType: number;
 
   private readonly baseUri: string;
 
-  constructor(private api: API) { 
+  constructor(private api: API, private router: Router, private readonly util: Util) { 
     this.userId = 0;
     const tmp = localStorage.getItem('token');
     if (tmp != null) {
@@ -24,6 +27,7 @@ export class UserService {
       this.token = '';
     }
     this.baseUri = "/users";
+    this.userType = 0;
   }
 
   public signup(input: signupDTO): Observable<any> {
@@ -47,13 +51,31 @@ export class UserService {
     return this.api.get(this.baseUri + "/" + id);
   }
 
+  public logout(): void {
+    localStorage.clear();
+    this.router.navigate(['/login']);
+  }
 
-  public setToken(token: string, id: number): void {
+  public delete(): Observable<any> {
+    return this.api.delete(this.baseUri + "/" + this.userId);
+  }
+
+
+  public setToken(token: string, id: number, userType: number): void {
     localStorage.setItem('token', token);
     localStorage.setItem('id', id + "");
     this.userId = id;
     this.token = token;
     this.api.setHttpOptions(token);
+    this.userType = userType;
+ }
+
+ public getUserInfos(): Observable<any> {
+   return this.api.get(this.baseUri + "/" + this.userId );
+ }
+
+ public getUserType(): number {
+   return this.userType;
  }
   
   public isLogged(): boolean {
@@ -66,5 +88,17 @@ export class UserService {
       this.userId = +id;
     }
     return this.userId;
+  }
+
+  public getAppointments(filter: string): Observable<any> {
+      return this.api.get(this.baseUri + "/" + this.userId + "/appointments" + filter)
+  }
+
+  public getAppointmentsBefore(): Observable<any> {
+    return this.getAppointments("?endDate=" + this.util.jsDateToSHDate(new Date()));
+  }
+
+  public getAppointmentAfter(): Observable<any> {
+    return this.getAppointments("?startDate=" + this.util.jsDateToSHDate(new Date()));
   }
 }

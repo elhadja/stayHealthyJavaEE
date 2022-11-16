@@ -1,89 +1,90 @@
 <div class="container">
-    <div class="row  d-flex justify-content-center">
-        <div class="col-6">
-            <h2 style="text-align: center;">Inscription</h2>
-            <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
-                <div class="form-row">
-                    <div class="form-group col">
-                        <label for="firstName">Votre nom</label>
-                        <input type="text" formControlName="firstName" name="firstName" id="firstName" class="form-control" required>
-                        <app-generic-error *ngIf="firstName != null"
-                            [fc]="firstName"
-                            [fieldName]="'firstName'"
-                            [required]="true">
-                        </app-generic-error>
+    <div class="row justify-content-center">
+        <div class="col-6 justify-content-center">
+            <div class="d-flex flex-column bg-white rounded my-3">
+                <h2 class="text-center">J'ai déjà un compte StayHealthy</h2>
+                <a routerLink="/login" class="text-center">SE CONNECTER</a>
+            </div>
+            <div class="bg-white rounded px-2 py-2">
+                <h2 class="text-center">Nouveau sur StayHealthy ?</h2>
+                <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="firstName">Votre nom</label>
+                            <input type="text" formControlName="firstName" name="firstName" id="firstName"
+                                class="form-control" required>
+                            <app-generic-error *ngIf="firstName != null" [fc]="firstName" [fieldName]="'firstName'"
+                                [required]="true">
+                            </app-generic-error>
+                        </div>
+                        <div class="form-group col">
+                            <label for="lastName">Votre Prenom</label>
+                            <input type="text" formControlName="lastName" name="lastName" id="lastName"
+                                class="form-control" required>
+                            <app-generic-error *ngIf="lastName != null" [fc]="lastName" [fieldName]="'lastName'"
+                                [required]="true">
+                            </app-generic-error>
+                        </div>
                     </div>
-                    <div class="form-group col">
-                        <label for="lastName">Votre Prenom</label>
-                        <input type="text" formControlName="lastName" name="lastName" id="lastName" class="form-control" required>
-                        <app-generic-error *ngIf="lastName != null"
-                            [fc]="lastName"
-                            [fieldName]="'lastName'"
-                            [required]="true">
-                        </app-generic-error>
-                    </div>
-                </div>
-               <div class="form-group">
-                    <label for="email">Votre email</label>
-                    <input type="email" formControlName="email" name="email" id="email" class="form-control">
-                    <app-generic-error *ngIf="email != null"
-                        [fc]="email"
-                        [fieldName]="'email'"
-                        [required]="true"
-                        [email]="true">
-                    </app-generic-error>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col">
-                        <label for="password">Votre mot de passe</label>
-                        <input type="password" formControlName="password" name="password" id="password" class="form-control">
-                        <app-generic-error *ngIf="password != null"
-                            [fc]="password"
-                            [fieldName]="'password'"
-                            [required]="true" [minLength]="pswMinLength" [maxLength]="pswMaxLength">
-                        </app-generic-error>
-                    </div>
-                    <div class="form-group col">
-                        <label for="passwordAgain">Confirmer votre mot de passe</label>
-                        <input type="password" formControlName="passwordAgain" name="passwordAgain" id="passwordAgain" class="form-control">
-                        <div *ngIf="passwordAgain?.invalid && (passwordAgain?.dirty || passwordAgain?.touched)" class="alert alert-danger">
-                            <div *ngIf="passwordAgain?.errors?.spec">
-                                mot de passe differents
-                            </div>
-                       </div>
-                    </div>
-                </div>
-                <div formGroupName="address">
                     <div class="form-group">
-                        <label for="tel">Numéro de Rue</label>
-                        <input type="text" formControlName="road" name="road" id="road" class="form-control">
+                        <label for="email">Votre email</label>
+                        <input type="email" formControlName="email" name="email" id="email" class="form-control">
+                        <app-generic-error *ngIf="email != null" [fc]="email" [fieldName]="'email'" [required]="true"
+                            [email]="true">
+                        </app-generic-error>
                     </div>
-                    <div class="row">
+                    <div class="form-row">
                         <div class="form-group col">
-                            <label for="city">Ville</label>
-                            <input type="city" formControlName="city" name="city" id="city" class="form-control">
+                            <label for="password">Votre mot de passe</label>
+                            <input type="password" formControlName="password" name="password" id="password"
+                                class="form-control">
+                            <app-generic-error *ngIf="password != null" [fc]="password" [fieldName]="'password'"
+                                [required]="true" [minLength]="pswMinLength" [maxLength]="pswMaxLength">
+                            </app-generic-error>
                         </div>
                         <div class="form-group col">
-                            <label for="postalCode">code postal</label>
-                            <input type="postalCode" formControlName="postalCode" name="postalCode" id="postalCode" class="form-control">
+                            <label for="passwordAgain">Confirmer votre mot de passe</label>
+                            <input type="password" formControlName="passwordAgain" name="passwordAgain"
+                                id="passwordAgain" class="form-control">
+                            <div *ngIf="passwordAgain?.invalid && (passwordAgain?.dirty || passwordAgain?.touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="passwordAgain?.errors?.spec">
+                                    mot de passe differents
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="">Choisir un type de compte</label>
-                    <select class="custom-select" formControlName="userType">
-                        <option value="0">patient</option>
-                        <option value="1">docteur</option>
-                    </select>
-                    <app-generic-error *ngIf="userType != null"
-                        [fc]="userType"
-                        [fieldName]="'userType'"
-                        [required]="true">
-                    </app-generic-error>
-                </div>
-               <input type="submit" class="btn btn-primary" value="s'inscrire" [disabled]="!signupForm.valid">
-                <a routerLink="/login">se connecter</a>
-            </form>
+                    <div formGroupName="address">
+                        <div class="form-group">
+                            <label for="tel">Numéro de Rue</label>
+                            <input type="text" formControlName="road" name="road" id="road" class="form-control">
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="city">Ville</label>
+                                <input type="city" formControlName="city" name="city" id="city" class="form-control">
+                            </div>
+                            <div class="form-group col">
+                                <label for="postalCode">code postal</label>
+                                <input type="postalCode" formControlName="postalCode" name="postalCode" id="postalCode"
+                                    class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Choisir un type de compte</label>
+                        <select class="custom-select" formControlName="userType">
+                            <option value="0">patient</option>
+                            <option value="1">docteur</option>
+                        </select>
+                        <app-generic-error *ngIf="userType != null" [fc]="userType" [fieldName]="'userType'"
+                            [required]="true">
+                        </app-generic-error>
+                    </div>
+                    <input type="submit" class="btn btn-primary width-100" value="S'INSCRIRE" [disabled]="!signupForm.valid">
+                </form>
+
+            </div>
         </div>
     </div>
 </div>

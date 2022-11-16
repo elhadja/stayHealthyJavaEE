@@ -1,11 +1,10 @@
-<div class="container">
-    <div class="row d-flex justify-content-center">
-        <div class="col-6">
-            <h2 style="text-align: center;">Connexion</h2>
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center py-5">
+        <div class="col-4 bg-white rounded">
+            <h2 style="text-align: center;">J'ai déjà un compte StayHealthy</h2>
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                    <label for="email">email</label>
-                    <input type="email" formControlName="email" class="form-control" name="email" id="email" required>
+                    <input type="email" formControlName="email" class="form-control" name="email" id="email" placeholder="addresse email" required>
                     <app-generic-error *ngIf="email != null"
                         [fc]="email"
                         [fieldName]="'email'"
@@ -14,8 +13,7 @@
                     </app-generic-error>
                 </div>
                 <div class="form-group">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" formControlName="password" class="form-control" name="password" id="password" required>
+                    <input type="password" formControlName="password" class="form-control" name="password" id="password" placeholder="mot de passe" required>
                     <app-generic-error *ngIf="password != null"
                         [fc]="password"
                         [fieldName]="'password'"
@@ -25,9 +23,19 @@
                 <div *ngIf="error && error.length > 0" class="alert alert-danger">
                     {{ error }}
                 </div>
-                <input type="submit" class="btn btn-primary" value="Se connecter" [disabled]="loginForm.invalid">
-                <a routerLink="/signup">s'incrire</a>
+                <input type="submit" class="btn btn-primary width-100" value="SE CONNECTER" [disabled]="loginForm.invalid">
             </form>
+            <div  class="d-flex justify-content-center my-3">
+                <a routerLink="#">MOT DE PASSE OUBLIE ?</a>
+            </div>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-4">
+            <div class="d-flex flex-column justify-content-center bg-white rounded">
+                <h2 class="text-center">Nouveau sur StayHealthy ?</h2>
+                <a routerLink="/signup" class="text-center">S'INSCRIRE</a>
+            </div>
         </div>
     </div>
 </div>

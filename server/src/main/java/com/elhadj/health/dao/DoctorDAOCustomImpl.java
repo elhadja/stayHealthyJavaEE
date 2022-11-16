@@ -5,68 +5,47 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
+import org.apache.naming.java.javaURLContextFactory;
 import org.springframework.stereotype.Repository;
 
+import com.elhadj.health.Exception.SHRuntimeException;
+import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.model.Doctor;
+import com.elhadj.health.model.User;
+import com.elhadj.health.util.JavaUtil;
 
 @Repository
 public class DoctorDAOCustomImpl implements DoctorDAOCustom {
 	@PersistenceContext
 	EntityManager em;
 	
-	public List<Doctor> getByCriteria(String name, String speciality, String city) throws Exception {
-		/*
-		CriteriaBuilder cb = em.getCriteriaBuilder();  // TODO use criteria
+	public List<User> getByCriteria(String name, String speciality, String city) throws Exception {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<User> userCriteria = cb.createQuery(User.class);
 		Root<User> root = userCriteria.from(User.class);
-		userCriteria.select(root);
 		
-		Join<User, DoctorInfos> doctorInfosJoin = root.join("doctorInfos");
-
-		javax.persistence.criteria.Predicate p1 = cb.equal(root.get("firstName"), name);
-		javax.persistence.criteria.Predicate p2 = cb.equal(doctorInfosJoin.get("speciality"), speciality);
-		javax.persistence.criteria.Predicate p12 = cb.and(p1, p2);
-		userCriteria.where(p12);
-
-		System.out.println("==> ");
-		List<Doctor> doctors = em.createQuery(userCriteria).getResultList();
-		*/
-		String sql = "select * "
-				+ "from User inner join doctor_infos inner join address "
-				+ "on user.id = doctor_infos.user_id and user.address_id = address.id ";
-		if (name != null || speciality != null || city != null) {
-			sql += "where ";
-			if (name != null) {
-				sql += "(first_name=:first_name ";
-				sql += "or last_name=:last_name) ";
-			}
-			if (speciality != null) {
-				if (name != null) {
-					sql += "and ";
-				}
-				sql += "speciality=:speciality ";
-			}
-			if (city != null) {
-				if (name != null || speciality != null) {
-					sql += "and ";
-				}
-				sql += "city=:city";
-			}
+		Predicate predicate = cb.equal(root.get("userType"), SHConstants.DOCTOR);
+		if (JavaUtil.notNullAndEmpty(name)) {
+			predicate = cb.and(predicate, 
+							   cb.or(cb.like(root.get("firstName"), name + "%"), 
+									  cb.like(root.get("lastName"), name + "%")));
 		}
-		Query query = em.createNativeQuery(sql, Doctor.class);
-		if (name != null) {
-			query.setParameter("first_name", name);
-			query.setParameter("last_name", name);
+		if (JavaUtil.notNullAndEmpty(city)) {
+			predicate = cb.and(predicate, cb.like(root.get("address").get("city"), city + "%"));
 		}
-		if (speciality != null) {
-			query.setParameter("speciality", speciality);
-		}
-		if (city != null) {
-			query.setParameter("city", city);
+		if (JavaUtil.notNullAndEmpty(speciality)) {
+			predicate = cb.and(predicate, cb.like(root.get("doctorInfos").get("speciality"), speciality + "%"));
 		}
 
-		List<Doctor> doctors = (List<Doctor>) query.getResultList();
-		return doctors;
+		userCriteria.where(predicate);
+		
+		TypedQuery<User> query = em.createQuery(userCriteria);
+		return query.getResultList();
 	}
 }

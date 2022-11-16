@@ -1,6 +1,7 @@
 package com.elhadj.health.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -11,9 +12,11 @@ import com.elhadj.health.Exception.SHRuntimeException;
 import com.elhadj.health.dao.SlotDAO;
 import com.elhadj.health.dao.UserDAO;
 import com.elhadj.health.dto.AddSlotRequestDTO;
+import com.elhadj.health.dto.SlotDTO;
 import com.elhadj.health.dto.UpdateSlotDTORequest;
 import com.elhadj.health.model.Slot;
 import com.elhadj.health.model.User;
+import com.elhadj.health.util.JavaUtil;
 
 import javassist.NotFoundException;
 
@@ -45,15 +48,20 @@ public class SlotServiceImpl implements SlotService {
 	}
 
 	@Override
-	public List<Slot> getByCriteria(long doctorId, String date) throws Exception {
+	public List<SlotDTO> getByCriteria(long doctorId, String date) throws Exception {
 		LocalDate _date = null;
 		try {
 			_date = LocalDate.parse(date);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new SHRuntimeException(400, "date invalide", "date format should be yyyy-mm-dd");
 		}
-		// TODO return a DTO
-		return slotDAO.findByDoctorIdAndDateGreaterThanEqual(doctorId, _date);
+		List<SlotDTO> dtos = new ArrayList<>();
+		for (Slot slot : slotDAO.findByDoctorIdAndDateGreaterThanEqual(doctorId, _date)) {
+			SlotDTO dto = JavaUtil.convertTo(slot, SlotDTO.class);
+			dtos.add(dto);
+		}
+		return dtos;
 	}
 
 	@Override

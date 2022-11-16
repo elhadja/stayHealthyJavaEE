@@ -1,0 +1,6 @@
+<div (click)="onClick()" 
+    *ngIf="slot !== undefined"
+    [ngClass]="{'bg-danger': slot.used, 'bg-success': !slot.used}"
+    class="px-2 py-1 my-2 font-weight-bold">
+    {{ slot.startTime }}
+</div>

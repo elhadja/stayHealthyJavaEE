@@ -1,1 +1,25 @@
-<p>doctor works!</p>
+<app-menu></app-menu>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="form-group row">
+                <input class="form-control" type="time" [formControl]="startTime" required>
+                <input class="form-control" type="date" [formControl]="date" name="" id="" required>
+                <button *ngIf="slotToUpdate === undefined; else other" class="btn btn-primary" (click)="onAddSlot()" [disabled]="startTime.invalid || date.invalid">
+                    NOUVEAU
+                </button>
+                <ng-template #other>
+                    <button class="btn btn-primary" (click)="onUpdateSlot()" [disabled]="startTime.invalid || date.invalid">
+                        UPDATE
+                    </button>
+                </ng-template>
+                <button *ngIf="!!slotToUpdate" class="btn btn-danger" (click)="onDeleteSlot()">
+                    SUPPRIMER
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <app-calendar [userId]="userService.getUserId()"></app-calendar>
+    </div>
+</div>

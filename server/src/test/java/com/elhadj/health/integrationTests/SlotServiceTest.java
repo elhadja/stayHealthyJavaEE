@@ -20,6 +20,7 @@ import com.elhadj.health.Exception.SHRuntimeException;
 import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dao.SlotDAO;
 import com.elhadj.health.dto.AddSlotRequestDTO;
+import com.elhadj.health.dto.SlotDTO;
 import com.elhadj.health.dto.UpdateSlotDTORequest;
 import com.elhadj.health.model.Slot;
 import com.elhadj.health.service.SlotService;
@@ -80,7 +81,7 @@ public class SlotServiceTest {
 		Util.addSlot("2021-06-27", "11:00", id, slotService);
 		Util.addSlot("2021-06-28", "11:00", id, slotService);
 		
-		List<Slot> slots = slotService.getByCriteria(id, date);
+		List<SlotDTO> slots = slotService.getByCriteria(id, date);
 
 		Assert.isTrue(slots.size() == Integer.parseInt(expectedSlots), "");
 	}

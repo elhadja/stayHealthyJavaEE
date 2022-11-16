@@ -1,4 +1,4 @@
-package com.elhadj.health;
+package com.elhadj.health.integrationTests;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.util.Assert;
 
+import com.elhadj.health.Util;
 import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dto.AddressDTO;
 import com.elhadj.health.dto.DoctorDTO;
@@ -30,6 +32,8 @@ import com.elhadj.health.dto.LoginResponseDTO;
 import com.elhadj.health.dto.PatientDTO;
 import com.elhadj.health.dto.SignupRequestDTO;
 import com.elhadj.health.dto.UpdateDoctorDTO;
+import com.elhadj.health.model.Diplomas;
+import com.elhadj.health.model.Price;
 import com.elhadj.health.model.Slot;
 import com.elhadj.health.service.PatientService;
 import com.elhadj.health.service.SlotService;
@@ -140,8 +144,8 @@ public class DoctorControllerTest {
 	
 	/************************************* get several doctors *$****************************/
 	@Test void it_should_get_doctor_by_firstName() throws Exception {
-		long id1 = Util.addUser2("getseverallsucced1", userService);
-		long id2 = Util.addUser2("getseverallsucced2", userService);
+		long id1 = Util.addUser("getseverallsucced1", SHConstants.DOCTOR, userService);
+		long id2 = Util.addUser("getseverallsucced2", SHConstants.DOCTOR, userService);
 		
 		MvcResult res = mockMvc.perform(get("/doctors?name=firstnamespring")
 			.header("Authorization", "Bearer " + token)
@@ -151,13 +155,13 @@ public class DoctorControllerTest {
 			.andReturn();
 		List<DoctorDTO> list = new ArrayList<DoctorDTO>();
 		list = Util.parseResponse(res, list.getClass());
-		Assert.isTrue(list.size() == 2, "the liste size should be 2");
+		Assert.isTrue(list.size() == 2, list.size() + " should be 2");
 	}
 	
 	@Test void it_should_get_doctor_by_city() throws Exception {
 		long id1 = Util.addUser2("getseverallsucced1", userService);
-		long id2 = Util.addUser2("getseverallsucced2", userService);
-		long id3 = Util.addUser2("getseverallsucced3", "muskCity", userService);
+		long id2 = Util.addUser("getseverallsucced2", SHConstants.DOCTOR, userService);
+		long id3 = Util.addUser2("getseverallsucced3", SHConstants.DOCTOR, "muskCity", userService);
 		
 		MvcResult res = mockMvc.perform(get("/doctors?city=muskCity")
 			.header("Authorization", "Bearer " + token)
@@ -192,6 +196,12 @@ public class DoctorControllerTest {
 		set.add("cb");
 		set.add("especes");
 		body.setMeanOfPayment(set);
+		List<Diplomas> diplomas = new ArrayList<Diplomas>();
+		diplomas.add(new Diplomas("ingenieur", "Bordeaux"));
+		diplomas.add(new Diplomas("medecin", "harvard"));
+		body.setDiplomas(diplomas);
+		List<Price> prices = Arrays.asList(new Price(), new Price());
+		body.setPrices(prices);
 		
 		MvcResult res = mockMvc.perform(put("/doctors/" + id)
 			.header("Authorization", "Bearer " + token)
@@ -203,26 +213,6 @@ public class DoctorControllerTest {
 		UpdateDoctorDTO dto = Util.parseResponse(res, UpdateDoctorDTO.class);
 		Assert.isTrue(dto.getFirstName().equals("elhadj"));
 		Assert.isTrue(dto.getMeanOfPayment().size() == 2);
-	}
-	
-	@Test
-	void it_should_not_update_doctor() throws Exception {
-		long id = Util.addUser2("updateDoctor@gmail.com", userService);
-		String token = logUser("updateDoctor@gmail.com");
-		UpdateDoctorDTO body = new UpdateDoctorDTO();
-		body.setFirstName("elhadj");
-		body.setLastName("bah");
-		body.setSpeciality("medecin");
-		Set<String> set = new HashSet<String>();
-		body.setMeanOfPayment(set);
-		
-		mockMvc.perform(put("/doctors/" + id)
-			.header("Authorization", "Bearer " + token)
-			.contentType(MediaType.APPLICATION_JSON)
-			.content(Util.asJsonString(body))
-			.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isBadRequest())
-			.andReturn();
 	}
 	
 	@Test void get_seveeral_doctors_should_return_emplty_list() throws Exception {

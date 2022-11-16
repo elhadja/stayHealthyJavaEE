@@ -1,0 +1,10 @@
+#actionButtons {
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    padding: 7px;
+    margin: 5px;
+}
+
+#headerInfos {
+    height: 45px;
+}

@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-md bg-primary">
+  <a class="navbar-brand" [routerLink]="baseUri">StayHealthy</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse pr-25 justify-content-end" id="navbarSupportedContent">
+    <ul class="navbar-nav">
+        <li *ngFor="let item of items" class="nav-item">
+            <a [routerLink]="item.value" class="nav-link">
+                {{ item.name }}
+            </a>
+        </li>
+        <li class="nav-item dropdown">
+           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" routerLink="/patient/profile">Mon compte</a>
+                <div class="dropdown-divider"></div>
+                <span class="dropdown-item" style="cursor: pointer;" (click)="onLogout()">Se deconnecter</span>
+            </div>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ firstName }} {{ lastName }}
+            </a>
+        </li>
+    </ul>
+  </div>
+</nav>

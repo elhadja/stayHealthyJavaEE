@@ -1,1 +1,78 @@
-<p>search works!</p>
+<app-menu></app-menu>
+<div class="container">
+    <div class="row">
+        <div class="col my-2">
+            <form [formGroup]="searchForm">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field class="example-full-width">
+                            <input type="text"
+                                formControlName="name"
+                                placeholder="nom ou prénom"
+                                aria-label="Number"
+                                matInput
+                                [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let doctor of doctorsOptions" [value]="doctor.firstName">
+                                    <span class="cursor-pointer">{{ doctor.firstName }} {{ doctor.lastName }}</span>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="example-full-width">
+                            <input type="text"
+                                formControlName="speciality"
+                                placeholder="specialité"
+                                matInput
+                                [matAutocomplete]="auto2">
+                            <mat-autocomplete #auto2="matAutocomplete">
+                                <mat-option *ngFor="let doctor of doctorsOptions2" [value]="doctor.speciality">
+                                    {{ doctor.speciality }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field class="example-full-width">
+                            <input type="text"
+                                formControlName="city"
+                                placeholder="ville"
+                                matInput
+                                [matAutocomplete]="auto3">
+                            <mat-autocomplete #auto3="matAutocomplete">
+                                <mat-option *ngFor="let doctor of doctorsOptions3" [value]="doctor.address.city">
+                                    {{ doctor.address.city }} {{ doctor.address.postalCode }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>                       
+                    </div>
+                    <button mat-stroked color="primary" (click)="onSearch()">Rechercher</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row bg-white my-2" *ngFor="let doctor of doctorsToShow">
+        <div class="col-3">
+            <span class="text-primary" (click)="onDoctorSelected(doctor.id)"> {{ doctor.firstName }} {{ doctor.lastName }}</span><br>
+            <span> {{ doctor.speciality }} </span>
+            <br><br>
+            <p *ngIf="doctor.address !== undefined">
+                {{ doctor.address.road }} <br>
+                {{ doctor.address.postalCode }} {{ doctor.address.city }}
+            </p>
+        </div>
+        <div class="col-6">
+            <app-calendar [userId]="doctor.id"></app-calendar>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center" *ngIf="!!doctors && doctors.length > 0">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" (click)="onPreviousPage()"><a class="page-link" >Previous</a></li>
+                <li *ngFor="let page of pages" class="page-item" [class.active]="currentPage === page" (click)="onPage(page)"><a class="page-link">{{ page + 1 }}</a></li>
+                <li class="page-item" (click)="onNextPage()"><a class="page-link">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

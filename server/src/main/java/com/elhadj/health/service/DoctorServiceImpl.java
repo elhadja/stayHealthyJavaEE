@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elhadj.health.Exception.SHRuntimeException;
+import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dao.DoctorDAO;
 import com.elhadj.health.dao.UserDAO;
 import com.elhadj.health.dto.DoctorDTO;
@@ -30,6 +31,9 @@ public class DoctorServiceImpl implements DoctorService {
 		User user = null;
 		try {
 			user = userDAO.findById(id).get();
+			if (user.getUserType() != SHConstants.DOCTOR) {
+				throw new SHRuntimeException(400, "The user " + id + " is not a doctor", "");
+			}
 		} catch (NoSuchElementException e) {
 			throw new SHRuntimeException(404, "utilisateur non trouvé", "no user match the path paramte id");
 		}
@@ -46,10 +50,16 @@ public class DoctorServiceImpl implements DoctorService {
 
 	@Override
 	public List<DoctorDTO> getSeverall(String name, String speciality, String city) throws Exception {
-		List<Doctor> doctors = doctorDAO.getByCriteria(name, speciality, city);
+		List<User> doctors = doctorDAO.getByCriteria(name, speciality, city);
 		List<DoctorDTO> dtos = new ArrayList<DoctorDTO>();
-		for (Doctor d: doctors) {
-			dtos.add(JavaUtil.convertTo(d, DoctorDTO.class));
+		for (User d: doctors) {
+			DoctorDTO dto = JavaUtil.convertTo(d, DoctorDTO.class);
+			dto.setPresentation(d.getDoctorInfos().getPresentation());
+			dto.setSpeciality(d.getDoctorInfos().getSpeciality());
+			dto.setMeanOfPayment(d.getDoctorInfos().meanOfPayment);
+			dto.setPrices(d.getDoctorInfos().getPrices());
+			dto.setDiplomas(d.getDoctorInfos().getDiplomas());
+			dtos.add(dto);
 		}
 		return dtos;
 	}

@@ -19,6 +19,13 @@ export class API {
                 Authorization: ''
             })
         };
+
+        /*
+        let token = localStorage.getItem('token');
+        if (token !== null) {
+            this.setHttpOptions(token);
+        }
+        */
     }
 
     public post(uri: string, body: any): Observable<any> {
@@ -40,13 +47,23 @@ export class API {
             catchError(this.f)
         );
     }
+    public delete(uri: string): Observable<any> {
+        return this.httpClient.delete(this.baseURI + uri, this.httpOptions).pipe(
+            catchError(this.f)
+        );
+    }
 
     public setHttpOptions(token: string) {
         this.httpOptions.headers = this.httpOptions.headers?.set("Authorization", "Bearer " + token);
     }
 
     private f = (error: HttpErrorResponse): Observable<never> => {
-        this.messageService.showMessage(error.error.message, 2);
+        if (error.status === 401 && error.error === undefined) {
+            this.messageService.showMessage("Votre session à expiré", 2);
+        } else {
+            this.messageService.showMessage(error.error.message, 2);
+        }
+
         return throwError(error);
     }
 }

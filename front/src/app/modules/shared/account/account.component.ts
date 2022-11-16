@@ -8,6 +8,7 @@ import { updateCredentialsOutputDTO } from 'src/app/dto/UpdateCredentialsOutputD
 import { UpdatePatientDialogComponent } from 'src/app/modules/patient/components/update-patient-dialog/update-patient-dialog.component';
 import { MessageService } from 'src/app/services/Message.service';
 import { UserService } from 'src/app/services/user.service';
+import { UpdateDoctorProfileComponent } from '../../doctor/components/update-doctor-profile/update-doctor-profile.component';
 import { UpdatePasswordComponent } from '../update-password/update-password.component';
 
 @Component({
@@ -18,6 +19,8 @@ import { UpdatePasswordComponent } from '../update-password/update-password.comp
 export class AccountComponent implements OnInit {
   accountForm: FormGroup;
   error: string;
+  username: string;
+  userType: number;
 
   constructor(private readonly fb: FormBuilder,
      private readonly userService: UserService,
@@ -29,12 +32,16 @@ export class AccountComponent implements OnInit {
     });
 
     this.error = '';
+    this.username = '';
+    this.userType = 0;
   }
 
   ngOnInit(): void {
     this.userService.getById(this.userService.getUserId()).subscribe((user) => {
       this.accountForm.get('email')?.setValue(user.email);
       this.accountForm.get('tel')?.setValue(user.tel);
+      this.username = user.firstName + " " + user.lastName;
+      this.userType = user.userType;
     })
   }
 
@@ -55,7 +62,17 @@ export class AccountComponent implements OnInit {
   }
 
   updateProfile(): void {
-    this.matDialog.open(UpdatePatientDialogComponent);
+    if (this.userType == 0) {
+      this.matDialog.open(UpdatePatientDialogComponent);
+    } else {
+      this.matDialog.open(UpdateDoctorProfileComponent);
+    }
+  }
+
+  deleteAccount(): void {
+    this.userService.delete().subscribe(() => {
+      this.userService.logout();
+    });
   }
 
   get email() {return this.accountForm.get('email')}

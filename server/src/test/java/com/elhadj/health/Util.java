@@ -53,6 +53,21 @@ public class Util {
 		return userService.addUser(dto);
 	}
 	
+	public static long addUser2(String email, int userType , String city, UserService userService) throws Exception {
+		SignupRequestDTO dto = new SignupRequestDTO();
+		dto.setEmail(email);
+		dto.setFirstName("firstnamespring");
+		dto.setLastName("lastnamespring");
+		dto.setPassword("password");
+		dto.setUserType(userType);
+		AddressDTO address = new AddressDTO();
+		address.setRoad("road of success");
+		address.setCity(city);
+		address.setPostalCode(33100);
+		dto.setAddress(address);
+		return userService.addUser(dto);
+	}
+	
 	public static long addUser2(String email, UserService userService) throws Exception {
 		SignupRequestDTO dto = new SignupRequestDTO();
 		dto.setEmail(email);
