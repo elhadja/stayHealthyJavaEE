@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-public class User implements Cloneable{
+public class UserAccount implements Cloneable{
 	@Id
 	@GeneratedValue
 	private long id;
@@ -58,9 +58,9 @@ public class User implements Cloneable{
 	
 	private int userType;
 	
-	public User() {}
+	public UserAccount() {}
 	
-	public User(@NotNull String firstName, @NotNull String lastName, @NotNull String email,
+	public UserAccount(@NotNull String firstName, @NotNull String lastName, @NotNull String email,
 			@NotNull String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -202,7 +202,7 @@ public class User implements Cloneable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		UserAccount other = (UserAccount) obj;
 		if (address == null) {
 			if (other.address != null)
 				return false;
@@ -239,10 +239,10 @@ public class User implements Cloneable{
 	}
 	
 	@Override
-	public User clone() {
-		User user = null;
+	public UserAccount clone() {
+		UserAccount user = null;
 		try {
-			user = (User) super.clone();
+			user = (UserAccount) super.clone();
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}

@@ -11,7 +11,7 @@ import com.elhadj.health.dto.PatientDTO;
 import com.elhadj.health.dto.UpdatePatientRequestDTO;
 import com.elhadj.health.dto.UserDTO;
 import com.elhadj.health.model.Address;
-import com.elhadj.health.model.User;
+import com.elhadj.health.model.UserAccount;
 import com.elhadj.health.util.JavaUtil;
 
 @Service
@@ -20,9 +20,9 @@ public class PatientServiceImpl implements PatientService {
 	UserDAO userDao;
 
 	public PatientDTO getById(long id) {
-		User user = null;
+		UserAccount user = null;
 		try {
-			user =  (User) userDao.findById(id).get();
+			user =  (UserAccount) userDao.findById(id).get();
 		} catch (NoSuchElementException e) {
 			throw new SHRuntimeException(404, "utilisateur non trouvé", "no user match the path paramte id");
 		}
@@ -34,9 +34,9 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public UpdatePatientRequestDTO update(UpdatePatientRequestDTO dto, long userId) throws Exception {
-		User user = null;
+		UserAccount user = null;
 		try {
-			user =  (User) userDao.findById(userId).get();
+			user =  (UserAccount) userDao.findById(userId).get();
 		} catch (NoSuchElementException e) {
 			throw new SHRuntimeException(404, "utilisateur non trouvé", "no user match the path paramte id");
 		}

@@ -32,7 +32,7 @@ import com.elhadj.health.dto.UpdateCredentialsRequestDTO;
 import com.elhadj.health.dto.UpdatePasswordRequestDTO;
 import com.elhadj.health.dto.UserDTO;
 import com.elhadj.health.model.CustomUserDetails;
-import com.elhadj.health.model.User;
+import com.elhadj.health.model.UserAccount;
 import com.elhadj.health.service.AppointmentService;
 import com.elhadj.health.service.UserService;
 import com.elhadj.health.util.JwtToken;
@@ -47,7 +47,7 @@ public class UserController {
 	AuthenticationManager authManager;
 	
 	@Autowired
-	User user;
+	UserAccount user;
 	
 	@Autowired
 	JwtToken jwt;

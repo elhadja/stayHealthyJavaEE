@@ -15,7 +15,7 @@ import com.elhadj.health.dto.AddSlotRequestDTO;
 import com.elhadj.health.dto.SlotDTO;
 import com.elhadj.health.dto.UpdateSlotDTORequest;
 import com.elhadj.health.model.Slot;
-import com.elhadj.health.model.User;
+import com.elhadj.health.model.UserAccount;
 import com.elhadj.health.util.JavaUtil;
 
 import javassist.NotFoundException;
@@ -31,7 +31,7 @@ public class SlotServiceImpl implements SlotService {
 	@Override
 	public long addSlot(AddSlotRequestDTO input, long doctorId) throws Exception {
 		input.validate();
-		User doctor = userDAO.findById(doctorId).get();
+		UserAccount doctor = userDAO.findById(doctorId).get();
 		Slot slot = new Slot();
 		// TODO undestand why model mapper set wrong id
 		slot.setDate(input.getLocalDate()); // TODO use the correct value

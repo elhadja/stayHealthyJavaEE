@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.elhadj.health.Exception.SHRuntimeException;
-import com.elhadj.health.model.User;
+import com.elhadj.health.model.UserAccount;
 
 @Repository
 public class UserDAOCustomImpl implements UserDAOCustom{
@@ -19,17 +19,17 @@ public class UserDAOCustomImpl implements UserDAOCustom{
 	EntityManager em;
 
 	@Override
-	public User loadUserByEmail(String email) throws Exception {
-		javax.persistence.Query nq = em.createNativeQuery("select * from User where email=:email", User.class);
+	public UserAccount loadUserByEmail(String email) throws Exception {
+		javax.persistence.Query nq = em.createNativeQuery("select * from user_account where email=:email", UserAccount.class);
 		nq.setParameter("email", email);
-		List<User> users = nq.getResultList();
+		List<UserAccount> users = nq.getResultList();
 		return users.get(0);
 	}
 
 	@Override
 	@Transactional
 	public int updateUserPassword(long userId, String password) {
-		Query nq = em.createNativeQuery("update User set password=:password where id=:id", User.class);
+		Query nq = em.createNativeQuery("update user_account set password=:password where id=:id", UserAccount.class);
 		nq.setParameter("password", password);
 		nq.setParameter("id", userId);
 		int n = nq.executeUpdate();
@@ -39,7 +39,7 @@ public class UserDAOCustomImpl implements UserDAOCustom{
 	@Override
 	@Transactional
 	public void updateUserCredentials(long userId, String newEmail, String newTel) throws Exception {
-		Query nq = em.createNativeQuery("update User set email=:email, tel=:tel where id=:id", User.class);
+		Query nq = em.createNativeQuery("update user_account set email=:email, tel=:tel where id=:id", UserAccount.class);
 		nq.setParameter("email", newEmail);
 		nq.setParameter("tel", newTel);
 		nq.setParameter("id", userId);

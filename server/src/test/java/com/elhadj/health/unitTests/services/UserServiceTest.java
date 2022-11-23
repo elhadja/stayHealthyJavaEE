@@ -14,7 +14,7 @@ import com.elhadj.health.Util;
 import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.dao.UserDAO;
 import com.elhadj.health.dto.UserDTO;
-import com.elhadj.health.model.User;
+import com.elhadj.health.model.UserAccount;
 import com.elhadj.health.service.UserService;
 
 @SpringBootTest // TODO find the best config
@@ -30,7 +30,7 @@ public class UserServiceTest {
 
 	@Test
 	public void it_should_load_a_user_by_id() throws Exception {
-		User user = new User();
+		UserAccount user = new UserAccount();
 		user.setEmail("test@gmail.com");
 		when(userDAO.findById(1L)).thenReturn(Optional.of(user));
 		

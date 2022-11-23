@@ -16,7 +16,7 @@ import com.elhadj.health.dto.UpdateDoctorDTO;
 import com.elhadj.health.model.Address;
 import com.elhadj.health.model.Doctor;
 import com.elhadj.health.model.DoctorInfos;
-import com.elhadj.health.model.User;
+import com.elhadj.health.model.UserAccount;
 import com.elhadj.health.util.JavaUtil;
 
 @Service
@@ -28,7 +28,7 @@ public class DoctorServiceImpl implements DoctorService {
 	UserDAO userDAO;
 
 	public DoctorDTO getById(long id) throws Exception {
-		User user = null;
+		UserAccount user = null;
 		try {
 			user = userDAO.findById(id).get();
 			if (user.getUserType() != SHConstants.DOCTOR) {
@@ -50,9 +50,9 @@ public class DoctorServiceImpl implements DoctorService {
 
 	@Override
 	public List<DoctorDTO> getSeverall(String name, String speciality, String city) throws Exception {
-		List<User> doctors = doctorDAO.getByCriteria(name, speciality, city);
+		List<UserAccount> doctors = doctorDAO.getByCriteria(name, speciality, city);
 		List<DoctorDTO> dtos = new ArrayList<DoctorDTO>();
-		for (User d: doctors) {
+		for (UserAccount d: doctors) {
 			DoctorDTO dto = JavaUtil.convertTo(d, DoctorDTO.class);
 			dto.setPresentation(d.getDoctorInfos().getPresentation());
 			dto.setSpeciality(d.getDoctorInfos().getSpeciality());
@@ -66,7 +66,7 @@ public class DoctorServiceImpl implements DoctorService {
 
 	@Override
 	public UpdateDoctorDTO update(long doctorId, UpdateDoctorDTO dto) throws Exception {
-		User doctor = null;
+		UserAccount doctor = null;
 		try {
 			doctor = userDAO.findById(doctorId).get();
 		} catch (NoSuchElementException e) {

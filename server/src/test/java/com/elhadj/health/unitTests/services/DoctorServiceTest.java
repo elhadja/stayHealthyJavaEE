@@ -17,7 +17,7 @@ import com.elhadj.health.dto.DoctorDTO;
 import com.elhadj.health.model.Address;
 import com.elhadj.health.model.Diplomas;
 import com.elhadj.health.model.DoctorInfos;
-import com.elhadj.health.model.User;
+import com.elhadj.health.model.UserAccount;
 import com.elhadj.health.service.DoctorService;
 
 @SpringBootTest
@@ -31,7 +31,7 @@ public class DoctorServiceTest {
 	
 	@Test
 	public void it_should_get_a_doctor_by_id_with_all_fields() throws Exception {
-		User user = new User();
+		UserAccount user = new UserAccount();
 		user.setId(111111);
 		user.setFirstName("elhadj");
 		user.setLastName("bah");

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.elhadj.health.Exception.SHRuntimeException;
 import com.elhadj.health.common.SHConstants;
 import com.elhadj.health.model.Doctor;
-import com.elhadj.health.model.User;
+import com.elhadj.health.model.UserAccount;
 import com.elhadj.health.util.JavaUtil;
 
 @Repository
@@ -25,10 +25,10 @@ public class DoctorDAOCustomImpl implements DoctorDAOCustom {
 	@PersistenceContext
 	EntityManager em;
 	
-	public List<User> getByCriteria(String name, String speciality, String city) throws Exception {
+	public List<UserAccount> getByCriteria(String name, String speciality, String city) throws Exception {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<User> userCriteria = cb.createQuery(User.class);
-		Root<User> root = userCriteria.from(User.class);
+		CriteriaQuery<UserAccount> userCriteria = cb.createQuery(UserAccount.class);
+		Root<UserAccount> root = userCriteria.from(UserAccount.class);
 		
 		Predicate predicate = cb.equal(root.get("userType"), SHConstants.DOCTOR);
 		if (JavaUtil.notNullAndEmpty(name)) {
@@ -45,7 +45,7 @@ public class DoctorDAOCustomImpl implements DoctorDAOCustom {
 
 		userCriteria.where(predicate);
 		
-		TypedQuery<User> query = em.createQuery(userCriteria);
+		TypedQuery<UserAccount> query = em.createQuery(userCriteria);
 		return query.getResultList();
 	}
 }

@@ -29,7 +29,7 @@ import com.elhadj.health.dto.UserDTO;
 import com.elhadj.health.model.Appointment;
 import com.elhadj.health.model.CustomUserDetailsImpl;
 import com.elhadj.health.model.DoctorInfos;
-import com.elhadj.health.model.User;
+import com.elhadj.health.model.UserAccount;
 import com.elhadj.health.util.JavaUtil;
 
 import ch.qos.logback.classic.pattern.Util;
@@ -46,9 +46,9 @@ public class UserServiceImpl implements UserService{
 
 	public long addUser(SignupRequestDTO input) throws Exception {
 		input.validate();
-		User user =  null;
+		UserAccount user =  null;
 		try {
-			user = JavaUtil.convertTo(input, User.class);
+			user = JavaUtil.convertTo(input, UserAccount.class);
 			user.setPassword(encoder.encode(user.getPassword()));
 			if (user.getUserType() == SHConstants.DOCTOR || true) {
 				DoctorInfos di = new DoctorInfos();
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		try {
-			User u = userDAO.loadUserByEmail(email);
+			UserAccount u = userDAO.loadUserByEmail(email);
 			return new CustomUserDetailsImpl(u.getEmail(), u.getPassword(), u.getId(), u.getUserType(), (Collection<? extends GrantedAuthority>) new ArrayList<GrantedAuthority>());
 		} catch (Exception e) {
 			throw new UsernameNotFoundException("user not found");
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	public UserDTO loadUserById(long id) {
-		User user = userDAO.findById(id).get();
+		UserAccount user = userDAO.findById(id).get();
 		UserDTO userDTO = JavaUtil.convertTo(user, UserDTO.class);
 		return userDTO;
 	}
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService{
 	public List<GetAppointmentDTOResponse> getUserAppointments(long userId, String startDate, String endDate) {
 		// TODO replace return type by GetAppointmentDTOResponse
 		List<Appointment> appointments = null;
-		User user = null;
+		UserAccount user = null;
 		try {
 			user = userDAO.findById(userId).get();
 		} catch (NoSuchElementException e) {

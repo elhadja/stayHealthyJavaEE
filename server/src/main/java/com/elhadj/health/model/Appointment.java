@@ -21,11 +21,11 @@ public class Appointment {
 
 	@ManyToOne
 	@JoinColumn(name="patientId")
-	private User patient;
+	private UserAccount patient;
 	
 	@ManyToOne
 	@JoinColumn(name="doctorId")
-	private User doctor;
+	private UserAccount doctor;
 	
 	public Appointment() {}
 	
@@ -65,19 +65,19 @@ public class Appointment {
 		this.slot = slot;
 	}
 
-	public User getPatient() {
+	public UserAccount getPatient() {
 		return patient;
 	}
 
-	public void setPatient(User patient) {
+	public void setPatient(UserAccount patient) {
 		this.patient = patient;
 	}
 
-	public User getDoctor() {
+	public UserAccount getDoctor() {
 		return doctor;
 	}
 
-	public void setDoctor(User doctor) {
+	public void setDoctor(UserAccount doctor) {
 		this.doctor = doctor;
 	}
 }

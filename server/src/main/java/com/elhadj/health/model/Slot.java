@@ -21,7 +21,7 @@ public class Slot {
 	
 	@ManyToOne
 	@JoinColumn(name="doctorId", foreignKey = @ForeignKey(name = "doctorId_FK"))
-	private User doctor;
+	private UserAccount doctor;
 	
 	@OneToOne
 	@JoinColumn(name="appointmentId", nullable = true)
@@ -43,11 +43,11 @@ public class Slot {
 		this.id = id;
 	}
 
-	public User getDoctor() {
+	public UserAccount getDoctor() {
 		return doctor;
 	}
 
-	public void setDoctor(User doctor) {
+	public void setDoctor(UserAccount doctor) {
 		this.doctor = doctor;
 	}
 

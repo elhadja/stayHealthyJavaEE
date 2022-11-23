@@ -30,7 +30,7 @@ public class DoctorInfos {
 	
 	@OneToOne (cascade = CascadeType.ALL)
 	@JoinColumn(name = "userId", nullable = false)
-	private User user;
+	private UserAccount user;
 	
 	public String presentation;
 	public String speciality;
@@ -102,11 +102,11 @@ public class DoctorInfos {
 		this.prices.addAll(prices);
 	}
 
-	public User getUser() {
+	public UserAccount getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserAccount user) {
 		this.user = user;
 	}
 
