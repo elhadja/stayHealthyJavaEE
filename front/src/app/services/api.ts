@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { Injectable } from "@angular/core";
 import { Observable, ObservableInput, throwError } from "rxjs";
 import { catchError } from 'rxjs/operators'
+import { environment } from "src/environments/environment";
 import { MessageService } from "./Message.service";
 
 @Injectable()
@@ -12,7 +13,7 @@ export class API {
     };
 
     constructor(private httpClient: HttpClient, private messageService: MessageService) {
-        this.baseURI = "http://localhost:8080";
+        this.baseURI = environment.api_base_uri;
         this.httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
